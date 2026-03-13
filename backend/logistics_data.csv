@@ -1,0 +1,1001 @@
+TrackingID,Route,ETA_Hours,Weather,TrafficDelay_Mins,RiskLevel
+TRK-54182,PHX -> DET,11h,Clear,30,Low
+TRK-67413,DAL -> DEN,3h,Heavy Snow,69,Critical
+TRK-18741,NYC -> LAX,27h,Heavy Snow,97,Critical
+TRK-69449,NYC -> LAX,42h,High Winds,9,Low
+TRK-96153,NYC -> LAX,10h,High Winds,6,Low
+TRK-92283,ATL -> SFO,38h,Clear,103,Critical
+TRK-19242,HOU -> MIA,25h,High Winds,117,Critical
+TRK-89070,HOU -> MIA,2h,Thunderstorm,54,Critical
+TRK-26863,SFO -> SEA,34h,Thunderstorm,115,Critical
+TRK-67156,HOU -> MIA,42h,Clear,22,Low
+TRK-91940,MIA -> CHI,42h,High Winds,61,Critical
+TRK-43837,HOU -> MIA,2h,Heavy Snow,83,Critical
+TRK-90333,NYC -> LAX,45h,Rain,3,Medium
+TRK-79261,MIA -> CHI,47h,Thunderstorm,68,Critical
+TRK-98820,PHX -> DET,11h,Thunderstorm,98,Critical
+TRK-46759,SFO -> SEA,26h,Clear,24,Low
+TRK-76835,SEA -> BOS,17h,High Winds,91,Critical
+TRK-70626,NYC -> LAX,19h,High Winds,74,Critical
+TRK-85648,MIA -> CHI,45h,Rain,56,Medium
+TRK-66392,HOU -> MIA,45h,Clear,64,Critical
+TRK-54347,DAL -> DEN,7h,Thunderstorm,14,Critical
+TRK-48141,DAL -> DEN,41h,Rain,31,Medium
+TRK-69093,SEA -> BOS,44h,Rain,114,Critical
+TRK-75120,NYC -> LAX,7h,Thunderstorm,70,Critical
+TRK-72453,DAL -> DEN,29h,Heavy Snow,56,Critical
+TRK-55668,ATL -> SFO,45h,Rain,64,Critical
+TRK-10714,SEA -> BOS,21h,Clear,99,Critical
+TRK-40000,DAL -> DEN,27h,High Winds,102,Critical
+TRK-51663,NYC -> LAX,12h,Clear,83,Critical
+TRK-24291,PHX -> DET,21h,Rain,95,Critical
+TRK-14607,DAL -> DEN,19h,Thunderstorm,19,Critical
+TRK-89520,PHX -> DET,22h,Thunderstorm,23,Critical
+TRK-13077,DAL -> DEN,38h,Heavy Snow,60,Critical
+TRK-76090,PHX -> DET,35h,Rain,113,Critical
+TRK-81403,DAL -> DEN,14h,High Winds,83,Critical
+TRK-14138,SFO -> SEA,38h,Heavy Snow,53,Critical
+TRK-83987,SFO -> SEA,10h,Rain,112,Critical
+TRK-39419,DAL -> DEN,34h,Clear,107,Critical
+TRK-38991,DAL -> DEN,25h,Thunderstorm,90,Critical
+TRK-47792,PHX -> DET,41h,Heavy Snow,43,Critical
+TRK-58459,PHX -> DET,47h,High Winds,30,Low
+TRK-66651,PHX -> DET,36h,Thunderstorm,68,Critical
+TRK-42269,NYC -> LAX,29h,Clear,97,Critical
+TRK-77000,MIA -> CHI,48h,High Winds,69,Critical
+TRK-62588,PHX -> DET,7h,Rain,11,Medium
+TRK-43836,NYC -> LAX,6h,High Winds,84,Critical
+TRK-68399,NYC -> LAX,10h,High Winds,4,Low
+TRK-86095,PHX -> DET,13h,Thunderstorm,48,Critical
+TRK-15820,NYC -> LAX,30h,Clear,19,Low
+TRK-80052,HOU -> MIA,28h,Heavy Snow,75,Critical
+TRK-43572,DAL -> DEN,21h,Thunderstorm,44,Critical
+TRK-39614,ATL -> SFO,19h,Rain,73,Critical
+TRK-93544,DAL -> DEN,13h,Rain,93,Critical
+TRK-14935,SEA -> BOS,33h,Thunderstorm,19,Critical
+TRK-27571,ATL -> SFO,12h,High Winds,10,Low
+TRK-85872,ATL -> SFO,44h,High Winds,57,Medium
+TRK-55443,SEA -> BOS,32h,Clear,50,Medium
+TRK-45628,MIA -> CHI,10h,High Winds,85,Critical
+TRK-29220,PHX -> DET,26h,Rain,17,Medium
+TRK-96540,PHX -> DET,48h,Rain,47,Medium
+TRK-26841,ATL -> SFO,9h,Rain,70,Critical
+TRK-52233,NYC -> LAX,24h,Heavy Snow,104,Critical
+TRK-67106,HOU -> MIA,35h,Clear,46,Medium
+TRK-30087,SEA -> BOS,12h,High Winds,82,Critical
+TRK-81868,ATL -> SFO,40h,High Winds,14,Low
+TRK-27011,ATL -> SFO,19h,Heavy Snow,31,Critical
+TRK-48007,MIA -> CHI,34h,High Winds,21,Low
+TRK-51649,PHX -> DET,34h,Rain,2,Medium
+TRK-15382,SFO -> SEA,6h,Thunderstorm,17,Critical
+TRK-37006,HOU -> MIA,40h,Heavy Snow,49,Critical
+TRK-99798,SEA -> BOS,6h,Thunderstorm,79,Critical
+TRK-26577,SEA -> BOS,4h,High Winds,104,Critical
+TRK-86094,SEA -> BOS,36h,High Winds,36,Medium
+TRK-48781,PHX -> DET,29h,Clear,96,Critical
+TRK-88776,HOU -> MIA,43h,Heavy Snow,89,Critical
+TRK-86140,PHX -> DET,33h,Heavy Snow,108,Critical
+TRK-63355,HOU -> MIA,12h,Rain,11,Medium
+TRK-55384,MIA -> CHI,17h,Rain,44,Medium
+TRK-34537,NYC -> LAX,15h,Thunderstorm,63,Critical
+TRK-50717,ATL -> SFO,6h,Heavy Snow,120,Critical
+TRK-84789,NYC -> LAX,12h,Heavy Snow,87,Critical
+TRK-16167,ATL -> SFO,16h,Thunderstorm,96,Critical
+TRK-16706,PHX -> DET,33h,Clear,34,Medium
+TRK-52528,SEA -> BOS,26h,Clear,103,Critical
+TRK-56522,NYC -> LAX,48h,Heavy Snow,0,Critical
+TRK-43099,MIA -> CHI,29h,Thunderstorm,52,Critical
+TRK-69171,SFO -> SEA,20h,Heavy Snow,14,Critical
+TRK-19459,SFO -> SEA,29h,High Winds,50,Medium
+TRK-82296,MIA -> CHI,7h,Thunderstorm,41,Critical
+TRK-11798,SFO -> SEA,42h,Thunderstorm,70,Critical
+TRK-77860,PHX -> DET,22h,Thunderstorm,100,Critical
+TRK-65777,SFO -> SEA,7h,Rain,91,Critical
+TRK-84767,SFO -> SEA,8h,Rain,4,Medium
+TRK-33566,SFO -> SEA,7h,Heavy Snow,0,Critical
+TRK-90020,SEA -> BOS,19h,Thunderstorm,52,Critical
+TRK-62688,ATL -> SFO,27h,Rain,3,Medium
+TRK-48953,NYC -> LAX,10h,High Winds,30,Low
+TRK-52754,PHX -> DET,40h,Thunderstorm,104,Critical
+TRK-96896,HOU -> MIA,4h,Thunderstorm,46,Critical
+TRK-54624,SEA -> BOS,48h,Thunderstorm,47,Critical
+TRK-56153,ATL -> SFO,25h,Heavy Snow,91,Critical
+TRK-80095,DAL -> DEN,36h,Heavy Snow,114,Critical
+TRK-54642,SEA -> BOS,34h,Heavy Snow,31,Critical
+TRK-81592,DAL -> DEN,26h,Clear,25,Low
+TRK-51428,SFO -> SEA,36h,Thunderstorm,81,Critical
+TRK-39718,PHX -> DET,42h,High Winds,94,Critical
+TRK-96879,DAL -> DEN,42h,Heavy Snow,108,Critical
+TRK-91064,MIA -> CHI,40h,High Winds,8,Low
+TRK-18186,HOU -> MIA,11h,Clear,50,Medium
+TRK-20893,PHX -> DET,36h,Clear,71,Critical
+TRK-35936,ATL -> SFO,4h,Heavy Snow,112,Critical
+TRK-75640,NYC -> LAX,37h,Rain,63,Critical
+TRK-34614,ATL -> SFO,8h,Heavy Snow,64,Critical
+TRK-50904,PHX -> DET,9h,Heavy Snow,102,Critical
+TRK-52962,PHX -> DET,36h,Thunderstorm,39,Critical
+TRK-14814,SEA -> BOS,31h,Rain,36,Medium
+TRK-31396,SEA -> BOS,48h,Heavy Snow,81,Critical
+TRK-21275,NYC -> LAX,31h,Heavy Snow,13,Critical
+TRK-80207,MIA -> CHI,37h,Clear,93,Critical
+TRK-38355,SFO -> SEA,19h,Thunderstorm,3,Critical
+TRK-62654,NYC -> LAX,20h,Clear,92,Critical
+TRK-68518,PHX -> DET,25h,Rain,4,Medium
+TRK-48774,SFO -> SEA,22h,Rain,2,Medium
+TRK-39286,NYC -> LAX,5h,Heavy Snow,34,Critical
+TRK-48584,ATL -> SFO,32h,Rain,97,Critical
+TRK-68166,ATL -> SFO,41h,Heavy Snow,2,Critical
+TRK-81084,ATL -> SFO,45h,Heavy Snow,19,Critical
+TRK-47451,DAL -> DEN,5h,Heavy Snow,101,Critical
+TRK-24866,SEA -> BOS,44h,Thunderstorm,73,Critical
+TRK-65607,DAL -> DEN,40h,Thunderstorm,114,Critical
+TRK-98805,HOU -> MIA,7h,Thunderstorm,96,Critical
+TRK-38860,PHX -> DET,31h,Rain,71,Critical
+TRK-39912,PHX -> DET,7h,High Winds,24,Low
+TRK-89504,PHX -> DET,38h,Rain,19,Medium
+TRK-96031,DAL -> DEN,25h,Thunderstorm,31,Critical
+TRK-20978,SFO -> SEA,9h,Clear,27,Low
+TRK-49016,HOU -> MIA,16h,High Winds,5,Low
+TRK-41196,HOU -> MIA,45h,High Winds,60,Medium
+TRK-69046,DAL -> DEN,33h,High Winds,55,Medium
+TRK-46594,SFO -> SEA,42h,High Winds,28,Low
+TRK-40651,ATL -> SFO,6h,Heavy Snow,44,Critical
+TRK-70052,MIA -> CHI,31h,Rain,10,Medium
+TRK-45415,NYC -> LAX,40h,High Winds,46,Medium
+TRK-33906,NYC -> LAX,16h,Thunderstorm,113,Critical
+TRK-95689,NYC -> LAX,42h,Thunderstorm,3,Critical
+TRK-42257,MIA -> CHI,38h,Heavy Snow,19,Critical
+TRK-19170,PHX -> DET,39h,Thunderstorm,113,Critical
+TRK-20431,DAL -> DEN,47h,High Winds,107,Critical
+TRK-11400,SEA -> BOS,8h,Rain,17,Medium
+TRK-63806,SFO -> SEA,45h,Heavy Snow,90,Critical
+TRK-33236,ATL -> SFO,33h,Clear,113,Critical
+TRK-66874,MIA -> CHI,25h,Thunderstorm,50,Critical
+TRK-23823,HOU -> MIA,36h,Thunderstorm,11,Critical
+TRK-46505,HOU -> MIA,41h,High Winds,73,Critical
+TRK-77405,SFO -> SEA,46h,High Winds,83,Critical
+TRK-95305,SEA -> BOS,41h,Clear,35,Medium
+TRK-80105,NYC -> LAX,28h,Clear,98,Critical
+TRK-68255,MIA -> CHI,30h,Clear,58,Medium
+TRK-39122,SFO -> SEA,14h,High Winds,102,Critical
+TRK-95445,DAL -> DEN,20h,High Winds,70,Critical
+TRK-23303,SEA -> BOS,35h,High Winds,4,Low
+TRK-62262,SEA -> BOS,26h,Heavy Snow,35,Critical
+TRK-48023,ATL -> SFO,25h,Thunderstorm,62,Critical
+TRK-90018,SFO -> SEA,39h,High Winds,49,Medium
+TRK-83782,MIA -> CHI,48h,Clear,39,Medium
+TRK-71482,PHX -> DET,4h,Rain,26,Medium
+TRK-40166,DAL -> DEN,4h,Heavy Snow,42,Critical
+TRK-17175,SFO -> SEA,38h,Heavy Snow,34,Critical
+TRK-92643,DAL -> DEN,41h,Thunderstorm,111,Critical
+TRK-87604,MIA -> CHI,33h,Clear,23,Low
+TRK-10912,SFO -> SEA,42h,Rain,81,Critical
+TRK-44079,SFO -> SEA,39h,Clear,15,Low
+TRK-93171,ATL -> SFO,17h,High Winds,16,Low
+TRK-34689,HOU -> MIA,38h,Clear,1,Low
+TRK-48071,DAL -> DEN,10h,Heavy Snow,45,Critical
+TRK-31623,DAL -> DEN,19h,Clear,22,Low
+TRK-45464,SEA -> BOS,30h,Clear,104,Critical
+TRK-67983,NYC -> LAX,29h,Heavy Snow,100,Critical
+TRK-81138,DAL -> DEN,20h,Thunderstorm,114,Critical
+TRK-39177,SEA -> BOS,32h,High Winds,23,Low
+TRK-63045,MIA -> CHI,8h,Thunderstorm,10,Critical
+TRK-67907,NYC -> LAX,16h,Heavy Snow,24,Critical
+TRK-33133,HOU -> MIA,8h,Heavy Snow,100,Critical
+TRK-62086,NYC -> LAX,12h,Clear,10,Low
+TRK-10986,SEA -> BOS,40h,Thunderstorm,3,Critical
+TRK-97146,SEA -> BOS,48h,Heavy Snow,49,Critical
+TRK-88033,ATL -> SFO,14h,Heavy Snow,70,Critical
+TRK-63245,DAL -> DEN,10h,Heavy Snow,103,Critical
+TRK-53886,HOU -> MIA,13h,Rain,85,Critical
+TRK-74208,SFO -> SEA,22h,Thunderstorm,82,Critical
+TRK-60739,PHX -> DET,24h,Rain,120,Critical
+TRK-83350,MIA -> CHI,31h,High Winds,7,Low
+TRK-31674,ATL -> SFO,34h,Clear,76,Critical
+TRK-99526,ATL -> SFO,10h,Heavy Snow,9,Critical
+TRK-72281,PHX -> DET,41h,Heavy Snow,87,Critical
+TRK-31922,NYC -> LAX,4h,Rain,112,Critical
+TRK-91073,NYC -> LAX,23h,Clear,48,Medium
+TRK-20648,PHX -> DET,13h,Clear,49,Medium
+TRK-82004,DAL -> DEN,28h,Rain,4,Medium
+TRK-39380,SFO -> SEA,16h,Thunderstorm,101,Critical
+TRK-89332,MIA -> CHI,43h,Thunderstorm,58,Critical
+TRK-47551,DAL -> DEN,12h,Heavy Snow,23,Critical
+TRK-95276,SEA -> BOS,31h,Heavy Snow,32,Critical
+TRK-84495,SFO -> SEA,17h,Rain,87,Critical
+TRK-34218,HOU -> MIA,12h,Rain,117,Critical
+TRK-85580,PHX -> DET,40h,High Winds,69,Critical
+TRK-86662,SEA -> BOS,48h,Heavy Snow,11,Critical
+TRK-12239,HOU -> MIA,36h,High Winds,8,Low
+TRK-33887,ATL -> SFO,3h,Rain,26,Medium
+TRK-75132,NYC -> LAX,12h,Heavy Snow,20,Critical
+TRK-81363,NYC -> LAX,3h,Rain,43,Medium
+TRK-53948,DAL -> DEN,44h,Clear,46,Medium
+TRK-15893,HOU -> MIA,19h,Thunderstorm,50,Critical
+TRK-21288,PHX -> DET,2h,Heavy Snow,12,Critical
+TRK-94835,DAL -> DEN,17h,Clear,41,Medium
+TRK-99392,HOU -> MIA,42h,Heavy Snow,17,Critical
+TRK-49323,PHX -> DET,37h,Clear,107,Critical
+TRK-54536,DAL -> DEN,10h,High Winds,29,Low
+TRK-73213,DAL -> DEN,9h,Thunderstorm,109,Critical
+TRK-74898,MIA -> CHI,28h,Thunderstorm,21,Critical
+TRK-15070,HOU -> MIA,29h,Clear,12,Low
+TRK-12485,SFO -> SEA,18h,Thunderstorm,43,Critical
+TRK-29264,SFO -> SEA,9h,Rain,5,Medium
+TRK-29327,MIA -> CHI,12h,Heavy Snow,9,Critical
+TRK-84339,ATL -> SFO,18h,Heavy Snow,82,Critical
+TRK-38470,HOU -> MIA,24h,Heavy Snow,113,Critical
+TRK-97108,HOU -> MIA,7h,High Winds,9,Low
+TRK-13368,SEA -> BOS,48h,Clear,64,Critical
+TRK-11207,PHX -> DET,35h,Rain,116,Critical
+TRK-60086,SEA -> BOS,25h,Rain,59,Medium
+TRK-54849,MIA -> CHI,30h,Thunderstorm,5,Critical
+TRK-64595,SEA -> BOS,20h,Thunderstorm,107,Critical
+TRK-43478,SEA -> BOS,48h,Heavy Snow,84,Critical
+TRK-66987,DAL -> DEN,45h,Heavy Snow,56,Critical
+TRK-56214,PHX -> DET,21h,Heavy Snow,63,Critical
+TRK-19397,MIA -> CHI,25h,Clear,114,Critical
+TRK-46126,SFO -> SEA,7h,Clear,92,Critical
+TRK-23599,PHX -> DET,41h,Heavy Snow,55,Critical
+TRK-99339,MIA -> CHI,40h,Clear,117,Critical
+TRK-92301,HOU -> MIA,47h,Clear,92,Critical
+TRK-72340,HOU -> MIA,44h,Thunderstorm,8,Critical
+TRK-55286,SFO -> SEA,48h,Thunderstorm,4,Critical
+TRK-73671,SFO -> SEA,33h,Thunderstorm,28,Critical
+TRK-12373,SEA -> BOS,18h,Heavy Snow,90,Critical
+TRK-45247,NYC -> LAX,44h,Clear,57,Medium
+TRK-54322,SFO -> SEA,17h,Thunderstorm,97,Critical
+TRK-98800,SFO -> SEA,24h,Thunderstorm,7,Critical
+TRK-32123,NYC -> LAX,23h,High Winds,98,Critical
+TRK-25265,DAL -> DEN,12h,Clear,110,Critical
+TRK-88985,SEA -> BOS,26h,Thunderstorm,58,Critical
+TRK-75702,NYC -> LAX,12h,High Winds,9,Low
+TRK-65607,SEA -> BOS,20h,High Winds,59,Medium
+TRK-13948,DAL -> DEN,31h,High Winds,2,Low
+TRK-64516,HOU -> MIA,31h,Thunderstorm,82,Critical
+TRK-33618,SFO -> SEA,24h,Heavy Snow,108,Critical
+TRK-25242,HOU -> MIA,28h,Rain,92,Critical
+TRK-58770,PHX -> DET,15h,High Winds,110,Critical
+TRK-24742,HOU -> MIA,28h,Rain,51,Medium
+TRK-60457,DAL -> DEN,12h,High Winds,20,Low
+TRK-80825,SFO -> SEA,31h,High Winds,10,Low
+TRK-83576,MIA -> CHI,42h,Thunderstorm,30,Critical
+TRK-95730,DAL -> DEN,9h,Heavy Snow,37,Critical
+TRK-95309,DAL -> DEN,8h,Thunderstorm,77,Critical
+TRK-10194,ATL -> SFO,22h,Heavy Snow,27,Critical
+TRK-65467,SEA -> BOS,4h,Heavy Snow,70,Critical
+TRK-75037,SFO -> SEA,15h,Heavy Snow,64,Critical
+TRK-10070,NYC -> LAX,23h,Heavy Snow,1,Critical
+TRK-73135,DAL -> DEN,34h,Thunderstorm,57,Critical
+TRK-79685,DAL -> DEN,33h,Heavy Snow,118,Critical
+TRK-20907,SEA -> BOS,11h,Clear,113,Critical
+TRK-12503,HOU -> MIA,2h,Heavy Snow,31,Critical
+TRK-41777,DAL -> DEN,45h,Heavy Snow,60,Critical
+TRK-79976,ATL -> SFO,19h,Heavy Snow,34,Critical
+TRK-28208,DAL -> DEN,9h,High Winds,96,Critical
+TRK-28203,MIA -> CHI,33h,Heavy Snow,12,Critical
+TRK-98302,PHX -> DET,38h,Rain,17,Medium
+TRK-19524,SFO -> SEA,8h,Heavy Snow,1,Critical
+TRK-71489,DAL -> DEN,21h,High Winds,62,Critical
+TRK-72202,ATL -> SFO,23h,Thunderstorm,68,Critical
+TRK-98664,DAL -> DEN,7h,Thunderstorm,26,Critical
+TRK-53654,NYC -> LAX,7h,Thunderstorm,107,Critical
+TRK-42876,HOU -> MIA,46h,Thunderstorm,95,Critical
+TRK-84650,ATL -> SFO,9h,Heavy Snow,60,Critical
+TRK-86705,SEA -> BOS,10h,High Winds,42,Medium
+TRK-52268,NYC -> LAX,34h,Rain,41,Medium
+TRK-36163,MIA -> CHI,8h,Heavy Snow,38,Critical
+TRK-60615,ATL -> SFO,37h,Clear,71,Critical
+TRK-76895,PHX -> DET,38h,Thunderstorm,64,Critical
+TRK-69556,PHX -> DET,35h,High Winds,11,Low
+TRK-93391,HOU -> MIA,21h,Heavy Snow,71,Critical
+TRK-24824,NYC -> LAX,23h,Rain,112,Critical
+TRK-16114,SFO -> SEA,21h,Rain,104,Critical
+TRK-63854,HOU -> MIA,25h,Clear,48,Medium
+TRK-67909,HOU -> MIA,34h,Heavy Snow,39,Critical
+TRK-61435,MIA -> CHI,2h,Thunderstorm,2,Critical
+TRK-57917,PHX -> DET,18h,Clear,84,Critical
+TRK-89613,HOU -> MIA,8h,High Winds,116,Critical
+TRK-44127,ATL -> SFO,24h,High Winds,86,Critical
+TRK-74615,NYC -> LAX,18h,Thunderstorm,112,Critical
+TRK-68962,DAL -> DEN,45h,Heavy Snow,114,Critical
+TRK-57699,SEA -> BOS,9h,Thunderstorm,51,Critical
+TRK-69113,SFO -> SEA,19h,High Winds,76,Critical
+TRK-39363,HOU -> MIA,31h,High Winds,73,Critical
+TRK-30007,NYC -> LAX,41h,High Winds,12,Low
+TRK-17209,SFO -> SEA,16h,Rain,49,Medium
+TRK-44227,SEA -> BOS,42h,Heavy Snow,107,Critical
+TRK-65229,NYC -> LAX,24h,Clear,100,Critical
+TRK-79839,NYC -> LAX,39h,Rain,106,Critical
+TRK-43995,PHX -> DET,24h,Thunderstorm,49,Critical
+TRK-12943,ATL -> SFO,46h,Rain,93,Critical
+TRK-62261,MIA -> CHI,19h,High Winds,89,Critical
+TRK-51958,SFO -> SEA,36h,Thunderstorm,23,Critical
+TRK-10633,NYC -> LAX,19h,Heavy Snow,87,Critical
+TRK-29742,HOU -> MIA,46h,Clear,116,Critical
+TRK-57214,SEA -> BOS,37h,Heavy Snow,84,Critical
+TRK-76187,DAL -> DEN,13h,Clear,96,Critical
+TRK-64720,HOU -> MIA,3h,High Winds,22,Low
+TRK-16929,NYC -> LAX,26h,Thunderstorm,80,Critical
+TRK-54503,SEA -> BOS,2h,Thunderstorm,56,Critical
+TRK-83545,ATL -> SFO,44h,Clear,55,Medium
+TRK-62944,MIA -> CHI,8h,High Winds,13,Low
+TRK-22575,SFO -> SEA,4h,Rain,88,Critical
+TRK-14169,PHX -> DET,36h,Heavy Snow,56,Critical
+TRK-63737,MIA -> CHI,18h,Heavy Snow,93,Critical
+TRK-59453,MIA -> CHI,37h,Thunderstorm,110,Critical
+TRK-18307,DAL -> DEN,3h,Rain,63,Critical
+TRK-88930,DAL -> DEN,32h,Heavy Snow,48,Critical
+TRK-92503,NYC -> LAX,15h,Heavy Snow,69,Critical
+TRK-13402,SFO -> SEA,46h,Clear,79,Critical
+TRK-80113,ATL -> SFO,31h,Rain,0,Medium
+TRK-74902,MIA -> CHI,47h,High Winds,100,Critical
+TRK-25591,PHX -> DET,13h,Rain,93,Critical
+TRK-96466,DAL -> DEN,17h,Clear,79,Critical
+TRK-80977,MIA -> CHI,21h,Heavy Snow,78,Critical
+TRK-45218,MIA -> CHI,18h,High Winds,0,Low
+TRK-75586,PHX -> DET,35h,Rain,106,Critical
+TRK-66855,NYC -> LAX,37h,Thunderstorm,49,Critical
+TRK-14179,SFO -> SEA,2h,Thunderstorm,51,Critical
+TRK-90711,MIA -> CHI,26h,High Winds,72,Critical
+TRK-86039,PHX -> DET,44h,Heavy Snow,37,Critical
+TRK-46791,NYC -> LAX,24h,High Winds,92,Critical
+TRK-82535,MIA -> CHI,15h,Heavy Snow,71,Critical
+TRK-86981,SFO -> SEA,43h,Heavy Snow,7,Critical
+TRK-31645,NYC -> LAX,32h,Thunderstorm,25,Critical
+TRK-22769,PHX -> DET,39h,Thunderstorm,120,Critical
+TRK-74073,SEA -> BOS,20h,Thunderstorm,78,Critical
+TRK-81552,NYC -> LAX,41h,Clear,102,Critical
+TRK-29714,DAL -> DEN,41h,High Winds,72,Critical
+TRK-94849,SFO -> SEA,20h,Heavy Snow,3,Critical
+TRK-56896,PHX -> DET,5h,Heavy Snow,44,Critical
+TRK-88021,ATL -> SFO,32h,Thunderstorm,37,Critical
+TRK-49565,HOU -> MIA,16h,Heavy Snow,8,Critical
+TRK-64093,HOU -> MIA,19h,Thunderstorm,63,Critical
+TRK-76874,ATL -> SFO,4h,Thunderstorm,71,Critical
+TRK-49872,SFO -> SEA,4h,Rain,5,Medium
+TRK-43737,PHX -> DET,15h,Clear,58,Medium
+TRK-12806,NYC -> LAX,46h,High Winds,34,Medium
+TRK-90875,PHX -> DET,43h,Heavy Snow,104,Critical
+TRK-42593,SFO -> SEA,45h,Rain,93,Critical
+TRK-67551,MIA -> CHI,37h,Rain,101,Critical
+TRK-93648,PHX -> DET,16h,Thunderstorm,98,Critical
+TRK-57556,DAL -> DEN,41h,Rain,67,Critical
+TRK-23481,NYC -> LAX,46h,High Winds,86,Critical
+TRK-11509,SEA -> BOS,23h,Heavy Snow,71,Critical
+TRK-74850,HOU -> MIA,19h,Rain,36,Medium
+TRK-65904,NYC -> LAX,34h,Thunderstorm,3,Critical
+TRK-97700,MIA -> CHI,3h,Heavy Snow,114,Critical
+TRK-34939,SEA -> BOS,28h,Clear,8,Low
+TRK-13202,ATL -> SFO,10h,Heavy Snow,52,Critical
+TRK-18371,PHX -> DET,41h,Rain,70,Critical
+TRK-32807,SFO -> SEA,20h,High Winds,92,Critical
+TRK-14801,SFO -> SEA,23h,Thunderstorm,98,Critical
+TRK-21574,NYC -> LAX,26h,Rain,32,Medium
+TRK-32692,HOU -> MIA,45h,High Winds,113,Critical
+TRK-60573,SEA -> BOS,46h,Thunderstorm,7,Critical
+TRK-94754,NYC -> LAX,6h,Heavy Snow,44,Critical
+TRK-74083,SFO -> SEA,30h,Thunderstorm,59,Critical
+TRK-12873,MIA -> CHI,46h,Rain,119,Critical
+TRK-12759,SEA -> BOS,27h,High Winds,103,Critical
+TRK-94409,MIA -> CHI,38h,High Winds,17,Low
+TRK-10679,SEA -> BOS,26h,Heavy Snow,61,Critical
+TRK-70429,MIA -> CHI,15h,Clear,39,Medium
+TRK-91023,HOU -> MIA,11h,Clear,114,Critical
+TRK-14954,PHX -> DET,18h,Clear,7,Low
+TRK-68288,DAL -> DEN,6h,Rain,94,Critical
+TRK-73611,MIA -> CHI,39h,Thunderstorm,66,Critical
+TRK-72181,MIA -> CHI,14h,Rain,71,Critical
+TRK-97662,SEA -> BOS,30h,Clear,97,Critical
+TRK-38925,DAL -> DEN,32h,Rain,21,Medium
+TRK-31844,DAL -> DEN,4h,Thunderstorm,18,Critical
+TRK-69143,PHX -> DET,10h,Thunderstorm,65,Critical
+TRK-91229,SFO -> SEA,17h,Heavy Snow,48,Critical
+TRK-74127,NYC -> LAX,4h,Clear,59,Medium
+TRK-15124,ATL -> SFO,47h,Clear,46,Medium
+TRK-87725,HOU -> MIA,15h,High Winds,45,Medium
+TRK-27968,DAL -> DEN,3h,High Winds,30,Low
+TRK-60053,ATL -> SFO,16h,Heavy Snow,96,Critical
+TRK-99614,SEA -> BOS,34h,Heavy Snow,116,Critical
+TRK-22898,SEA -> BOS,13h,Clear,52,Medium
+TRK-86847,NYC -> LAX,21h,Thunderstorm,24,Critical
+TRK-88593,NYC -> LAX,47h,Heavy Snow,18,Critical
+TRK-54832,MIA -> CHI,26h,Heavy Snow,58,Critical
+TRK-14138,SFO -> SEA,38h,High Winds,70,Critical
+TRK-19643,SFO -> SEA,27h,High Winds,5,Low
+TRK-81540,PHX -> DET,42h,Thunderstorm,48,Critical
+TRK-68149,NYC -> LAX,13h,Thunderstorm,40,Critical
+TRK-95733,NYC -> LAX,17h,Heavy Snow,92,Critical
+TRK-22666,HOU -> MIA,30h,Rain,89,Critical
+TRK-29771,DAL -> DEN,33h,Clear,28,Low
+TRK-10517,PHX -> DET,15h,High Winds,37,Medium
+TRK-19006,PHX -> DET,40h,Thunderstorm,20,Critical
+TRK-36418,SFO -> SEA,32h,Heavy Snow,68,Critical
+TRK-88636,NYC -> LAX,4h,Clear,74,Critical
+TRK-97412,DAL -> DEN,5h,Heavy Snow,48,Critical
+TRK-88966,ATL -> SFO,47h,Clear,6,Low
+TRK-40326,NYC -> LAX,3h,Heavy Snow,58,Critical
+TRK-82670,NYC -> LAX,23h,Thunderstorm,101,Critical
+TRK-41575,SEA -> BOS,9h,Heavy Snow,99,Critical
+TRK-21067,HOU -> MIA,17h,Thunderstorm,114,Critical
+TRK-77156,DAL -> DEN,40h,Rain,32,Medium
+TRK-90439,ATL -> SFO,27h,Thunderstorm,10,Critical
+TRK-62979,ATL -> SFO,27h,Heavy Snow,19,Critical
+TRK-22158,HOU -> MIA,48h,Thunderstorm,42,Critical
+TRK-66957,DAL -> DEN,24h,High Winds,4,Low
+TRK-89539,SFO -> SEA,35h,High Winds,4,Low
+TRK-55575,SEA -> BOS,20h,Clear,58,Medium
+TRK-73220,SEA -> BOS,11h,Heavy Snow,104,Critical
+TRK-85512,SEA -> BOS,48h,Heavy Snow,65,Critical
+TRK-91619,DAL -> DEN,10h,Heavy Snow,30,Critical
+TRK-28661,SFO -> SEA,2h,High Winds,84,Critical
+TRK-48617,HOU -> MIA,5h,High Winds,91,Critical
+TRK-53343,ATL -> SFO,31h,Heavy Snow,109,Critical
+TRK-36495,ATL -> SFO,35h,High Winds,68,Critical
+TRK-19078,PHX -> DET,34h,Clear,12,Low
+TRK-48417,ATL -> SFO,25h,Rain,11,Medium
+TRK-68757,SFO -> SEA,31h,Thunderstorm,110,Critical
+TRK-29150,NYC -> LAX,14h,Thunderstorm,69,Critical
+TRK-35918,SEA -> BOS,41h,Thunderstorm,49,Critical
+TRK-76676,NYC -> LAX,19h,Thunderstorm,69,Critical
+TRK-95480,SFO -> SEA,19h,Rain,93,Critical
+TRK-45017,DAL -> DEN,12h,Rain,112,Critical
+TRK-10224,DAL -> DEN,22h,Heavy Snow,66,Critical
+TRK-18480,SEA -> BOS,32h,Clear,114,Critical
+TRK-35736,HOU -> MIA,35h,Clear,46,Medium
+TRK-46361,PHX -> DET,37h,Clear,92,Critical
+TRK-96752,NYC -> LAX,41h,Rain,88,Critical
+TRK-64189,HOU -> MIA,10h,Thunderstorm,59,Critical
+TRK-61362,SFO -> SEA,43h,Thunderstorm,14,Critical
+TRK-16525,DAL -> DEN,22h,Heavy Snow,16,Critical
+TRK-77678,PHX -> DET,33h,Heavy Snow,30,Critical
+TRK-40035,HOU -> MIA,45h,High Winds,93,Critical
+TRK-94993,SEA -> BOS,40h,Clear,93,Critical
+TRK-57664,DAL -> DEN,34h,High Winds,48,Medium
+TRK-80432,HOU -> MIA,41h,Rain,71,Critical
+TRK-85222,ATL -> SFO,24h,Heavy Snow,14,Critical
+TRK-47663,SEA -> BOS,36h,Clear,40,Medium
+TRK-70460,MIA -> CHI,18h,High Winds,108,Critical
+TRK-35242,PHX -> DET,48h,Heavy Snow,66,Critical
+TRK-85846,HOU -> MIA,18h,Thunderstorm,85,Critical
+TRK-51972,SEA -> BOS,10h,Heavy Snow,97,Critical
+TRK-18932,ATL -> SFO,32h,Thunderstorm,118,Critical
+TRK-46370,PHX -> DET,5h,High Winds,57,Medium
+TRK-29073,MIA -> CHI,32h,High Winds,36,Medium
+TRK-88924,NYC -> LAX,27h,High Winds,8,Low
+TRK-33797,PHX -> DET,12h,High Winds,46,Medium
+TRK-70863,HOU -> MIA,38h,Heavy Snow,102,Critical
+TRK-61840,SFO -> SEA,44h,Heavy Snow,101,Critical
+TRK-17180,NYC -> LAX,6h,Clear,18,Low
+TRK-61619,PHX -> DET,5h,Thunderstorm,34,Critical
+TRK-23163,MIA -> CHI,26h,Heavy Snow,5,Critical
+TRK-72615,ATL -> SFO,41h,Heavy Snow,24,Critical
+TRK-79757,PHX -> DET,6h,Thunderstorm,109,Critical
+TRK-84711,SEA -> BOS,30h,Thunderstorm,40,Critical
+TRK-53652,MIA -> CHI,27h,Thunderstorm,113,Critical
+TRK-53021,DAL -> DEN,48h,Rain,23,Medium
+TRK-95894,NYC -> LAX,31h,High Winds,55,Medium
+TRK-92303,HOU -> MIA,23h,High Winds,64,Critical
+TRK-65697,MIA -> CHI,19h,Clear,84,Critical
+TRK-46100,HOU -> MIA,16h,Rain,43,Medium
+TRK-14725,DAL -> DEN,9h,High Winds,43,Medium
+TRK-12946,PHX -> DET,47h,Thunderstorm,67,Critical
+TRK-68606,SFO -> SEA,42h,Clear,36,Medium
+TRK-57586,NYC -> LAX,44h,Thunderstorm,19,Critical
+TRK-41951,HOU -> MIA,39h,Thunderstorm,94,Critical
+TRK-64311,PHX -> DET,31h,Rain,117,Critical
+TRK-43829,ATL -> SFO,7h,Clear,40,Medium
+TRK-30264,PHX -> DET,45h,Clear,102,Critical
+TRK-80802,HOU -> MIA,42h,Rain,108,Critical
+TRK-74401,DAL -> DEN,27h,Thunderstorm,105,Critical
+TRK-22763,SEA -> BOS,48h,Thunderstorm,104,Critical
+TRK-28678,MIA -> CHI,9h,Thunderstorm,101,Critical
+TRK-32357,SEA -> BOS,37h,Clear,19,Low
+TRK-69464,MIA -> CHI,21h,Clear,83,Critical
+TRK-58321,ATL -> SFO,33h,Clear,76,Critical
+TRK-97664,DAL -> DEN,10h,Thunderstorm,83,Critical
+TRK-37399,SFO -> SEA,33h,Heavy Snow,36,Critical
+TRK-39731,SFO -> SEA,36h,Heavy Snow,33,Critical
+TRK-80447,ATL -> SFO,47h,Thunderstorm,62,Critical
+TRK-12907,HOU -> MIA,26h,Heavy Snow,54,Critical
+TRK-66401,NYC -> LAX,33h,Clear,31,Medium
+TRK-96498,DAL -> DEN,30h,Heavy Snow,4,Critical
+TRK-85660,PHX -> DET,12h,Rain,87,Critical
+TRK-54160,NYC -> LAX,10h,High Winds,48,Medium
+TRK-29746,ATL -> SFO,29h,Clear,65,Critical
+TRK-38527,ATL -> SFO,27h,High Winds,6,Low
+TRK-38957,NYC -> LAX,11h,High Winds,63,Critical
+TRK-42650,SFO -> SEA,21h,High Winds,51,Medium
+TRK-76796,NYC -> LAX,33h,Heavy Snow,69,Critical
+TRK-35653,HOU -> MIA,5h,Clear,101,Critical
+TRK-56739,DAL -> DEN,43h,Clear,68,Critical
+TRK-94361,DAL -> DEN,36h,Heavy Snow,53,Critical
+TRK-46006,PHX -> DET,19h,Thunderstorm,83,Critical
+TRK-92758,SFO -> SEA,17h,Clear,100,Critical
+TRK-11333,NYC -> LAX,2h,Thunderstorm,30,Critical
+TRK-86744,MIA -> CHI,22h,Heavy Snow,53,Critical
+TRK-91694,SFO -> SEA,31h,High Winds,105,Critical
+TRK-87793,MIA -> CHI,13h,High Winds,57,Medium
+TRK-33972,HOU -> MIA,34h,Thunderstorm,109,Critical
+TRK-71876,NYC -> LAX,40h,High Winds,37,Medium
+TRK-66389,DAL -> DEN,7h,Heavy Snow,58,Critical
+TRK-39785,NYC -> LAX,19h,Clear,42,Medium
+TRK-89742,NYC -> LAX,21h,Rain,55,Medium
+TRK-41507,HOU -> MIA,22h,High Winds,104,Critical
+TRK-49748,MIA -> CHI,39h,Rain,84,Critical
+TRK-83662,SFO -> SEA,24h,Clear,89,Critical
+TRK-86507,NYC -> LAX,37h,Heavy Snow,83,Critical
+TRK-22407,SEA -> BOS,43h,Clear,50,Medium
+TRK-73407,ATL -> SFO,30h,Thunderstorm,91,Critical
+TRK-47965,PHX -> DET,39h,Heavy Snow,20,Critical
+TRK-26399,SFO -> SEA,22h,Rain,20,Medium
+TRK-26062,NYC -> LAX,43h,Thunderstorm,62,Critical
+TRK-65251,MIA -> CHI,46h,Clear,63,Critical
+TRK-75550,NYC -> LAX,38h,Heavy Snow,21,Critical
+TRK-33918,SEA -> BOS,6h,Clear,119,Critical
+TRK-24840,SEA -> BOS,9h,Heavy Snow,98,Critical
+TRK-55462,NYC -> LAX,9h,High Winds,104,Critical
+TRK-31333,SFO -> SEA,8h,Thunderstorm,1,Critical
+TRK-62471,HOU -> MIA,15h,Clear,94,Critical
+TRK-81801,SFO -> SEA,26h,Clear,49,Medium
+TRK-10050,SEA -> BOS,48h,High Winds,38,Medium
+TRK-31222,PHX -> DET,28h,Rain,75,Critical
+TRK-48240,NYC -> LAX,8h,Clear,88,Critical
+TRK-16114,ATL -> SFO,42h,Thunderstorm,3,Critical
+TRK-12730,DAL -> DEN,31h,Rain,87,Critical
+TRK-44743,MIA -> CHI,40h,High Winds,113,Critical
+TRK-10497,SFO -> SEA,15h,Thunderstorm,50,Critical
+TRK-58045,NYC -> LAX,35h,Rain,26,Medium
+TRK-86854,PHX -> DET,48h,Clear,69,Critical
+TRK-11717,SFO -> SEA,32h,Rain,68,Critical
+TRK-49587,PHX -> DET,22h,Rain,76,Critical
+TRK-72195,SFO -> SEA,9h,Rain,54,Medium
+TRK-91716,ATL -> SFO,32h,Rain,35,Medium
+TRK-12157,NYC -> LAX,12h,Clear,30,Low
+TRK-78097,NYC -> LAX,24h,Thunderstorm,66,Critical
+TRK-56692,PHX -> DET,36h,Thunderstorm,90,Critical
+TRK-22448,ATL -> SFO,33h,Heavy Snow,65,Critical
+TRK-74541,NYC -> LAX,40h,Heavy Snow,5,Critical
+TRK-37561,HOU -> MIA,17h,Thunderstorm,42,Critical
+TRK-50641,PHX -> DET,43h,Thunderstorm,37,Critical
+TRK-28697,HOU -> MIA,9h,Heavy Snow,24,Critical
+TRK-38014,PHX -> DET,38h,High Winds,65,Critical
+TRK-55941,SEA -> BOS,14h,High Winds,44,Medium
+TRK-10243,PHX -> DET,11h,Thunderstorm,105,Critical
+TRK-40147,SEA -> BOS,32h,High Winds,69,Critical
+TRK-60171,PHX -> DET,45h,Rain,47,Medium
+TRK-31921,SFO -> SEA,5h,Clear,6,Low
+TRK-79435,PHX -> DET,41h,Clear,102,Critical
+TRK-64469,DAL -> DEN,17h,Rain,113,Critical
+TRK-10240,MIA -> CHI,2h,Clear,19,Low
+TRK-97372,SEA -> BOS,6h,Clear,84,Critical
+TRK-54265,SFO -> SEA,15h,High Winds,70,Critical
+TRK-90448,SEA -> BOS,43h,Heavy Snow,21,Critical
+TRK-41980,SEA -> BOS,10h,Clear,80,Critical
+TRK-77294,SFO -> SEA,11h,Rain,115,Critical
+TRK-47762,SEA -> BOS,8h,High Winds,105,Critical
+TRK-75856,HOU -> MIA,29h,High Winds,81,Critical
+TRK-75123,ATL -> SFO,34h,Clear,52,Medium
+TRK-70570,NYC -> LAX,9h,High Winds,79,Critical
+TRK-41195,MIA -> CHI,3h,Rain,102,Critical
+TRK-82671,DAL -> DEN,9h,Clear,74,Critical
+TRK-69431,HOU -> MIA,11h,High Winds,1,Low
+TRK-43708,NYC -> LAX,12h,Rain,27,Medium
+TRK-95330,DAL -> DEN,3h,Clear,32,Medium
+TRK-10819,PHX -> DET,32h,Clear,81,Critical
+TRK-80504,MIA -> CHI,6h,Clear,97,Critical
+TRK-92739,MIA -> CHI,18h,Heavy Snow,100,Critical
+TRK-70573,HOU -> MIA,27h,High Winds,30,Low
+TRK-33429,HOU -> MIA,7h,Thunderstorm,58,Critical
+TRK-72187,PHX -> DET,4h,Heavy Snow,50,Critical
+TRK-98513,SEA -> BOS,48h,Rain,8,Medium
+TRK-94414,MIA -> CHI,8h,Rain,53,Medium
+TRK-28426,SFO -> SEA,34h,Clear,19,Low
+TRK-47431,ATL -> SFO,16h,Heavy Snow,115,Critical
+TRK-46684,NYC -> LAX,36h,Clear,96,Critical
+TRK-98717,ATL -> SFO,40h,Rain,44,Medium
+TRK-30241,HOU -> MIA,3h,Clear,103,Critical
+TRK-60676,NYC -> LAX,29h,Clear,3,Low
+TRK-43806,HOU -> MIA,40h,Rain,87,Critical
+TRK-17620,ATL -> SFO,17h,Clear,119,Critical
+TRK-55772,SFO -> SEA,36h,Heavy Snow,9,Critical
+TRK-28371,HOU -> MIA,41h,Thunderstorm,56,Critical
+TRK-48500,NYC -> LAX,6h,High Winds,11,Low
+TRK-13838,DAL -> DEN,29h,Thunderstorm,22,Critical
+TRK-56876,HOU -> MIA,15h,Rain,55,Medium
+TRK-46028,MIA -> CHI,32h,Rain,18,Medium
+TRK-18778,SEA -> BOS,40h,Clear,114,Critical
+TRK-23439,NYC -> LAX,12h,Clear,65,Critical
+TRK-43756,DAL -> DEN,38h,Clear,89,Critical
+TRK-38040,SEA -> BOS,17h,High Winds,102,Critical
+TRK-12361,NYC -> LAX,27h,Clear,59,Medium
+TRK-72023,HOU -> MIA,30h,Rain,113,Critical
+TRK-71168,SEA -> BOS,23h,Heavy Snow,104,Critical
+TRK-84716,NYC -> LAX,45h,Clear,94,Critical
+TRK-69797,ATL -> SFO,11h,Thunderstorm,92,Critical
+TRK-38165,ATL -> SFO,11h,Clear,73,Critical
+TRK-49599,MIA -> CHI,38h,Rain,104,Critical
+TRK-38288,SEA -> BOS,39h,Thunderstorm,15,Critical
+TRK-15384,MIA -> CHI,24h,Thunderstorm,102,Critical
+TRK-71800,DAL -> DEN,7h,Clear,14,Low
+TRK-17851,MIA -> CHI,18h,High Winds,35,Medium
+TRK-32516,SEA -> BOS,10h,Heavy Snow,17,Critical
+TRK-72351,HOU -> MIA,7h,High Winds,63,Critical
+TRK-80061,ATL -> SFO,35h,Thunderstorm,32,Critical
+TRK-98664,HOU -> MIA,9h,Rain,14,Medium
+TRK-20749,MIA -> CHI,30h,Rain,13,Medium
+TRK-77357,SEA -> BOS,2h,Thunderstorm,120,Critical
+TRK-53891,SEA -> BOS,25h,Clear,101,Critical
+TRK-79016,PHX -> DET,30h,Heavy Snow,17,Critical
+TRK-67790,DAL -> DEN,21h,Rain,30,Medium
+TRK-22683,SFO -> SEA,33h,Thunderstorm,51,Critical
+TRK-19629,HOU -> MIA,5h,Clear,59,Medium
+TRK-66262,PHX -> DET,48h,High Winds,70,Critical
+TRK-66665,PHX -> DET,4h,Heavy Snow,116,Critical
+TRK-80334,DAL -> DEN,32h,High Winds,120,Critical
+TRK-78751,HOU -> MIA,47h,High Winds,56,Medium
+TRK-29336,MIA -> CHI,8h,High Winds,27,Low
+TRK-47699,SFO -> SEA,3h,High Winds,67,Critical
+TRK-81193,NYC -> LAX,14h,Thunderstorm,62,Critical
+TRK-13514,SEA -> BOS,35h,Thunderstorm,80,Critical
+TRK-73780,ATL -> SFO,8h,Heavy Snow,65,Critical
+TRK-91235,DAL -> DEN,23h,Clear,49,Medium
+TRK-12660,SEA -> BOS,34h,Heavy Snow,29,Critical
+TRK-61407,HOU -> MIA,38h,Clear,85,Critical
+TRK-33162,HOU -> MIA,4h,Thunderstorm,63,Critical
+TRK-36919,ATL -> SFO,42h,Clear,118,Critical
+TRK-52348,PHX -> DET,46h,Heavy Snow,37,Critical
+TRK-81941,PHX -> DET,12h,Heavy Snow,80,Critical
+TRK-89342,ATL -> SFO,32h,Thunderstorm,120,Critical
+TRK-34503,ATL -> SFO,22h,Heavy Snow,72,Critical
+TRK-35976,NYC -> LAX,18h,Clear,99,Critical
+TRK-48723,HOU -> MIA,10h,Thunderstorm,78,Critical
+TRK-26656,SEA -> BOS,12h,Heavy Snow,81,Critical
+TRK-51534,SEA -> BOS,12h,Rain,64,Critical
+TRK-47410,NYC -> LAX,32h,Rain,108,Critical
+TRK-93401,ATL -> SFO,47h,Heavy Snow,44,Critical
+TRK-61935,ATL -> SFO,34h,Heavy Snow,90,Critical
+TRK-84290,SFO -> SEA,22h,Heavy Snow,31,Critical
+TRK-34163,NYC -> LAX,32h,Rain,57,Medium
+TRK-93593,DAL -> DEN,28h,Rain,50,Medium
+TRK-79634,NYC -> LAX,19h,High Winds,21,Low
+TRK-20359,DAL -> DEN,12h,Clear,57,Medium
+TRK-96765,HOU -> MIA,40h,Clear,1,Low
+TRK-89550,MIA -> CHI,38h,Rain,24,Medium
+TRK-51187,MIA -> CHI,44h,Clear,4,Low
+TRK-63182,NYC -> LAX,24h,Clear,21,Low
+TRK-64075,DAL -> DEN,13h,High Winds,76,Critical
+TRK-89933,PHX -> DET,40h,Heavy Snow,87,Critical
+TRK-81832,SEA -> BOS,33h,Thunderstorm,99,Critical
+TRK-51878,SFO -> SEA,45h,Heavy Snow,38,Critical
+TRK-21215,MIA -> CHI,35h,Thunderstorm,110,Critical
+TRK-41228,NYC -> LAX,8h,Thunderstorm,101,Critical
+TRK-54645,DAL -> DEN,6h,Rain,52,Medium
+TRK-54776,MIA -> CHI,9h,Heavy Snow,103,Critical
+TRK-50310,PHX -> DET,27h,Rain,0,Medium
+TRK-39028,SFO -> SEA,14h,Heavy Snow,40,Critical
+TRK-30912,NYC -> LAX,47h,Rain,42,Medium
+TRK-49155,ATL -> SFO,30h,Clear,94,Critical
+TRK-86766,NYC -> LAX,4h,Rain,51,Medium
+TRK-29982,PHX -> DET,29h,Rain,30,Medium
+TRK-96457,DAL -> DEN,2h,High Winds,4,Low
+TRK-33815,HOU -> MIA,23h,Clear,97,Critical
+TRK-74646,DAL -> DEN,33h,Thunderstorm,48,Critical
+TRK-59659,HOU -> MIA,3h,Clear,5,Low
+TRK-74974,NYC -> LAX,31h,Heavy Snow,5,Critical
+TRK-39375,SFO -> SEA,3h,Heavy Snow,92,Critical
+TRK-75070,NYC -> LAX,31h,Rain,28,Medium
+TRK-54746,SEA -> BOS,24h,Thunderstorm,13,Critical
+TRK-20761,MIA -> CHI,38h,Rain,120,Critical
+TRK-37278,SEA -> BOS,33h,Thunderstorm,88,Critical
+TRK-42571,MIA -> CHI,28h,Clear,46,Medium
+TRK-85245,NYC -> LAX,42h,High Winds,100,Critical
+TRK-86105,ATL -> SFO,30h,Thunderstorm,68,Critical
+TRK-69297,ATL -> SFO,10h,Rain,71,Critical
+TRK-84171,ATL -> SFO,3h,High Winds,108,Critical
+TRK-22446,SFO -> SEA,20h,Rain,120,Critical
+TRK-59332,NYC -> LAX,48h,Rain,21,Medium
+TRK-12618,SEA -> BOS,13h,Clear,46,Medium
+TRK-90505,DAL -> DEN,8h,Thunderstorm,15,Critical
+TRK-17715,ATL -> SFO,20h,Heavy Snow,72,Critical
+TRK-34855,DAL -> DEN,40h,Heavy Snow,19,Critical
+TRK-35535,SEA -> BOS,8h,Heavy Snow,24,Critical
+TRK-97102,SFO -> SEA,3h,Clear,4,Low
+TRK-31893,DAL -> DEN,23h,High Winds,46,Medium
+TRK-17498,SEA -> BOS,41h,Clear,90,Critical
+TRK-75662,PHX -> DET,5h,Rain,81,Critical
+TRK-79818,PHX -> DET,30h,Heavy Snow,72,Critical
+TRK-25427,HOU -> MIA,26h,Clear,9,Low
+TRK-10280,DAL -> DEN,19h,Rain,11,Medium
+TRK-44667,MIA -> CHI,21h,Rain,70,Critical
+TRK-39966,SFO -> SEA,5h,Thunderstorm,65,Critical
+TRK-75847,HOU -> MIA,30h,High Winds,66,Critical
+TRK-38749,SFO -> SEA,7h,High Winds,29,Low
+TRK-48820,ATL -> SFO,26h,Heavy Snow,30,Critical
+TRK-21781,DAL -> DEN,21h,High Winds,106,Critical
+TRK-63520,ATL -> SFO,39h,Heavy Snow,12,Critical
+TRK-62524,SFO -> SEA,35h,High Winds,109,Critical
+TRK-64620,SFO -> SEA,42h,Rain,81,Critical
+TRK-79026,SEA -> BOS,46h,Clear,57,Medium
+TRK-11978,DAL -> DEN,33h,Heavy Snow,70,Critical
+TRK-85185,MIA -> CHI,22h,High Winds,90,Critical
+TRK-43600,MIA -> CHI,28h,High Winds,74,Critical
+TRK-27760,ATL -> SFO,31h,Thunderstorm,119,Critical
+TRK-95549,DAL -> DEN,13h,Thunderstorm,58,Critical
+TRK-52593,HOU -> MIA,17h,Thunderstorm,83,Critical
+TRK-13611,PHX -> DET,40h,Rain,91,Critical
+TRK-35027,NYC -> LAX,14h,High Winds,118,Critical
+TRK-50593,DAL -> DEN,30h,Rain,0,Medium
+TRK-29704,DAL -> DEN,22h,Clear,88,Critical
+TRK-70164,ATL -> SFO,47h,High Winds,80,Critical
+TRK-73078,PHX -> DET,45h,Clear,50,Medium
+TRK-72384,HOU -> MIA,41h,Heavy Snow,21,Critical
+TRK-13034,HOU -> MIA,42h,Rain,31,Medium
+TRK-78470,SFO -> SEA,11h,Clear,91,Critical
+TRK-19762,SFO -> SEA,37h,High Winds,35,Medium
+TRK-62220,ATL -> SFO,17h,Thunderstorm,66,Critical
+TRK-22209,NYC -> LAX,25h,Rain,12,Medium
+TRK-16577,SEA -> BOS,26h,Heavy Snow,15,Critical
+TRK-93601,NYC -> LAX,42h,High Winds,53,Medium
+TRK-22864,HOU -> MIA,21h,Rain,111,Critical
+TRK-11697,SEA -> BOS,25h,Rain,84,Critical
+TRK-68464,PHX -> DET,31h,Clear,84,Critical
+TRK-73689,HOU -> MIA,35h,High Winds,84,Critical
+TRK-46342,HOU -> MIA,32h,Thunderstorm,105,Critical
+TRK-70670,NYC -> LAX,27h,Clear,108,Critical
+TRK-57588,SEA -> BOS,41h,Thunderstorm,35,Critical
+TRK-19201,DAL -> DEN,24h,Clear,57,Medium
+TRK-85428,ATL -> SFO,31h,Clear,89,Critical
+TRK-87434,NYC -> LAX,16h,Heavy Snow,33,Critical
+TRK-86240,NYC -> LAX,28h,Thunderstorm,20,Critical
+TRK-91011,MIA -> CHI,23h,High Winds,108,Critical
+TRK-45789,ATL -> SFO,12h,Thunderstorm,69,Critical
+TRK-92252,HOU -> MIA,26h,Thunderstorm,86,Critical
+TRK-20273,DAL -> DEN,6h,Heavy Snow,108,Critical
+TRK-13258,SFO -> SEA,10h,Thunderstorm,98,Critical
+TRK-93563,NYC -> LAX,41h,Thunderstorm,64,Critical
+TRK-94517,NYC -> LAX,12h,High Winds,60,Medium
+TRK-13489,HOU -> MIA,24h,Clear,83,Critical
+TRK-12381,NYC -> LAX,42h,High Winds,63,Critical
+TRK-73491,PHX -> DET,7h,Clear,109,Critical
+TRK-53885,SEA -> BOS,28h,High Winds,95,Critical
+TRK-36975,SEA -> BOS,23h,High Winds,120,Critical
+TRK-44928,HOU -> MIA,31h,High Winds,76,Critical
+TRK-39270,NYC -> LAX,38h,Rain,72,Critical
+TRK-18470,SEA -> BOS,41h,Heavy Snow,11,Critical
+TRK-13929,HOU -> MIA,2h,Rain,10,Medium
+TRK-91819,ATL -> SFO,45h,Heavy Snow,32,Critical
+TRK-83405,DAL -> DEN,33h,Clear,0,Low
+TRK-66850,SEA -> BOS,31h,Thunderstorm,71,Critical
+TRK-91302,DAL -> DEN,40h,Clear,87,Critical
+TRK-91491,MIA -> CHI,31h,Rain,5,Medium
+TRK-50486,HOU -> MIA,11h,Heavy Snow,20,Critical
+TRK-89725,ATL -> SFO,23h,High Winds,41,Medium
+TRK-69087,DAL -> DEN,21h,Thunderstorm,24,Critical
+TRK-75975,SEA -> BOS,29h,Clear,77,Critical
+TRK-47121,ATL -> SFO,4h,High Winds,17,Low
+TRK-33269,SFO -> SEA,22h,Heavy Snow,30,Critical
+TRK-83086,PHX -> DET,46h,Rain,79,Critical
+TRK-37747,NYC -> LAX,14h,Heavy Snow,83,Critical
+TRK-22621,MIA -> CHI,12h,Heavy Snow,54,Critical
+TRK-33266,HOU -> MIA,22h,High Winds,64,Critical
+TRK-27788,PHX -> DET,22h,High Winds,7,Low
+TRK-19008,MIA -> CHI,31h,Heavy Snow,6,Critical
+TRK-60815,PHX -> DET,25h,Thunderstorm,84,Critical
+TRK-96729,ATL -> SFO,15h,Heavy Snow,29,Critical
+TRK-51558,SFO -> SEA,7h,Heavy Snow,98,Critical
+TRK-37306,DAL -> DEN,7h,Clear,29,Low
+TRK-95111,MIA -> CHI,33h,Rain,18,Medium
+TRK-74633,MIA -> CHI,23h,High Winds,108,Critical
+TRK-94452,MIA -> CHI,25h,Thunderstorm,39,Critical
+TRK-54192,MIA -> CHI,5h,Thunderstorm,118,Critical
+TRK-61507,DAL -> DEN,15h,High Winds,72,Critical
+TRK-74795,NYC -> LAX,4h,Rain,84,Critical
+TRK-92189,HOU -> MIA,9h,Rain,50,Medium
+TRK-45498,HOU -> MIA,45h,Thunderstorm,2,Critical
+TRK-91700,PHX -> DET,13h,Rain,8,Medium
+TRK-10213,ATL -> SFO,7h,Thunderstorm,17,Critical
+TRK-11693,HOU -> MIA,20h,Thunderstorm,108,Critical
+TRK-39171,NYC -> LAX,39h,Thunderstorm,95,Critical
+TRK-39880,NYC -> LAX,8h,High Winds,26,Low
+TRK-97029,HOU -> MIA,21h,Heavy Snow,67,Critical
+TRK-72223,HOU -> MIA,9h,Rain,55,Medium
+TRK-86170,DAL -> DEN,34h,Clear,77,Critical
+TRK-73377,SEA -> BOS,33h,Rain,32,Medium
+TRK-85436,SEA -> BOS,14h,Rain,58,Medium
+TRK-61677,SFO -> SEA,21h,Clear,115,Critical
+TRK-41098,HOU -> MIA,32h,Heavy Snow,74,Critical
+TRK-19982,MIA -> CHI,6h,Clear,103,Critical
+TRK-94122,ATL -> SFO,48h,Rain,20,Medium
+TRK-72930,NYC -> LAX,4h,Rain,54,Medium
+TRK-87567,MIA -> CHI,39h,High Winds,97,Critical
+TRK-47543,SEA -> BOS,8h,Thunderstorm,99,Critical
+TRK-79278,SFO -> SEA,4h,Clear,90,Critical
+TRK-97851,MIA -> CHI,2h,High Winds,41,Medium
+TRK-68196,DAL -> DEN,36h,Rain,51,Medium
+TRK-95017,HOU -> MIA,7h,Rain,3,Medium
+TRK-88125,MIA -> CHI,48h,Heavy Snow,97,Critical
+TRK-56476,SFO -> SEA,35h,High Winds,93,Critical
+TRK-65161,SEA -> BOS,42h,Clear,58,Medium
+TRK-39952,DAL -> DEN,22h,Thunderstorm,96,Critical
+TRK-84232,PHX -> DET,37h,Rain,16,Medium
+TRK-30344,MIA -> CHI,5h,Clear,105,Critical
+TRK-10800,NYC -> LAX,17h,Thunderstorm,43,Critical
+TRK-74507,HOU -> MIA,42h,Clear,78,Critical
+TRK-24339,ATL -> SFO,39h,Heavy Snow,30,Critical
+TRK-19510,NYC -> LAX,46h,Heavy Snow,109,Critical
+TRK-31623,NYC -> LAX,20h,Clear,91,Critical
+TRK-48668,PHX -> DET,34h,Clear,20,Low
+TRK-62954,HOU -> MIA,9h,Thunderstorm,65,Critical
+TRK-67659,SFO -> SEA,11h,Rain,12,Medium
+TRK-41072,NYC -> LAX,37h,Heavy Snow,101,Critical
+TRK-90347,SEA -> BOS,33h,Heavy Snow,82,Critical
+TRK-56698,NYC -> LAX,38h,Clear,73,Critical
+TRK-68043,MIA -> CHI,20h,Clear,93,Critical
+TRK-87586,PHX -> DET,35h,Heavy Snow,117,Critical
+TRK-65254,HOU -> MIA,18h,Rain,73,Critical
+TRK-91827,NYC -> LAX,36h,Rain,57,Medium
+TRK-69298,NYC -> LAX,7h,Rain,28,Medium
+TRK-94440,NYC -> LAX,27h,Rain,47,Medium
+TRK-97390,ATL -> SFO,20h,High Winds,53,Medium
+TRK-63900,NYC -> LAX,21h,High Winds,95,Critical
+TRK-13664,PHX -> DET,19h,High Winds,28,Low
+TRK-48422,HOU -> MIA,5h,High Winds,61,Critical
+TRK-55700,SFO -> SEA,36h,Thunderstorm,51,Critical
+TRK-55434,SEA -> BOS,39h,High Winds,118,Critical
+TRK-98055,PHX -> DET,4h,Rain,98,Critical
+TRK-53775,ATL -> SFO,18h,Rain,90,Critical
+TRK-42077,NYC -> LAX,48h,Rain,54,Medium
+TRK-29607,SEA -> BOS,46h,Thunderstorm,19,Critical
+TRK-31643,PHX -> DET,24h,Thunderstorm,59,Critical
+TRK-77607,MIA -> CHI,33h,Clear,40,Medium
+TRK-41112,ATL -> SFO,12h,Rain,118,Critical
+TRK-64465,PHX -> DET,22h,Heavy Snow,91,Critical
+TRK-84923,MIA -> CHI,13h,Thunderstorm,15,Critical
+TRK-18842,HOU -> MIA,37h,Clear,69,Critical
+TRK-43459,PHX -> DET,20h,Thunderstorm,80,Critical
+TRK-81961,NYC -> LAX,24h,Heavy Snow,19,Critical
+TRK-87371,MIA -> CHI,6h,Heavy Snow,94,Critical
+TRK-51468,ATL -> SFO,11h,Rain,88,Critical
+TRK-14542,SEA -> BOS,34h,Rain,59,Medium
+TRK-33237,PHX -> DET,14h,High Winds,41,Medium
+TRK-43625,PHX -> DET,30h,High Winds,9,Low
+TRK-52300,HOU -> MIA,27h,Thunderstorm,87,Critical
+TRK-62299,SEA -> BOS,38h,Rain,101,Critical
+TRK-29411,HOU -> MIA,10h,Clear,70,Critical
+TRK-31897,MIA -> CHI,42h,Rain,47,Medium
+TRK-92571,ATL -> SFO,25h,Heavy Snow,31,Critical
+TRK-88878,NYC -> LAX,29h,Thunderstorm,85,Critical
+TRK-81946,NYC -> LAX,13h,Clear,15,Low
+TRK-60478,NYC -> LAX,35h,Clear,43,Medium
+TRK-57380,SEA -> BOS,48h,Rain,18,Medium
+TRK-28873,NYC -> LAX,48h,Heavy Snow,31,Critical
+TRK-69325,HOU -> MIA,18h,Clear,78,Critical
+TRK-78723,HOU -> MIA,35h,Rain,76,Critical
+TRK-36289,HOU -> MIA,43h,High Winds,100,Critical
+TRK-35387,SEA -> BOS,36h,Rain,41,Medium
+TRK-25076,PHX -> DET,27h,Rain,47,Medium
+TRK-17431,DAL -> DEN,48h,Rain,39,Medium
+TRK-31726,ATL -> SFO,35h,High Winds,82,Critical
+TRK-13757,HOU -> MIA,6h,Clear,67,Critical
+TRK-82734,ATL -> SFO,7h,Clear,35,Medium
+TRK-12433,ATL -> SFO,24h,Clear,39,Medium
+TRK-37584,SEA -> BOS,20h,High Winds,112,Critical
+TRK-31601,DAL -> DEN,44h,Rain,91,Critical
+TRK-90507,DAL -> DEN,39h,Heavy Snow,5,Critical
+TRK-18809,NYC -> LAX,17h,High Winds,1,Low
+TRK-79626,SFO -> SEA,40h,High Winds,113,Critical
+TRK-81545,MIA -> CHI,15h,Thunderstorm,6,Critical
+TRK-46658,HOU -> MIA,26h,Heavy Snow,30,Critical
+TRK-90221,MIA -> CHI,23h,Rain,111,Critical
+TRK-76498,NYC -> LAX,9h,Clear,56,Medium
+TRK-63575,HOU -> MIA,10h,Rain,99,Critical
+TRK-32925,HOU -> MIA,10h,Heavy Snow,72,Critical
+TRK-94922,MIA -> CHI,27h,High Winds,112,Critical
+TRK-27823,MIA -> CHI,38h,Thunderstorm,73,Critical
+TRK-32282,SEA -> BOS,37h,Rain,82,Critical
+TRK-54093,NYC -> LAX,38h,Thunderstorm,29,Critical
+TRK-66805,SEA -> BOS,30h,Thunderstorm,45,Critical
+TRK-63487,SFO -> SEA,44h,Heavy Snow,105,Critical
+TRK-86222,SFO -> SEA,8h,High Winds,35,Medium
+TRK-80885,HOU -> MIA,23h,Thunderstorm,100,Critical
+TRK-17334,DAL -> DEN,46h,Rain,81,Critical
+TRK-96366,PHX -> DET,9h,Heavy Snow,26,Critical
+TRK-22664,SEA -> BOS,19h,Thunderstorm,68,Critical
+TRK-55554,SFO -> SEA,47h,Heavy Snow,120,Critical
+TRK-36770,DAL -> DEN,41h,High Winds,33,Medium
+TRK-57310,ATL -> SFO,35h,Heavy Snow,24,Critical
+TRK-64958,SFO -> SEA,41h,High Winds,87,Critical
+TRK-51431,MIA -> CHI,46h,Heavy Snow,68,Critical
+TRK-37707,SEA -> BOS,25h,Heavy Snow,2,Critical
+TRK-36727,PHX -> DET,22h,Clear,85,Critical
+TRK-12721,PHX -> DET,16h,Heavy Snow,45,Critical
+TRK-83885,NYC -> LAX,12h,Thunderstorm,39,Critical
+TRK-36524,NYC -> LAX,40h,Thunderstorm,39,Critical
+TRK-80908,SEA -> BOS,42h,Rain,107,Critical
+TRK-89832,PHX -> DET,35h,Heavy Snow,94,Critical
+TRK-93832,HOU -> MIA,29h,Clear,9,Low
+TRK-49561,NYC -> LAX,18h,Clear,91,Critical
+TRK-34625,DAL -> DEN,13h,High Winds,5,Low
+TRK-45281,HOU -> MIA,45h,Rain,58,Medium
+TRK-91076,SFO -> SEA,41h,Rain,44,Medium
+TRK-93124,DAL -> DEN,29h,Thunderstorm,77,Critical
+TRK-55793,MIA -> CHI,44h,High Winds,103,Critical
+TRK-81095,HOU -> MIA,38h,Rain,58,Medium
+TRK-47984,PHX -> DET,27h,Clear,43,Medium
+TRK-10526,ATL -> SFO,40h,High Winds,69,Critical
+TRK-24308,SFO -> SEA,34h,Rain,93,Critical
+TRK-76833,NYC -> LAX,30h,Rain,104,Critical
+TRK-12359,HOU -> MIA,28h,Thunderstorm,18,Critical
+TRK-15434,SEA -> BOS,14h,Clear,115,Critical
+TRK-60840,ATL -> SFO,6h,High Winds,66,Critical
+TRK-12884,MIA -> CHI,23h,Heavy Snow,5,Critical
+TRK-66423,SFO -> SEA,7h,High Winds,57,Medium
+TRK-29075,MIA -> CHI,9h,Thunderstorm,114,Critical
+TRK-94620,NYC -> LAX,2h,Heavy Snow,28,Critical
+TRK-36015,SEA -> BOS,16h,Clear,9,Low
+TRK-86635,SEA -> BOS,26h,Heavy Snow,54,Critical
+TRK-56122,SEA -> BOS,39h,Heavy Snow,18,Critical
+TRK-54182,PHX -> DET,46h,Heavy Snow,85,Critical
+TRK-78897,SEA -> BOS,27h,Rain,103,Critical
+TRK-13127,PHX -> DET,37h,Clear,19,Low
+TRK-33269,DAL -> DEN,8h,Clear,23,Low
+TRK-92828,HOU -> MIA,45h,High Winds,18,Low
+TRK-43280,PHX -> DET,42h,Clear,6,Low
+TRK-21155,ATL -> SFO,20h,Clear,3,Low
+TRK-75176,ATL -> SFO,23h,Rain,115,Critical
+TRK-72381,HOU -> MIA,27h,Rain,100,Critical
+TRK-51506,NYC -> LAX,35h,Clear,61,Critical
+TRK-42573,MIA -> CHI,43h,Thunderstorm,48,Critical
+TRK-19279,HOU -> MIA,20h,Heavy Snow,120,Critical
+TRK-69283,HOU -> MIA,37h,Rain,37,Medium
+TRK-90357,ATL -> SFO,48h,Clear,101,Critical
+TRK-52267,SFO -> SEA,35h,Clear,106,Critical
+TRK-51630,NYC -> LAX,41h,Heavy Snow,8,Critical
+TRK-20763,ATL -> SFO,31h,High Winds,19,Low
+TRK-18953,HOU -> MIA,24h,Clear,11,Low
+TRK-31150,MIA -> CHI,41h,Heavy Snow,18,Critical
+TRK-66931,ATL -> SFO,9h,Clear,62,Critical
+TRK-45414,MIA -> CHI,41h,Heavy Snow,112,Critical
+TRK-57156,HOU -> MIA,47h,High Winds,109,Critical
+TRK-72291,ATL -> SFO,4h,High Winds,5,Low
+TRK-69662,ATL -> SFO,6h,Clear,64,Critical
+TRK-96028,HOU -> MIA,11h,Clear,73,Critical
+TRK-92445,ATL -> SFO,36h,Clear,117,Critical
+TRK-51160,HOU -> MIA,22h,Thunderstorm,30,Critical
+TRK-52548,SEA -> BOS,8h,Rain,67,Critical
+TRK-50897,PHX -> DET,44h,Clear,57,Medium
+TRK-70168,SFO -> SEA,11h,Rain,86,Critical
+TRK-28711,SEA -> BOS,15h,Heavy Snow,113,Critical
+TRK-94987,HOU -> MIA,28h,Rain,76,Critical
+TRK-79505,PHX -> DET,6h,Heavy Snow,92,Critical
+TRK-83795,NYC -> LAX,42h,High Winds,120,Critical
+TRK-74088,ATL -> SFO,36h,Clear,59,Medium
+TRK-73040,PHX -> DET,23h,Rain,64,Critical
+TRK-43225,PHX -> DET,26h,Clear,60,Medium
+TRK-52749,HOU -> MIA,12h,Heavy Snow,28,Critical
+TRK-50943,MIA -> CHI,11h,Clear,34,Medium
+TRK-60715,PHX -> DET,24h,Rain,36,Medium
+TRK-21237,PHX -> DET,38h,High Winds,99,Critical
+TRK-44586,NYC -> LAX,17h,Rain,105,Critical
+TRK-29360,HOU -> MIA,5h,Heavy Snow,19,Critical
+TRK-53478,NYC -> LAX,34h,High Winds,120,Critical
+TRK-86898,ATL -> SFO,38h,Heavy Snow,111,Critical
+TRK-86593,ATL -> SFO,46h,Thunderstorm,101,Critical
+TRK-68940,SFO -> SEA,14h,Clear,65,Critical
+TRK-94790,MIA -> CHI,10h,Thunderstorm,65,Critical
+TRK-70763,MIA -> CHI,41h,Thunderstorm,24,Critical
+TRK-23523,DAL -> DEN,14h,High Winds,37,Medium
+TRK-46929,DAL -> DEN,34h,Heavy Snow,46,Critical
+TRK-61671,PHX -> DET,31h,Rain,6,Medium
+TRK-44304,SEA -> BOS,22h,Heavy Snow,18,Critical
+TRK-79634,ATL -> SFO,18h,Rain,82,Critical
+TRK-56191,NYC -> LAX,10h,High Winds,110,Critical
+TRK-36327,PHX -> DET,21h,Rain,10,Medium
+TRK-98947,NYC -> LAX,40h,Thunderstorm,57,Critical
+TRK-64454,HOU -> MIA,26h,Clear,35,Medium
+TRK-60217,SFO -> SEA,10h,High Winds,30,Low
+TRK-81867,NYC -> LAX,30h,Clear,34,Medium
+TRK-61036,DAL -> DEN,30h,Heavy Snow,57,Critical
+TRK-79841,PHX -> DET,24h,Thunderstorm,5,Critical
+TRK-52161,PHX -> DET,18h,High Winds,74,Critical

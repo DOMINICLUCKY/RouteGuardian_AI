@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ReactLenis } from 'lenis/react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
 import { Menu, AlertTriangle, TrendingUp, Package, Clock, Zap, Send, Bot, LineChart as LineChartIcon, Wifi, Activity } from 'lucide-react';
@@ -148,27 +148,58 @@ export default function App() {
   const [chatInput, setChatInput] = useState('');
   const [chatLog, setChatLog] = useState([]);
   const [activeTab, setActiveTab] = useState('Dashboard');
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  } );
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const [shipmentsRes, atRiskRes] = await Promise.all([
-          fetch('http://localhost:8000/api/shipments'),
-          fetch('http://localhost:8000/api/shipments/at-risk'),
-        ]);
-
-        if (!shipmentsRes.ok || !atRiskRes.ok) {
-          throw new Error('API Error');
+        
+        // Fetch shipments data
+        let shipmentsData = [];
+        try {
+          const shipmentsRes = await fetch('http://localhost:8000/api/shipments');
+          if (shipmentsRes.ok) {
+            const data = await shipmentsRes.json();
+            console.log('Shipments API response:', data);
+            shipmentsData = Array.isArray(data) ? data : (data.data || data.shipments || []);
+          } else {
+            console.warn('Shipments endpoint failed, using dummy data');
+            shipmentsData = DUMMY_SHIPMENTS;
+          }
+        } catch (err) {
+          console.error('Shipments fetch error:', err);
+          shipmentsData = DUMMY_SHIPMENTS;
         }
 
-        const shipmentsData = await shipmentsRes.json();
-        const atRiskData = await atRiskRes.json();
+        // Fetch at-risk data
+        let atRiskCount = 0;
+        try {
+          const atRiskRes = await fetch('http://localhost:8000/api/shipments/at-risk');
+          if (atRiskRes.ok) {
+            const data = await atRiskRes.json();
+            console.log('At-risk API response:', data);
+            setShipments(Array.isArray(data) ? data : []);
+            atRiskCount = data.count || data.length || (Array.isArray(data) ? data.length : 0);
+          }
+        } catch (err) {
+          console.error('At-risk fetch error:', err);
+          atRiskCount = 3;
+        }
 
-        setShipments(Array.isArray(shipmentsData) ? shipmentsData : shipmentsData.data || []);
-        setAtRiskShipments(atRiskData.count || atRiskData.length || 0);
+        
+        setAtRiskShipments(atRiskCount);
+        console.log('Shipments state updated:', shipmentsData.length, 'items');
       } catch (err) {
-        console.error('Fetch failed, using fallback data:', err);
+        console.error('Fetch error:', err);
         setShipments(DUMMY_SHIPMENTS);
         setAtRiskShipments(3);
       } finally {
@@ -376,7 +407,7 @@ export default function App() {
                     <SkeletonRow />
                     <SkeletonRow />
                   </>
-                ) : (
+                ) : shipments && shipments.length > 0 ? (
                   shipments.map((shipment) => (
                     <tr key={shipment.id} className="border-b border-slate-700 hover:bg-slate-700/50 transition">
                       <td className="px-6 py-4 text-sm font-mono text-indigo-400">{shipment.id}</td>
@@ -405,6 +436,12 @@ export default function App() {
                       </td>
                     </tr>
                   ))
+                ) : (
+                  <tr>
+                    <td colSpan="5" className="px-6 py-8 text-center text-slate-400">
+                      No shipments data available. Check browser console for API errors.
+                    </td>
+                  </tr>
                 )}
               </tbody>
             </table>
@@ -419,7 +456,7 @@ export default function App() {
           </h3>
           
           {/* Chat Messages */}
-          <div className="space-y-3 mb-4 max-h-64 overflow-y-auto bg-slate-900/50 p-4 rounded-lg">
+          <div className="space-y-3 mb-4 h-[350px] overflow-y-auto bg-slate-900/50 p-4 rounded-lg">
             {chatLog.length === 0 ? (
               <div className="text-slate-500 text-sm italic text-center py-8">
                 Ask me about shipment risks...
@@ -437,6 +474,7 @@ export default function App() {
                 </div>
               ))
             )}
+            <div ref={messagesEndRef} />
           </div>
           
           {/* Chat Input */}
