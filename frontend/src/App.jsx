@@ -70,6 +70,34 @@ const AI_ALERTS = [
   'Predictive Alert: 72-hour forecast shows 3 additional delays incoming',
 ];
 
+// Order History Data for Client
+const CLIENT_ORDER_HISTORY = [
+  {
+    id: 'ORD-2024-001',
+    shipmentId: 'SHIP-098',
+    route: 'NYC → LA',
+    date: '2024-03-10',
+    delivered: '2024-03-12',
+    status: 'Delivered',
+  },
+  {
+    id: 'ORD-2024-002',
+    shipmentId: 'SHIP-087',
+    route: 'Chicago → Miami',
+    date: '2024-03-08',
+    delivered: '2024-03-10',
+    status: 'Delivered',
+  },
+  {
+    id: 'ORD-2024-003',
+    shipmentId: 'SHIP-065',
+    route: 'Seattle → Atlanta',
+    date: '2024-03-05',
+    delivered: '2024-03-08',
+    status: 'Delivered',
+  },
+];
+
 // Standalone AIToolsView Component (Outside App to prevent re-renders)
 const AIToolsView = () => (
   <div className="space-y-8">
@@ -137,7 +165,181 @@ const AIToolsView = () => (
   </div>
 );
 
+// Login Screen Component
+const LoginScreen = ({ onSelectRole }) => (
+  <div className="flex min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 items-center justify-center overflow-hidden">
+    {/* Animated background elements */}
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute -top-40 -right-40 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl" />
+      <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl" />
+    </div>
+
+    {/* Content */}
+    <div className="relative z-10 text-center px-4 max-w-md w-full">
+      {/* Logo/Branding */}
+      <div className="mb-12">
+        <h1 className="text-5xl font-bold text-indigo-400 mb-2">RouteGuardian</h1>
+        <p className="text-slate-300 text-lg">AI-Powered Logistics Engine</p>
+        <div className="mt-4 h-1 w-20 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto rounded-full" />
+      </div>
+
+      {/* Description */}
+      <p className="text-slate-400 mb-12 text-sm leading-relaxed">
+        Real-time shipment tracking, risk monitoring, and AI-powered logistics optimization. Choose your role to get started.
+      </p>
+
+      {/* Buttons */}
+      <div className="space-y-4">
+        <button
+          onClick={() => onSelectRole('manager')}
+          className="w-full py-4 px-6 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white font-bold rounded-lg transition-all transform hover:scale-105 shadow-lg"
+        >
+          <span className="text-lg">📊 Login as Logistics Manager</span>
+          <p className="text-xs text-indigo-200 mt-1">Full dashboard, AI tools, analytics</p>
+        </button>
+
+        <button
+          onClick={() => onSelectRole('client')}
+          className="w-full py-4 px-6 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white font-bold rounded-lg transition-all transform hover:scale-105 shadow-lg"
+        >
+          <span className="text-lg">📦 Login as Client</span>
+          <p className="text-xs text-emerald-200 mt-1">Track your shipments, view history</p>
+        </button>
+      </div>
+
+      {/* Footer */}
+      <p className="text-slate-500 text-xs mt-12">v1.0 BETA | Hackathon Edition</p>
+    </div>
+  </div>
+);
+
+// Client Dashboard Component
+const ClientDashboard = ({ onLogout }) => (
+  <div className="min-h-screen bg-slate-900 text-white">
+    {/* Header */}
+    <header className="bg-slate-800 border-b border-slate-700 sticky top-0 z-40 shadow-lg">
+      <div className="px-8 py-6 flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold">Welcome back, Acme Corp</h2>
+          <p className="text-sm text-slate-400 mt-1">Shipment tracking & order management</p>
+        </div>
+        <button
+          onClick={onLogout}
+          className="px-6 py-2 bg-red-600/20 border border-red-500/50 text-red-300 hover:bg-red-600/40 rounded-lg font-medium transition text-sm"
+        >
+          Log Out
+        </button>
+      </div>
+    </header>
+
+    {/* Main Content */}
+    <div className="p-8 space-y-8 max-w-6xl mx-auto">
+      {/* Track Active Shipment Card */}
+      <div className="bg-slate-800 rounded-lg p-8 border border-slate-700 shadow-xl">
+        <h3 className="text-2xl font-bold mb-6">Track Active Shipment</h3>
+        <div className="bg-slate-900/50 rounded-lg p-6 border border-slate-700">
+          <div className="mb-4">
+            <p className="text-sm text-slate-300 mb-2">
+              <span className="font-semibold">Shipment ID:</span> <span className="text-indigo-300 font-mono">SHIP-2024-001</span>
+            </p>
+            <p className="text-sm text-slate-300">
+              <span className="font-semibold">Contents:</span> <span className="text-slate-100">Electronics Components</span>
+            </p>
+            <p className="text-sm text-slate-300">
+              <span className="font-semibold">Expected Delivery:</span> <span className="text-emerald-300">March 15, 2024</span>
+            </p>
+          </div>
+
+          {/* Progress Bar */}
+          <div className="mt-8">
+            <div className="flex items-center justify-between mb-4">
+              <div className="text-center flex-1">
+                <div className="w-10 h-10 bg-emerald-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">
+                  ✓
+                </div>
+                <p className="text-xs font-semibold text-slate-300">Origin</p>
+                <p className="text-xs text-slate-500">NYC</p>
+              </div>
+
+              <div className="flex-1 flex items-center justify-center">
+                <div className="h-1 flex-1 bg-gradient-to-r from-emerald-500 to-indigo-500 mx-2 rounded-full" />
+              </div>
+
+              <div className="text-center flex-1">
+                <div className="w-10 h-10 bg-indigo-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">
+                  ⊙
+                </div>
+                <p className="text-xs font-semibold text-slate-300">In Transit</p>
+                <p className="text-xs text-slate-500">Chicago, IL</p>
+              </div>
+
+              <div className="flex-1 flex items-center justify-center">
+                <div className="h-1 flex-1 bg-slate-700 mx-2 rounded-full" />
+              </div>
+
+              <div className="text-center flex-1">
+                <div className="w-10 h-10 bg-slate-600 rounded-full mx-auto mb-2 flex items-center justify-center text-slate-300 font-bold">
+                  →
+                </div>
+                <p className="text-xs font-semibold text-slate-300">Destination</p>
+                <p className="text-xs text-slate-500">Los Angeles, CA</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Status Card */}
+          <div className="mt-6 bg-indigo-500/10 border border-indigo-500/50 rounded-lg p-4">
+            <p className="text-sm text-indigo-300 font-semibold">📍 Currently in Transit</p>
+            <p className="text-sm text-indigo-200 mt-1">Your shipment is on schedule and expected to arrive on March 15, 2024.</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Order History Table */}
+      <div className="bg-slate-800 rounded-lg border border-slate-700 shadow-xl overflow-hidden">
+        <div className="px-6 py-4 border-b border-slate-700 bg-slate-900">
+          <h3 className="text-lg font-semibold">Order History</h3>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-slate-900/50">
+              <tr className="border-b border-slate-700">
+                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-300">Order ID</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-300">Route</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-300">Ordered Date</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-300">Delivered Date</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-300">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {CLIENT_ORDER_HISTORY.map((order) => (
+                <tr key={order.id} className="border-b border-slate-700 hover:bg-slate-700/50 transition">
+                  <td className="px-6 py-4 text-sm font-mono text-indigo-400">{order.id}</td>
+                  <td className="px-6 py-4 text-sm text-slate-200">{order.route}</td>
+                  <td className="px-6 py-4 text-sm text-slate-200">{order.date}</td>
+                  <td className="px-6 py-4 text-sm text-slate-200">{order.delivered}</td>
+                  <td className="px-6 py-4">
+                    <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/50">
+                      {order.status}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="text-center text-xs text-slate-500 border-t border-slate-700 pt-6">
+        <p>RouteGuardian Client Portal | Secure Shipment Tracking | Updated: {new Date().toLocaleTimeString()}</p>
+      </div>
+    </div>
+  </div>
+);
+
 export default function App() {
+  const [userRole, setUserRole] = useState(null); // null | 'manager' | 'client'
   const [shipments, setShipments] = useState([]);
   const [atRiskShipments, setAtRiskShipments] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -156,14 +358,15 @@ export default function App() {
 
   useEffect(() => {
     scrollToBottom();
-  } );
+  }, [chatLog]);
 
   useEffect(() => {
+    if (userRole !== 'manager') return;
+
     const fetchData = async () => {
       try {
         setLoading(true);
         
-        // Fetch shipments data
         let shipmentsData = [];
         try {
           const shipmentsRes = await fetch('http://localhost:8000/api/shipments');
@@ -180,7 +383,6 @@ export default function App() {
           shipmentsData = DUMMY_SHIPMENTS;
         }
 
-        // Fetch at-risk data
         let atRiskCount = 0;
         try {
           const atRiskRes = await fetch('http://localhost:8000/api/shipments/at-risk');
@@ -195,7 +397,6 @@ export default function App() {
           atRiskCount = 3;
         }
 
-        
         setAtRiskShipments(atRiskCount);
         console.log('Shipments state updated:', shipmentsData.length, 'items');
       } catch (err) {
@@ -209,13 +410,12 @@ export default function App() {
 
     fetchData();
 
-    // Rotate AI alerts every 5 seconds
     const interval = setInterval(() => {
       setAiAlertIndex((prev) => (prev + 1) % AI_ALERTS.length);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [userRole]);
 
   const handleSendMessage = async (e) => {
     e?.preventDefault();
@@ -249,7 +449,6 @@ export default function App() {
   const onTimePercentage = 87;
   const totalShipments = shipments.length || 5;
 
-  // Analytics Data
   const ANALYTICS_DATA = [
     { time: '00:00', efficiency: 75 },
     { time: '04:00', efficiency: 82 },
@@ -266,7 +465,6 @@ export default function App() {
     { id: 4, level: 'info', message: 'System performing optimally', time: '15 min ago' },
   ];
 
-  // Skeleton Loader Component
   const SkeletonCard = () => (
     <div className="bg-slate-800 rounded-lg p-6 animate-pulse">
       <div className="h-4 bg-slate-700 rounded w-1/3 mb-4" />
@@ -285,12 +483,9 @@ export default function App() {
     </tr>
   );
 
-  // View Components
   const DashboardView = () => (
     <div className="space-y-8">
-      {/* KPI Cards Row */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Card 1: Total Active Shipments with Chart */}
         <div className="bg-slate-800 rounded-lg p-6 border border-slate-700 shadow-xl overflow-hidden">
           {loading ? (
             <SkeletonCard />
@@ -340,7 +535,6 @@ export default function App() {
           )}
         </div>
 
-        {/* Card 2: On-Time Deliveries */}
         <div className="bg-slate-800 rounded-lg p-6 border border-slate-700 shadow-xl">
           {loading ? (
             <SkeletonCard />
@@ -362,7 +556,6 @@ export default function App() {
           )}
         </div>
 
-        {/* Card 3: High-Risk Shipments */}
         <div className="bg-slate-800 rounded-lg p-6 border border-slate-700 shadow-xl">
           {loading ? (
             <SkeletonCard />
@@ -382,9 +575,7 @@ export default function App() {
         </div>
       </div>
 
-      {/* Main Grid: Risk Table + AI Feed */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Shipment Risk Radar Table */}
         <div className="lg:col-span-2 bg-slate-800 rounded-lg border border-slate-700 shadow-xl overflow-hidden">
           <div className="px-6 py-4 border-b border-slate-700 bg-slate-900">
             <h3 className="text-lg font-semibold">Delayed Shipments</h3>
@@ -448,15 +639,13 @@ export default function App() {
           </div>
         </div>
 
-        {/* AI Intervention Feed */}
         <div className="bg-slate-800 p-6 rounded-xl border border-slate-700">
           <h3 className="text-lg font-semibold text-indigo-400 mb-4 flex items-center gap-2">
             <Bot className="w-5 h-5" />
             AI Chat
           </h3>
           
-          {/* Chat Messages */}
-          <div className="space-y-3 mb-4 h-[350px] overflow-y-auto bg-slate-900/50 p-4 rounded-lg">
+          <div className="space-y-3 mb-4 max-h-64 overflow-y-auto bg-slate-900/50 p-4 rounded-lg">
             {chatLog.length === 0 ? (
               <div className="text-slate-500 text-sm italic text-center py-8">
                 Ask me about shipment risks...
@@ -477,7 +666,6 @@ export default function App() {
             <div ref={messagesEndRef} />
           </div>
           
-          {/* Chat Input */}
           <form onSubmit={handleSendMessage} className="flex gap-2">
             <input
               type="text"
@@ -598,6 +786,16 @@ export default function App() {
     </div>
   );
 
+  // Conditional Rendering based on User Role
+  if (userRole === null) {
+    return <LoginScreen onSelectRole={setUserRole} />;
+  }
+
+  if (userRole === 'client') {
+    return <ClientDashboard onLogout={() => setUserRole(null)} />;
+  }
+
+  // Manager Dashboard
   return (
     <ReactLenis root>
       <div className="flex min-h-screen bg-slate-900 text-white overflow-x-hidden">
@@ -642,14 +840,21 @@ export default function App() {
             ))}
           </nav>
 
-          <div className={`p-4 border-t border-slate-700 ${!sidebarOpen && 'text-center'}`}>
+          <div className={`p-4 border-t border-slate-700 space-y-2 ${!sidebarOpen && 'text-center'}`}>
+            <button
+              onClick={() => setUserRole(null)}
+              className={`w-full px-3 py-2 bg-red-600/20 border border-red-500/50 text-red-300 hover:bg-red-600/40 rounded-lg font-medium transition text-xs ${
+                !sidebarOpen && 'px-2'
+              }`}
+            >
+              {sidebarOpen ? '🚪 Log Out' : '⊗'}
+            </button>
             <p className="text-xs text-slate-400">v1.0 BETA</p>
           </div>
         </div>
 
         {/* Main Content */}
-        <div className={`flex-1 ${sidebarOpen ? 'ml-64' : 'ml-20'} transition-all duration-300`}
-        >
+        <div className={`flex-1 ${sidebarOpen ? 'ml-64' : 'ml-20'} transition-all duration-300`}>
           {/* Header */}
           <header className="bg-slate-800 border-b border-slate-700 sticky top-0 z-40 shadow-lg">
             <div className="px-8 py-6 flex items-center justify-between">
@@ -666,7 +871,6 @@ export default function App() {
 
           {/* Main Content Area */}
           <div className="p-8">
-            {/* Conditional Content Rendering */}
             {activeTab === 'Dashboard' && <DashboardView />}
             {activeTab === 'Analytics' && <AnalyticsView />}
             {activeTab === 'Alerts' && <AlertsView />}
@@ -681,10 +885,8 @@ export default function App() {
             {selectedShipment && (
               <div className="fixed inset-0 bg-slate-900/90 backdrop-blur-sm flex items-center justify-center z-50">
                 <div className="bg-slate-800 border border-slate-700 rounded-lg shadow-2xl p-8 max-w-md w-full mx-4">
-                  {/* Modal Header */}
                   <h2 className="text-2xl font-bold mb-6 text-indigo-400">AI Intervention Panel</h2>
 
-                  {/* Shipment Info */}
                   <div className="bg-slate-900/50 rounded-lg p-4 mb-5 border border-slate-700">
                     <p className="text-sm text-slate-300 mb-2">
                       <span className="font-semibold">Shipment ID:</span> <span className="text-indigo-300 font-mono">{selectedShipment.id}</span>
@@ -694,19 +896,16 @@ export default function App() {
                     </p>
                   </div>
 
-                  {/* AI Analysis - Warning Box */}
                   <div className="bg-orange-500/10 border border-orange-500/50 rounded-lg p-4 mb-4">
                     <p className="text-sm text-orange-300 font-semibold mb-1">⚠️ AI Analysis</p>
                     <p className="text-sm text-orange-200">Severe weather detected on route. 85% probability of missing SLA.</p>
                   </div>
 
-                  {/* AI Recommendation - Green Box */}
                   <div className="bg-emerald-500/10 border border-emerald-500/50 rounded-lg p-4 mb-6">
                     <p className="text-sm text-emerald-300 font-semibold mb-1">✓ AI Recommendation</p>
                     <p className="text-sm text-emerald-200">Reroute via Air Freight. Estimated delay avoided: 14 hours.</p>
                   </div>
 
-                  {/* Modal Buttons */}
                   <div className="flex gap-3">
                     <button
                       onClick={() => setSelectedShipment(null)}
@@ -716,7 +915,6 @@ export default function App() {
                     </button>
                     <button
                       onClick={() => {
-                        // Remove the shipment from the list
                         setShipments(shipments.filter(s => s.id !== selectedShipment.id));
                         setSelectedShipment(null);
                       }}
@@ -734,3 +932,4 @@ export default function App() {
     </ReactLenis>
   );
 }
+
