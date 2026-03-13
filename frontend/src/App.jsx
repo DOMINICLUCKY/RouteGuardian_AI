@@ -1,935 +1,432 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ReactLenis } from 'lenis/react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
-import { Menu, AlertTriangle, TrendingUp, Package, Clock, Zap, Send, Bot, LineChart as LineChartIcon, Wifi, Activity } from 'lucide-react';
+import { auth, googleProvider } from './firebase';
+import { signInWithPopup, signOut, onAuthStateChanged } from 'firebase/auth';
+import { AreaChart, Area, ResponsiveContainer, Tooltip as RechartsTooltip, XAxis } from 'recharts';
 
-// Fallback Dummy Data
-const DUMMY_SHIPMENTS = [
-  {
-    id: 'SHIP-001',
-    route: 'NYC → LAX',
-    eta: '2h 45m',
-    status: 'Delayed',
-    riskLevel: 'Critical',
-    destination: 'Los Angeles, CA',
-    carrier: 'CargoX Air',
-  },
-  {
-    id: 'SHIP-002',
-    route: 'MIA → Chicago',
-    eta: '4h 20m',
-    status: 'At Risk',
-    riskLevel: 'High',
-    destination: 'Chicago, IL',
-    carrier: 'FedEx Prime',
-  },
-  {
-    id: 'SHIP-003',
-    route: 'Seattle → Boston',
-    eta: '8h 15m',
-    status: 'Delayed',
-    riskLevel: 'Critical',
-    destination: 'Boston, MA',
-    carrier: 'UPS Logistics',
-  },
-  {
-    id: 'SHIP-004',
-    route: 'Dallas → Denver',
-    eta: '3h 30m',
-    status: 'At Risk',
-    riskLevel: 'Medium',
-    destination: 'Denver, CO',
-    carrier: 'DHL Express',
-  },
-  {
-    id: 'SHIP-005',
-    route: 'Phoenix → Detroit',
-    eta: '6h 00m',
-    status: 'Delayed',
-    riskLevel: 'Critical',
-    destination: 'Detroit, MI',
-    carrier: 'YRC Worldwide',
-  },
+// --- MOCK DATA FOR THE INTERACTIVE CHART ---
+const shipmentData = [
+  { name: 'Mon', shipments: 120 },
+  { name: 'Tue', shipments: 150 },
+  { name: 'Wed', shipments: 140 },
+  { name: 'Thu', shipments: 170 },
+  { name: 'Fri', shipments: 160 },
+  { name: 'Sat', shipments: 110 },
+  { name: 'Sun', shipments: 90 },
 ];
 
-const TRENDLINE_DATA = [
-  { day: 'Mon', shipments: 120 },
-  { day: 'Tue', shipments: 145 },
-  { day: 'Wed', shipments: 132 },
-  { day: 'Thu', shipments: 158 },
-  { day: 'Fri', shipments: 172 },
-  { day: 'Sat', shipments: 145 },
-  { day: 'Sun', shipments: 165 },
-];
-
-const AI_ALERTS = [
-  'AI Alert: Reroute Flight 402 due to Storm Front over Midwest',
-  'System Notice: Weather delays detected on TX-NM corridor',
-  'AI Recommendation: Accelerate shipment SHIP-001 before closure window',
-  'Traffic Alert: I-40 congestion detected, alternate routes suggested',
-  'Predictive Alert: 72-hour forecast shows 3 additional delays incoming',
-];
-
-// Order History Data for Client
-const CLIENT_ORDER_HISTORY = [
-  {
-    id: 'ORD-2024-001',
-    shipmentId: 'SHIP-098',
-    route: 'NYC → LA',
-    date: '2024-03-10',
-    delivered: '2024-03-12',
-    status: 'Delivered',
-  },
-  {
-    id: 'ORD-2024-002',
-    shipmentId: 'SHIP-087',
-    route: 'Chicago → Miami',
-    date: '2024-03-08',
-    delivered: '2024-03-10',
-    status: 'Delivered',
-  },
-  {
-    id: 'ORD-2024-003',
-    shipmentId: 'SHIP-065',
-    route: 'Seattle → Atlanta',
-    date: '2024-03-05',
-    delivered: '2024-03-08',
-    status: 'Delivered',
-  },
-];
-
-// Standalone AIToolsView Component (Outside App to prevent re-renders)
-const AIToolsView = () => (
-  <div className="space-y-8">
-    <div>
-      <h2 className="text-2xl font-bold mb-6">AI Tools & Capabilities</h2>
-    </div>
-
-    <div className="bg-slate-800 rounded-lg p-8 border border-slate-700 shadow-xl">
-      <h3 className="text-xl font-semibold mb-6 flex items-center gap-2">
-        <Zap className="text-yellow-400" size={24} />
-        Predictive Weather Routing Engine
-      </h3>
-
-      <div className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">Origin City</label>
-          <input
-            type="text"
-            defaultValue=""
-            placeholder="New York, NY"
-            className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">Destination City</label>
-          <input
-            type="text"
-            defaultValue=""
-            placeholder="Los Angeles, CA"
-            className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">Shipment Weight (lbs)</label>
-          <input
-            type="number"
-            defaultValue=""
-            placeholder="500"
-            className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
-        </div>
-
-        <button
-          onClick={() => alert('Running predictive weather routing sequence...')}
-          className="w-full mt-6 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold py-3 rounded-lg transition-all"
-        >
-          <Zap size={18} className="inline mr-2" />
-          Run AI Simulation
-        </button>
-      </div>
-    </div>
-
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div className="bg-slate-800 rounded-lg p-6 border border-slate-700">
-        <h4 className="text-lg font-semibold mb-3">Real-Time Weather Analysis</h4>
-        <p className="text-slate-400 text-sm">Advanced AI scans weather patterns across all active routes and predicts delays up to 72 hours in advance.</p>
-      </div>
-      <div className="bg-slate-800 rounded-lg p-6 border border-slate-700">
-        <h4 className="text-lg font-semibold mb-3">Traffic Prediction Model</h4>
-        <p className="text-slate-400 text-sm">Machine learning model trained on historical traffic data to optimize route selection and minimize delays.</p>
-      </div>
+// ----------------------------------------------------------------------
+// 1. LOGIN SCREEN
+// ----------------------------------------------------------------------
+const LoginScreen = ({ onLogin }) => (
+  <div className="min-h-screen bg-[#050810] flex items-center justify-center p-4 font-sans text-slate-200">
+    <div className="max-w-md w-full bg-[#0a0f1c] border border-slate-800 rounded-xl p-10 shadow-2xl text-center">
+      <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">RouteGuardian <span className="text-indigo-500 font-normal">AI</span></h1>
+      <p className="text-slate-400 mb-8 font-medium text-sm">Real-time Shipment Risk Monitoring</p>
+      <button onClick={onLogin} className="w-full flex items-center justify-center gap-3 bg-[#6366f1] hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-lg transition-all shadow-lg">
+        <svg className="w-5 h-5 bg-white rounded-full p-0.5" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Sign In with Google
+      </button>
     </div>
   </div>
 );
 
-// Login Screen Component
-const LoginScreen = ({ onSelectRole }) => (
-  <div className="flex min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 items-center justify-center overflow-hidden">
-    {/* Animated background elements */}
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      <div className="absolute -top-40 -right-40 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl" />
-      <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl" />
-    </div>
-
-    {/* Content */}
-    <div className="relative z-10 text-center px-4 max-w-md w-full">
-      {/* Logo/Branding */}
-      <div className="mb-12">
-        <h1 className="text-5xl font-bold text-indigo-400 mb-2">RouteGuardian</h1>
-        <p className="text-slate-300 text-lg">AI-Powered Logistics Engine</p>
-        <div className="mt-4 h-1 w-20 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto rounded-full" />
-      </div>
-
-      {/* Description */}
-      <p className="text-slate-400 mb-12 text-sm leading-relaxed">
-        Real-time shipment tracking, risk monitoring, and AI-powered logistics optimization. Choose your role to get started.
-      </p>
-
-      {/* Buttons */}
-      <div className="space-y-4">
-        <button
-          onClick={() => onSelectRole('manager')}
-          className="w-full py-4 px-6 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white font-bold rounded-lg transition-all transform hover:scale-105 shadow-lg"
-        >
-          <span className="text-lg">📊 Login as Logistics Manager</span>
-          <p className="text-xs text-indigo-200 mt-1">Full dashboard, AI tools, analytics</p>
-        </button>
-
-        <button
-          onClick={() => onSelectRole('client')}
-          className="w-full py-4 px-6 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white font-bold rounded-lg transition-all transform hover:scale-105 shadow-lg"
-        >
-          <span className="text-lg">📦 Login as Client</span>
-          <p className="text-xs text-emerald-200 mt-1">Track your shipments, view history</p>
-        </button>
-      </div>
-
-      {/* Footer */}
-      <p className="text-slate-500 text-xs mt-12">v1.0 BETA | Hackathon Edition</p>
-    </div>
-  </div>
-);
-
-// Client Dashboard Component
-const ClientDashboard = ({ onLogout }) => (
-  <div className="min-h-screen bg-slate-900 text-white">
-    {/* Header */}
-    <header className="bg-slate-800 border-b border-slate-700 sticky top-0 z-40 shadow-lg">
-      <div className="px-8 py-6 flex items-center justify-between">
+// ----------------------------------------------------------------------
+// 2. CLIENT DASHBOARD (Restored exactly to Screenshot 1)
+// ----------------------------------------------------------------------
+const ClientDashboard = ({ user, onLogout }) => (
+  <div className="min-h-screen bg-[#050810] text-slate-200 p-8 font-sans">
+    <div className="max-w-5xl mx-auto">
+      <div className="flex justify-between items-center mb-10">
         <div>
-          <h2 className="text-2xl font-bold">Welcome back, Acme Corp</h2>
-          <p className="text-sm text-slate-400 mt-1">Shipment tracking & order management</p>
+          <h1 className="text-3xl font-bold text-white tracking-tight">Welcome back, {user.displayName}</h1>
+          <p className="text-slate-400 mt-1 text-sm">Here is the status of your recent shipments.</p>
         </div>
-        <button
-          onClick={onLogout}
-          className="px-6 py-2 bg-red-600/20 border border-red-500/50 text-red-300 hover:bg-red-600/40 rounded-lg font-medium transition text-sm"
-        >
-          Log Out
-        </button>
-      </div>
-    </header>
-
-    {/* Main Content */}
-    <div className="p-8 space-y-8 max-w-6xl mx-auto">
-      {/* Track Active Shipment Card */}
-      <div className="bg-slate-800 rounded-lg p-8 border border-slate-700 shadow-xl">
-        <h3 className="text-2xl font-bold mb-6">Track Active Shipment</h3>
-        <div className="bg-slate-900/50 rounded-lg p-6 border border-slate-700">
-          <div className="mb-4">
-            <p className="text-sm text-slate-300 mb-2">
-              <span className="font-semibold">Shipment ID:</span> <span className="text-indigo-300 font-mono">SHIP-2024-001</span>
-            </p>
-            <p className="text-sm text-slate-300">
-              <span className="font-semibold">Contents:</span> <span className="text-slate-100">Electronics Components</span>
-            </p>
-            <p className="text-sm text-slate-300">
-              <span className="font-semibold">Expected Delivery:</span> <span className="text-emerald-300">March 15, 2024</span>
-            </p>
-          </div>
-
-          {/* Progress Bar */}
-          <div className="mt-8">
-            <div className="flex items-center justify-between mb-4">
-              <div className="text-center flex-1">
-                <div className="w-10 h-10 bg-emerald-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">
-                  ✓
-                </div>
-                <p className="text-xs font-semibold text-slate-300">Origin</p>
-                <p className="text-xs text-slate-500">NYC</p>
-              </div>
-
-              <div className="flex-1 flex items-center justify-center">
-                <div className="h-1 flex-1 bg-gradient-to-r from-emerald-500 to-indigo-500 mx-2 rounded-full" />
-              </div>
-
-              <div className="text-center flex-1">
-                <div className="w-10 h-10 bg-indigo-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">
-                  ⊙
-                </div>
-                <p className="text-xs font-semibold text-slate-300">In Transit</p>
-                <p className="text-xs text-slate-500">Chicago, IL</p>
-              </div>
-
-              <div className="flex-1 flex items-center justify-center">
-                <div className="h-1 flex-1 bg-slate-700 mx-2 rounded-full" />
-              </div>
-
-              <div className="text-center flex-1">
-                <div className="w-10 h-10 bg-slate-600 rounded-full mx-auto mb-2 flex items-center justify-center text-slate-300 font-bold">
-                  →
-                </div>
-                <p className="text-xs font-semibold text-slate-300">Destination</p>
-                <p className="text-xs text-slate-500">Los Angeles, CA</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Status Card */}
-          <div className="mt-6 bg-indigo-500/10 border border-indigo-500/50 rounded-lg p-4">
-            <p className="text-sm text-indigo-300 font-semibold">📍 Currently in Transit</p>
-            <p className="text-sm text-indigo-200 mt-1">Your shipment is on schedule and expected to arrive on March 15, 2024.</p>
-          </div>
-        </div>
+        <button onClick={onLogout} className="bg-slate-800 hover:bg-slate-700 text-slate-300 px-5 py-2 rounded-md border border-slate-700 transition-all font-medium text-sm">Sign Out</button>
       </div>
 
-      {/* Order History Table */}
-      <div className="bg-slate-800 rounded-lg border border-slate-700 shadow-xl overflow-hidden">
-        <div className="px-6 py-4 border-b border-slate-700 bg-slate-900">
-          <h3 className="text-lg font-semibold">Order History</h3>
+      {/* Track Active Order Card */}
+      <div className="bg-[#0a0f1c] border border-slate-800 rounded-xl p-8 mb-6 shadow-xl">
+        <h2 className="text-lg font-bold text-white mb-6">Track Active Order: #TRK-88492</h2>
+        <div className="flex justify-between text-xs font-medium text-slate-400 mb-2">
+          <span className="text-indigo-400">Origin (NYC)</span>
+          <span className="text-indigo-400">In Transit</span>
+          <span>Destination (LAX)</span>
         </div>
+        <div className="w-full bg-slate-800 rounded-full h-2 mb-4">
+          <div className="bg-[#6366f1] h-2 rounded-full w-[60%] shadow-[0_0_10px_rgba(99,102,241,0.5)]"></div>
+        </div>
+        <p className="text-xs text-slate-500">Estimated Arrival: Tomorrow at 2:00 PM</p>
+      </div>
+
+      {/* Order History Card */}
+      <div className="bg-[#0a0f1c] border border-slate-800 rounded-xl p-8 shadow-xl">
+        <h2 className="text-lg font-bold text-white mb-6">Order History</h2>
         <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-slate-900/50">
-              <tr className="border-b border-slate-700">
-                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-300">Order ID</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-300">Route</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-300">Ordered Date</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-300">Delivered Date</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-300">Status</th>
+          <table className="w-full text-left">
+            <thead className="text-slate-400 text-sm border-b border-slate-800">
+              <tr>
+                <th className="pb-3 font-medium">Order ID</th>
+                <th className="pb-3 font-medium">Route</th>
+                <th className="pb-3 font-medium">Date</th>
+                <th className="pb-3 font-medium">Status</th>
               </tr>
             </thead>
-            <tbody>
-              {CLIENT_ORDER_HISTORY.map((order) => (
-                <tr key={order.id} className="border-b border-slate-700 hover:bg-slate-700/50 transition">
-                  <td className="px-6 py-4 text-sm font-mono text-indigo-400">{order.id}</td>
-                  <td className="px-6 py-4 text-sm text-slate-200">{order.route}</td>
-                  <td className="px-6 py-4 text-sm text-slate-200">{order.date}</td>
-                  <td className="px-6 py-4 text-sm text-slate-200">{order.delivered}</td>
-                  <td className="px-6 py-4">
-                    <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/50">
-                      {order.status}
-                    </span>
-                  </td>
-                </tr>
-              ))}
+            <tbody className="text-sm">
+              <tr className="border-b border-slate-800/50 hover:bg-slate-800/20">
+                <td className="py-4 text-indigo-400 text-xs font-mono">TRK-22941</td>
+                <td className="py-4 text-slate-300">MIA -&gt; CHI</td>
+                <td className="py-4 text-slate-300">Oct 12, 2023</td>
+                <td className="py-4"><span className="bg-emerald-950/40 text-emerald-400 px-3 py-1 rounded-full text-[10px] border border-emerald-900">Delivered</span></td>
+              </tr>
+              <tr className="hover:bg-slate-800/20">
+                <td className="py-4 text-indigo-400 text-xs font-mono">TRK-10488</td>
+                <td className="py-4 text-slate-300">SEA -&gt; BOS</td>
+                <td className="py-4 text-slate-300">Oct 05, 2023</td>
+                <td className="py-4"><span className="bg-emerald-950/40 text-emerald-400 px-3 py-1 rounded-full text-[10px] border border-emerald-900">Delivered</span></td>
+              </tr>
             </tbody>
           </table>
         </div>
       </div>
-
-      {/* Footer */}
-      <div className="text-center text-xs text-slate-500 border-t border-slate-700 pt-6">
-        <p>RouteGuardian Client Portal | Secure Shipment Tracking | Updated: {new Date().toLocaleTimeString()}</p>
-      </div>
     </div>
   </div>
 );
 
-export default function App() {
-  const [userRole, setUserRole] = useState(null); // null | 'manager' | 'client'
+// ----------------------------------------------------------------------
+// 3. MANAGER DASHBOARD
+// ----------------------------------------------------------------------
+const ManagerDashboard = ({ user, onLogout }) => {
   const [shipments, setShipments] = useState([]);
-  const [atRiskShipments, setAtRiskShipments] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [aiAlertIndex, setAiAlertIndex] = useState(0);
-  const [selectedShipment, setSelectedShipment] = useState(null);
-  const [chatInput, setChatInput] = useState('');
-  const [chatLog, setChatLog] = useState([]);
-  const [activeTab, setActiveTab] = useState('Dashboard');
+  const [chatInput, setChatInput] = useState("");
+  const [chatLog, setChatLog] = useState([
+    { role: 'ai', text: "estimate as soon as possible." },
+    { role: 'user', text: "Write a polite 5-sentence email to a client apologizing that their shipment of electronics was delayed by a thunderstorm." },
+    { role: 'ai', text: "Subject: Update Regarding Your Electronics Shipment\n\n[Client Name/Order Number] We sincerely apologize for the unexpected delay concerning your recent electronics shipment. This was unfortunately caused by severe thunderstorms impacting our transit routes yesterday. Our team is actively working to minimize further disruption and expedite delivery. Your shipment is now expected to arrive within the next [New ETA, e.g., 24-48 hours]. We appreciate your understanding and will provide updated tracking information as soon as it's available." }
+  ]);
+  const [activeTab, setActiveTab] = useState('dashboard');
   const messagesEndRef = useRef(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }); }, [chatLog]);
 
   useEffect(() => {
-    scrollToBottom();
-  }, [chatLog]);
-
-  useEffect(() => {
-    if (userRole !== 'manager') return;
-
     const fetchData = async () => {
       try {
-        setLoading(true);
-        
-        let shipmentsData = [];
-        try {
-          const shipmentsRes = await fetch('http://localhost:8000/api/shipments');
-          if (shipmentsRes.ok) {
-            const data = await shipmentsRes.json();
-            console.log('Shipments API response:', data);
-            shipmentsData = Array.isArray(data) ? data : (data.data || data.shipments || []);
-          } else {
-            console.warn('Shipments endpoint failed, using dummy data');
-            shipmentsData = DUMMY_SHIPMENTS;
-          }
-        } catch (err) {
-          console.error('Shipments fetch error:', err);
-          shipmentsData = DUMMY_SHIPMENTS;
-        }
-
-        let atRiskCount = 0;
-        try {
-          const atRiskRes = await fetch('http://localhost:8000/api/shipments/at-risk');
-          if (atRiskRes.ok) {
-            const data = await atRiskRes.json();
-            console.log('At-risk API response:', data);
-            setShipments(Array.isArray(data) ? data : []);
-            atRiskCount = data.count || data.length || (Array.isArray(data) ? data.length : 0);
-          }
-        } catch (err) {
-          console.error('At-risk fetch error:', err);
-          atRiskCount = 3;
-        }
-
-        setAtRiskShipments(atRiskCount);
-        console.log('Shipments state updated:', shipmentsData.length, 'items');
-      } catch (err) {
-        console.error('Fetch error:', err);
-        setShipments(DUMMY_SHIPMENTS);
-        setAtRiskShipments(3);
-      } finally {
-        setLoading(false);
-      }
+        const res = await fetch('http://localhost:8000/api/shipments/at-risk');
+        if (res.ok) setShipments(await res.json());
+      } catch (e) { console.error(e); }
     };
-
     fetchData();
-
-    const interval = setInterval(() => {
-      setAiAlertIndex((prev) => (prev + 1) % AI_ALERTS.length);
-    }, 5000);
-
+    const interval = setInterval(fetchData, 5000);
     return () => clearInterval(interval);
-  }, [userRole]);
+  }, []);
 
   const handleSendMessage = async (e) => {
-    e?.preventDefault();
-    
+    e.preventDefault();
     if (!chatInput.trim()) return;
-    
-    const userMessage = { role: 'user', text: chatInput };
-    setChatLog(prev => [...prev, userMessage]);
-    
-    const tempInput = chatInput;
-    setChatInput('');
-    
+    const newLog = [...chatLog, { role: 'user', text: chatInput }];
+    setChatLog(newLog);
+    setChatInput("");
     try {
-      const response = await fetch('http://localhost:8000/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: tempInput })
+      const response = await fetch("http://localhost:8000/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: chatInput }),
       });
-      
-      if (!response.ok) throw new Error('Chat API failed');
-      
-      const aiReply = await response.json();
-      const aiMessage = { role: 'ai', text: aiReply.reply || 'AI response received' };
-      setChatLog(prev => [...prev, aiMessage]);
-    } catch (error) {
-      const errorMessage = { role: 'ai', text: '⚠️ AI temporarily unavailable. Using fallback mode.' };
-      setChatLog(prev => [...prev, errorMessage]);
-    }
+      const data = await response.json();
+      setChatLog([...newLog, { role: 'ai', text: data.reply }]);
+    } catch (err) { setChatLog([...newLog, { role: 'ai', text: "⚠️ AI Connection Error." }]); }
   };
 
-  const onTimePercentage = 87;
-  const totalShipments = shipments.length || 5;
-
-  const ANALYTICS_DATA = [
-    { time: '00:00', efficiency: 75 },
-    { time: '04:00', efficiency: 82 },
-    { time: '08:00', efficiency: 88 },
-    { time: '12:00', efficiency: 92 },
-    { time: '16:00', efficiency: 85 },
-    { time: '20:00', efficiency: 79 },
-  ];
-
-  const ALERTS_FEED = [
-    { id: 1, level: 'critical', message: 'SHIP-001 storm delay detected on NYC→LAX route', time: '2 min ago' },
-    { id: 2, level: 'warning', message: 'Traffic congestion on I-40', time: '5 min ago' },
-    { id: 3, level: 'critical', message: 'SHIP-003 might miss SLA window', time: '8 min ago' },
-    { id: 4, level: 'info', message: 'System performing optimally', time: '15 min ago' },
-  ];
-
-  const SkeletonCard = () => (
-    <div className="bg-slate-800 rounded-lg p-6 animate-pulse">
-      <div className="h-4 bg-slate-700 rounded w-1/3 mb-4" />
-      <div className="h-8 bg-slate-700 rounded w-1/2 mb-2" />
-      <div className="h-4 bg-slate-700 rounded w-2/3" />
-    </div>
-  );
-
-  const SkeletonRow = () => (
-    <tr className="border-b border-slate-700">
-      <td className="px-6 py-4"><div className="h-4 bg-slate-700 rounded animate-pulse w-20" /></td>
-      <td className="px-6 py-4"><div className="h-4 bg-slate-700 rounded animate-pulse w-32" /></td>
-      <td className="px-6 py-4"><div className="h-4 bg-slate-700 rounded animate-pulse w-16" /></td>
-      <td className="px-6 py-4"><div className="h-4 bg-slate-700 rounded animate-pulse w-24" /></td>
-      <td className="px-6 py-4"><div className="h-4 bg-slate-700 rounded animate-pulse w-20" /></td>
-    </tr>
-  );
-
-  const DashboardView = () => (
-    <div className="space-y-8">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-slate-800 rounded-lg p-6 border border-slate-700 shadow-xl overflow-hidden">
-          {loading ? (
-            <SkeletonCard />
-          ) : (
-            <>
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-semibold text-slate-300">Total Active Shipments</h3>
-                <Package className="text-indigo-400" size={20} />
-              </div>
-              <div className="mb-4">
-                <p className="text-3xl font-bold text-white">{totalShipments}</p>
-                <p className="text-xs text-slate-400 mt-1">Active in network</p>
-              </div>
-              <ResponsiveContainer width="100%" height={120}>
-                <AreaChart data={TRENDLINE_DATA}>
-                  <defs>
-                    <linearGradient id="colorShipments" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#6366f1" stopOpacity={0.8} />
-                      <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                  <XAxis
-                    dataKey="day"
-                    stroke="#64748b"
-                    style={{ fontSize: '12px' }}
-                  />
-                  <YAxis stroke="#64748b" style={{ fontSize: '12px' }} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: '#1e293b',
-                      border: '1px solid #475569',
-                      borderRadius: '8px',
-                    }}
-                    labelStyle={{ color: '#e2e8f0' }}
-                  />
-                  <Area
-                    type="monotone"
-                    dataKey="shipments"
-                    stroke="#6366f1"
-                    fillOpacity={1}
-                    fill="url(#colorShipments)"
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
-            </>
-          )}
+  // Custom Tooltip for the Recharts graph
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-slate-800 border border-slate-700 p-2 rounded shadow-lg">
+          <p className="text-white text-xs">{`${label}: ${payload[0].value} shipments`}</p>
         </div>
+      );
+    }
+    return null;
+  };
 
-        <div className="bg-slate-800 rounded-lg p-6 border border-slate-700 shadow-xl">
-          {loading ? (
-            <SkeletonCard />
-          ) : (
-            <>
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-semibold text-slate-300">On-Time Deliveries</h3>
-                <Clock className="text-green-400" size={20} />
-              </div>
-              <p className="text-3xl font-bold text-white">{onTimePercentage}%</p>
-              <div className="mt-4 w-full bg-slate-700 rounded-full h-2">
-                <div
-                  className="bg-gradient-to-r from-green-400 to-emerald-500 h-2 rounded-full"
-                  style={{ width: `${onTimePercentage}%` }}
-                />
-              </div>
-              <p className="text-xs text-slate-400 mt-3">↑ 2.4% from last week</p>
-            </>
-          )}
-        </div>
-
-        <div className="bg-slate-800 rounded-lg p-6 border border-slate-700 shadow-xl">
-          {loading ? (
-            <SkeletonCard />
-          ) : (
-            <>
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-semibold text-slate-300">High-Risk (72h)</h3>
-                <AlertTriangle className="text-red-400" size={20} />
-              </div>
-              <p className="text-3xl font-bold text-red-400">{atRiskShipments}</p>
-              <p className="text-xs text-slate-400 mt-1">Requiring intervention</p>
-              <div className="mt-4 bg-red-500/10 border border-red-500/30 rounded-lg px-3 py-2">
-                <p className="text-xs text-red-200">⚠️ Immediate action needed</p>
-              </div>
-            </>
-          )}
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-slate-800 rounded-lg border border-slate-700 shadow-xl overflow-hidden">
-          <div className="px-6 py-4 border-b border-slate-700 bg-slate-900">
-            <h3 className="text-lg font-semibold">Delayed Shipments</h3>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-slate-900/50">
-                <tr className="border-b border-slate-700">
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-slate-300">ID</th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-slate-300">Route</th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-slate-300">ETA</th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-slate-300">Risk Level</th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-slate-300">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {loading ? (
-                  <>
-                    <SkeletonRow />
-                    <SkeletonRow />
-                    <SkeletonRow />
-                  </>
-                ) : shipments && shipments.length > 0 ? (
-                  shipments.map((shipment) => (
-                    <tr key={shipment.id} className="border-b border-slate-700 hover:bg-slate-700/50 transition">
-                      <td className="px-6 py-4 text-sm font-mono text-indigo-400">{shipment.id}</td>
-                      <td className="px-6 py-4 text-sm text-slate-200">{shipment.route}</td>
-                      <td className="px-6 py-4 text-sm text-slate-200">{shipment.eta}</td>
-                      <td className="px-6 py-4">
-                        <span
-                          className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
-                            shipment.riskLevel === 'Critical'
-                              ? 'bg-red-500/20 text-red-300 border border-red-500/50'
-                              : shipment.riskLevel === 'High'
-                              ? 'bg-orange-500/20 text-orange-300 border border-orange-500/50'
-                              : 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/50'
-                          }`}
-                        >
-                          {shipment.riskLevel}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4">
-                        <button 
-                          onClick={() => setSelectedShipment(shipment)}
-                          className="px-3 py-1 bg-indigo-600 hover:bg-indigo-500 rounded text-xs font-medium transition"
-                        >
-                          Intervene
-                        </button>
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="5" className="px-6 py-8 text-center text-slate-400">
-                      No shipments data available. Check browser console for API errors.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div className="bg-slate-800 p-6 rounded-xl border border-slate-700">
-          <h3 className="text-lg font-semibold text-indigo-400 mb-4 flex items-center gap-2">
-            <Bot className="w-5 h-5" />
-            AI Chat
-          </h3>
-          
-          <div className="space-y-3 mb-4 max-h-64 overflow-y-auto bg-slate-900/50 p-4 rounded-lg">
-            {chatLog.length === 0 ? (
-              <div className="text-slate-500 text-sm italic text-center py-8">
-                Ask me about shipment risks...
-              </div>
-            ) : (
-              chatLog.map((msg, idx) => (
-                <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-xs lg:max-w-md p-3 rounded-2xl ${
-                    msg.role === 'user' 
-                      ? 'bg-indigo-600 text-white' 
-                      : 'bg-slate-700 text-slate-200'
-                  }`}>
-                    <p className="text-sm">{msg.text}</p>
-                  </div>
-                </div>
-              ))
-            )}
-            <div ref={messagesEndRef} />
-          </div>
-          
-          <form onSubmit={handleSendMessage} className="flex gap-2">
-            <input
-              type="text"
-              value={chatInput}
-              onChange={(e) => setChatInput(e.target.value)}
-              placeholder="Ask AI..."
-              className="flex-1 bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-            />
-            <button
-              type="submit"
-              disabled={!chatInput.trim()}
-              className="bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-600 px-6 py-2 rounded-lg font-medium transition-all flex items-center gap-2 disabled:cursor-not-allowed"
-            >
-              <Send className="w-4 h-4" />
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  );
-
-  const AnalyticsView = () => (
-    <div className="space-y-8">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div className="bg-slate-800 rounded-lg p-6 border border-slate-700 shadow-xl">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="text-sm font-semibold text-slate-300">Network Efficiency</h3>
-            <Activity className="text-indigo-400" size={20} />
-          </div>
-          <p className="text-3xl font-bold">87%</p>
-          <p className="text-xs text-slate-400 mt-2">↑ 4.2% this month</p>
-        </div>
-        <div className="bg-slate-800 rounded-lg p-6 border border-slate-700 shadow-xl">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="text-sm font-semibold text-slate-300">Avg. Processing Time</h3>
-            <Clock className="text-green-400" size={20} />
-          </div>
-          <p className="text-3xl font-bold">2.4h</p>
-          <p className="text-xs text-slate-400 mt-2">Per shipment</p>
-        </div>
-        <div className="bg-slate-800 rounded-lg p-6 border border-slate-700 shadow-xl">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="text-sm font-semibold text-slate-300">Total Routes</h3>
-            <TrendingUp className="text-blue-400" size={20} />
-          </div>
-          <p className="text-3xl font-bold">142</p>
-          <p className="text-xs text-slate-400 mt-2">Active routes</p>
-        </div>
-        <div className="bg-slate-800 rounded-lg p-6 border border-slate-700 shadow-xl">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="text-sm font-semibold text-slate-300">Cost Savings</h3>
-            <Zap className="text-yellow-400" size={20} />
-          </div>
-          <p className="text-3xl font-bold">$12K</p>
-          <p className="text-xs text-slate-400 mt-2">This week</p>
-        </div>
-      </div>
-
-      <div className="bg-slate-800 rounded-lg p-6 border border-slate-700 shadow-xl">
-        <h3 className="text-lg font-semibold mb-6">Network Efficiency Trend</h3>
-        <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={ANALYTICS_DATA}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-            <XAxis dataKey="time" stroke="#64748b" />
-            <YAxis stroke="#64748b" />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: '#1e293b',
-                border: '1px solid #475569',
-                borderRadius: '8px',
-              }}
-              labelStyle={{ color: '#e2e8f0' }}
-            />
-            <Line type="monotone" dataKey="efficiency" stroke="#6366f1" strokeWidth={2} />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
-    </div>
-  );
-
-  const AlertsView = () => (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-bold">System Alerts Log</h2>
-        <AlertTriangle className="text-red-400" size={24} />
-      </div>
-
-      <div className="space-y-3">
-        {ALERTS_FEED.map((alert) => (
-          <div
-            key={alert.id}
-            className={`border-l-4 rounded-lg p-4 ${
-              alert.level === 'critical'
-                ? 'bg-red-500/10 border-red-500'
-                : alert.level === 'warning'
-                ? 'bg-orange-500/10 border-orange-500'
-                : 'bg-green-500/10 border-green-500'
-            }`}
-          >
-            <div className="flex items-start justify-between">
-              <div>
-                <p className={`text-sm font-semibold ${
-                  alert.level === 'critical'
-                    ? 'text-red-300'
-                    : alert.level === 'warning'
-                    ? 'text-orange-300'
-                    : 'text-green-300'
-                }`}>
-                  {alert.level.toUpperCase()}
-                </p>
-                <p className="text-slate-200 mt-1">{alert.message}</p>
-              </div>
-              <span className="text-xs text-slate-400">{alert.time}</span>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-
-  // Conditional Rendering based on User Role
-  if (userRole === null) {
-    return <LoginScreen onSelectRole={setUserRole} />;
-  }
-
-  if (userRole === 'client') {
-    return <ClientDashboard onLogout={() => setUserRole(null)} />;
-  }
-
-  // Manager Dashboard
   return (
-    <ReactLenis root>
-      <div className="flex min-h-screen bg-slate-900 text-white overflow-x-hidden">
-        {/* Sidebar */}
-        <div
-          className={`${
-            sidebarOpen ? 'w-64' : 'w-20'
-          } bg-slate-800 border-r border-slate-700 transition-all duration-300 fixed left-0 top-0 h-screen flex flex-col`}
-        >
-          <div className="p-6 flex items-center justify-between">
-            <div className={`${!sidebarOpen && 'hidden'}`}>
-              <h1 className="text-xl font-bold text-indigo-400">RouteGuardian</h1>
-              <p className="text-xs text-slate-400">AI Engine</p>
+    <div className="min-h-screen bg-[#131b2f] text-slate-300 flex font-sans overflow-hidden">
+      
+      {/* SIDEBAR */}
+      <aside className="w-[240px] bg-[#1e293b] border-r border-slate-800 flex flex-col justify-between flex-shrink-0">
+        <div>
+          <div className="flex items-center gap-3 p-6 mb-2">
+            <div>
+              <h1 className="text-lg font-bold text-indigo-400 leading-tight">RouteGuardian</h1>
+              <p className="text-[10px] text-slate-500">AI Engine</p>
             </div>
-            <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="p-2 hover:bg-slate-700 rounded-lg transition"
-            >
-              <Menu size={20} />
-            </button>
+            <button className="ml-auto text-slate-400 hover:text-white"><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" /></svg></button>
           </div>
-
-          <nav className="flex-1 px-4 space-y-2">
+          
+          <nav className="px-3 space-y-1">
             {[
-              { icon: Package, label: 'Dashboard' },
-              { icon: TrendingUp, label: 'Analytics' },
-              { icon: AlertTriangle, label: 'Alerts' },
-              { icon: Zap, label: 'AI Tools' },
-            ].map((item) => (
-              <button
-                key={item.label}
-                onClick={() => setActiveTab(item.label)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition ${
-                  activeTab === item.label
-                    ? 'bg-indigo-600 text-white'
-                    : 'text-slate-300 hover:bg-slate-700'
-                }`}
+              { id: 'dashboard', label: 'Dashboard', icon: 'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4' },
+              { id: 'analytics', label: 'Analytics', icon: 'M7 21V7m0 0l-3 3m3-3l3 3m5 14V3m0 0l-3 3m3-3l3 3' },
+              { id: 'alerts', label: 'Alerts', icon: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z' },
+              { id: 'tools', label: 'AI Tools', icon: 'M13 10V3L4 14h7v7l9-11h-7z' }
+            ].map(tab => (
+              <button 
+                key={tab.id} onClick={() => setActiveTab(tab.id)} 
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-sm font-medium ${activeTab === tab.id ? 'bg-[#6366f1] text-white' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200'}`}
               >
-                <item.icon size={20} />
-                <span className={`${!sidebarOpen && 'hidden'}`}>{item.label}</span>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={tab.icon} /></svg>
+                {tab.label}
               </button>
             ))}
           </nav>
-
-          <div className={`p-4 border-t border-slate-700 space-y-2 ${!sidebarOpen && 'text-center'}`}>
-            <button
-              onClick={() => setUserRole(null)}
-              className={`w-full px-3 py-2 bg-red-600/20 border border-red-500/50 text-red-300 hover:bg-red-600/40 rounded-lg font-medium transition text-xs ${
-                !sidebarOpen && 'px-2'
-              }`}
-            >
-              {sidebarOpen ? '🚪 Log Out' : '⊗'}
-            </button>
-            <p className="text-xs text-slate-400">v1.0 BETA</p>
-          </div>
         </div>
+        <div className="p-4 flex justify-between items-center text-xs text-slate-600 border-t border-slate-800">
+          <span>v1.0 BETA</span>
+          <button onClick={onLogout} className="text-slate-400 hover:text-white underline">Logout</button>
+        </div>
+      </aside>
 
-        {/* Main Content */}
-        <div className={`flex-1 ${sidebarOpen ? 'ml-64' : 'ml-20'} transition-all duration-300`}>
-          {/* Header */}
-          <header className="bg-slate-800 border-b border-slate-700 sticky top-0 z-40 shadow-lg">
-            <div className="px-8 py-6 flex items-center justify-between">
-              <div>
-                <h2 className="text-2xl font-bold">RouteGuardian AI Engine</h2>
-                <p className="text-sm text-slate-400 mt-1">Real-time Shipment Risk Monitoring</p>
-              </div>
-              <div className="flex items-center gap-3 bg-slate-900 px-6 py-3 rounded-full border border-slate-700">
-                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
-                <span className="text-sm font-medium">ONLINE</span>
-              </div>
-            </div>
-          </header>
+      {/* MAIN CONTENT AREA */}
+      <div className="flex-1 flex flex-col h-screen overflow-hidden">
+        
+        {/* HEADER */}
+        <header className="h-[72px] bg-[#1e293b] border-b border-slate-800 flex items-center justify-between px-8 flex-shrink-0">
+          <div>
+            <h2 className="text-xl font-bold text-white leading-tight">RouteGuardian AI Engine</h2>
+            <p className="text-xs text-slate-400">Real-time Shipment Risk Monitoring</p>
+          </div>
+          <div className="bg-slate-900 border border-slate-700 px-4 py-1.5 rounded-full flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
+            <span className="text-xs font-bold text-white uppercase tracking-wider">ONLINE</span>
+          </div>
+        </header>
 
-          {/* Main Content Area */}
-          <div className="p-8">
-            {activeTab === 'Dashboard' && <DashboardView />}
-            {activeTab === 'Analytics' && <AnalyticsView />}
-            {activeTab === 'Alerts' && <AlertsView />}
-            {activeTab === 'AI Tools' && <AIToolsView />}
-
-            {/* Footer */}
-            <div className="mt-12 text-center text-xs text-slate-500 border-t border-slate-700 pt-6">
-              <p>RouteGuardian AI Engine | Real-time Logistics Intelligence | Updated: {new Date().toLocaleTimeString()}</p>
-            </div>
-
-            {/* AI Modal */}
-            {selectedShipment && (
-              <div className="fixed inset-0 bg-slate-900/90 backdrop-blur-sm flex items-center justify-center z-50">
-                <div className="bg-slate-800 border border-slate-700 rounded-lg shadow-2xl p-8 max-w-md w-full mx-4">
-                  <h2 className="text-2xl font-bold mb-6 text-indigo-400">AI Intervention Panel</h2>
-
-                  <div className="bg-slate-900/50 rounded-lg p-4 mb-5 border border-slate-700">
-                    <p className="text-sm text-slate-300 mb-2">
-                      <span className="font-semibold">Shipment ID:</span> <span className="text-indigo-300 font-mono">{selectedShipment.id}</span>
-                    </p>
-                    <p className="text-sm text-slate-300">
-                      <span className="font-semibold">Route:</span> <span className="text-slate-100">{selectedShipment.route}</span>
-                    </p>
+        {/* VIEWPORT */}
+        <main className="flex-1 overflow-y-auto p-6">
+          
+          {/* ================= DASHBOARD TAB ================= */}
+          {activeTab === 'dashboard' && (
+            <div className="space-y-6">
+              
+              {/* TOP 3 CARDS */}
+              <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                
+                {/* 1. INTERACTIVE CHART CARD */}
+                <div className="bg-[#1e293b] border border-slate-700 rounded-xl p-5 flex flex-col shadow-lg relative min-h-[160px]">
+                  <div className="flex justify-between items-start mb-2 z-10">
+                    <p className="text-sm font-medium text-slate-300">Total Active Shipments</p>
+                    <svg className="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
                   </div>
-
-                  <div className="bg-orange-500/10 border border-orange-500/50 rounded-lg p-4 mb-4">
-                    <p className="text-sm text-orange-300 font-semibold mb-1">⚠️ AI Analysis</p>
-                    <p className="text-sm text-orange-200">Severe weather detected on route. 85% probability of missing SLA.</p>
+                  <h3 className="text-3xl font-bold text-white z-10">4</h3>
+                  <p className="text-xs text-slate-400 mb-2 z-10">Active in network</p>
+                  
+                  {/* Recharts Interactive Area Chart */}
+                  <div className="absolute bottom-0 left-0 w-full h-[100px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart data={shipmentData} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
+                        <defs>
+                          <linearGradient id="colorShipments" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#6366f1" stopOpacity={0.8}/>
+                            <stop offset="95%" stopColor="#6366f1" stopOpacity={0}/>
+                          </linearGradient>
+                        </defs>
+                        <XAxis dataKey="name" hide />
+                        <RechartsTooltip content={<CustomTooltip />} cursor={{ stroke: '#6366f1', strokeWidth: 1, strokeDasharray: '3 3' }}/>
+                        <Area type="monotone" dataKey="shipments" stroke="#818cf8" strokeWidth={2} fillOpacity={1} fill="url(#colorShipments)" />
+                      </AreaChart>
+                    </ResponsiveContainer>
                   </div>
-
-                  <div className="bg-emerald-500/10 border border-emerald-500/50 rounded-lg p-4 mb-6">
-                    <p className="text-sm text-emerald-300 font-semibold mb-1">✓ AI Recommendation</p>
-                    <p className="text-sm text-emerald-200">Reroute via Air Freight. Estimated delay avoided: 14 hours.</p>
-                  </div>
-
-                  <div className="flex gap-3">
-                    <button
-                      onClick={() => setSelectedShipment(null)}
-                      className="flex-1 px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg text-sm font-medium transition"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      onClick={() => {
-                        setShipments(shipments.filter(s => s.id !== selectedShipment.id));
-                        setSelectedShipment(null);
-                      }}
-                      className="flex-1 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 rounded-lg text-sm font-medium transition text-white"
-                    >
-                      Execute AI Reroute
-                    </button>
+                  <div className="absolute bottom-2 left-0 w-full flex justify-between px-4 text-[9px] text-slate-500 z-10">
+                    <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
                   </div>
                 </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </ReactLenis>
-  );
-}
 
+                <div className="bg-[#1e293b] border border-slate-700 rounded-xl p-5 flex flex-col shadow-lg">
+                  <div className="flex justify-between items-start mb-2">
+                    <p className="text-sm font-medium text-slate-300">On-Time Deliveries</p>
+                    <svg className="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  </div>
+                  <h3 className="text-3xl font-bold text-white mb-6">87%</h3>
+                  <div className="w-full bg-slate-800 h-1.5 rounded-full mb-3"><div className="bg-emerald-400 h-1.5 rounded-full w-[87%] shadow-[0_0_10px_rgba(52,211,153,0.5)]"></div></div>
+                  <p className="text-[10px] text-slate-400">↑ 2.4% from last week</p>
+                </div>
+
+                <div className="bg-[#1e293b] border border-slate-700 rounded-xl p-5 flex flex-col shadow-lg relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-1 h-full bg-rose-500"></div>
+                  <div className="flex justify-between items-start mb-2 pl-2">
+                    <p className="text-sm font-medium text-slate-300">High-Risk (72h)</p>
+                    <svg className="w-4 h-4 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                  </div>
+                  <h3 className="text-3xl font-bold text-rose-500 mb-1 pl-2">5</h3>
+                  <p className="text-xs text-slate-400 mb-4 pl-2">Requiring intervention</p>
+                  <div className="bg-rose-950/40 border border-rose-900/50 rounded-md p-2.5 flex items-center gap-2 ml-2">
+                    <svg className="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                    <span className="text-xs font-medium text-slate-300">Immediate action needed</span>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* TABLE & AI CHAT SPLIT */}
+              <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                
+                {/* DELAYED SHIPMENTS TABLE */}
+                <div className="xl:col-span-2 bg-[#1e293b] border border-slate-700 rounded-xl shadow-lg">
+                  <div className="p-5 border-b border-slate-700"><h3 className="text-base font-bold text-white">Delayed Shipments</h3></div>
+                  <div className="overflow-x-auto p-2">
+                    <table className="w-full text-left">
+                      <thead className="text-slate-400 text-xs border-b border-slate-700">
+                        <tr><th className="px-5 py-3 font-semibold">ID</th><th className="px-5 py-3 font-semibold">Route</th><th className="px-5 py-3 font-semibold">ETA</th><th className="px-5 py-3 font-semibold">Risk Level</th><th className="px-5 py-3 font-semibold">Action</th></tr>
+                      </thead>
+                      <tbody className="text-xs">
+                        {(shipments.length > 0 ? shipments : [
+                          { id: 'TRK-44227', route: 'SEA -> BOS', eta: '42h', riskLevel: 'Critical' },
+                          { id: 'TRK-73040', route: 'PHX -> DET', eta: '23h', riskLevel: 'Critical' },
+                          { id: 'TRK-27571', route: 'ATL -> SFO', eta: '12h', riskLevel: 'Low' },
+                          { id: 'TRK-12946', route: 'PHX -> DET', eta: '47h', riskLevel: 'Critical' }
+                        ]).map((s, i) => (
+                          <tr key={i} className="border-b border-slate-800/50 hover:bg-slate-800/30">
+                            <td className="px-5 py-5 text-indigo-400 font-mono">{s.id}</td>
+                            <td className="px-5 py-5 text-slate-300">{s.route}</td>
+                            <td className="px-5 py-5 text-slate-300">{s.eta}</td>
+                            <td className="px-5 py-5">
+                              <span className={`px-2.5 py-1 rounded-full text-[10px] font-medium border ${s.riskLevel === 'Critical' ? 'bg-rose-950/40 text-rose-400 border-rose-800' : 'bg-amber-950/40 text-amber-400 border-amber-800'}`}>{s.riskLevel}</span>
+                            </td>
+                            <td className="px-5 py-5"><button className="bg-[#6366f1] hover:bg-indigo-500 text-white text-[10px] font-medium px-3 py-1.5 rounded transition">Intervene</button></td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                {/* AI CHATBOX */}
+                <div className="xl:col-span-1 bg-[#1e293b] border border-slate-700 rounded-xl shadow-lg flex flex-col h-[500px]">
+                  <div className="p-4 border-b border-slate-700 flex items-center gap-2">
+                    <svg className="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    <h3 className="text-sm font-bold text-indigo-400">AI Chat</h3>
+                  </div>
+                  <div className="flex-1 p-4 overflow-y-auto space-y-4 bg-[#1e293b] scrollbar-thin scrollbar-thumb-slate-600">
+                    {chatLog.map((m, i) => (
+                      <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                        <div className={`max-w-[90%] p-3 rounded-lg text-[13px] leading-relaxed ${m.role === 'user' ? 'bg-[#4f46e5] text-white' : 'bg-slate-700 text-slate-200'}`}>{m.text}</div>
+                      </div>
+                    ))}
+                    <div ref={messagesEndRef} />
+                  </div>
+                  <form onSubmit={handleSendMessage} className="p-3 border-t border-slate-700 flex gap-2">
+                    <input type="text" value={chatInput} onChange={(e) => setChatInput(e.target.value)} placeholder="Ask AI..." className="flex-1 bg-slate-800 border border-slate-600 text-sm text-white rounded px-3 py-2.5 focus:outline-none focus:border-indigo-500" />
+                    <button type="submit" className="bg-slate-700 hover:bg-slate-600 text-slate-300 px-3.5 rounded flex items-center justify-center border border-slate-600 transition-colors">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ================= ANALYTICS TAB (Fixed Height) ================= */}
+          {activeTab === 'analytics' && (
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                {[
+                  { l: 'Network Efficiency', v: '87%', s: '↑ 4.2% this month', i: 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6', ic: 'text-indigo-400' },
+                  { l: 'Avg. Processing Time', v: '2.4h', s: 'Per shipment', i: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', ic: 'text-emerald-500' },
+                  { l: 'Total Routes', v: '142', s: 'Active routes', i: 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6', ic: 'text-indigo-400' },
+                  { l: 'Cost Savings', v: '$12K', s: 'This week', i: 'M13 10V3L4 14h7v7l9-11h-7z', ic: 'text-amber-400' }
+                ].map((s, i) => (
+                  <div key={i} className="bg-[#1e293b] border border-slate-700 rounded-xl p-5 shadow-lg relative">
+                    <div className="flex justify-between items-start mb-2">
+                      <p className="text-xs font-medium text-slate-300">{s.l}</p>
+                      <svg className={`w-4 h-4 ${s.ic}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={s.i} /></svg>
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-2">{s.v}</h3>
+                    <p className="text-[10px] text-slate-500">{s.s}</p>
+                  </div>
+                ))}
+              </div>
+              
+              {/* FIXED HEIGHT ANALYTICS CHART */}
+              <div className="bg-[#1e293b] border border-slate-700 rounded-xl p-6 shadow-lg h-[350px] flex flex-col">
+                <h3 className="text-sm font-bold text-white mb-6">Network Efficiency Trend</h3>
+                <div className="flex-1 border-b border-l border-slate-700 relative text-xs text-slate-500">
+                  <div className="absolute bottom-0 w-full h-full flex flex-col justify-between -left-6 text-right pr-2"><span>100</span><span>75</span><span>50</span><span>25</span><span>0</span></div>
+                  <div className="absolute -bottom-6 w-full flex justify-between px-2"><span>00:00</span><span>04:00</span><span>08:00</span><span>12:00</span><span>16:00</span><span>20:00</span></div>
+                  <svg viewBox="0 0 100 40" preserveAspectRatio="none" className="w-full h-full text-indigo-500 stroke-current drop-shadow-[0_0_8px_rgba(99,102,241,0.5)]"><path fill="none" strokeWidth="0.5" d="M0 10 Q 25 5, 50 8 T 100 12" /><circle cx="0" cy="10" r="1.5" fill="white" /><circle cx="25" cy="5" r="1.5" fill="white" /><circle cx="50" cy="8" r="1.5" fill="white" /><circle cx="75" cy="5" r="1.5" fill="white" /><circle cx="100" cy="12" r="1.5" fill="white" /></svg>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ================= ALERTS TAB ================= */}
+          {activeTab === 'alerts' && (
+            <div className="bg-[#1e293b] border border-slate-700 rounded-xl shadow-lg p-0 overflow-hidden">
+              <div className="p-5 border-b border-slate-700 flex justify-between items-center"><h3 className="text-lg font-bold text-white">System Alerts Log</h3></div>
+              <div className="p-6 space-y-4">
+                {[
+                  { level: 'CRITICAL', msg: 'SHIP-001 storm delay detected on NYC→LAX route', time: '2 min ago', color: 'border-l-rose-500 text-rose-500', bg: 'bg-[#1f1925]' },
+                  { level: 'WARNING', msg: 'Traffic congestion on I-40', time: '5 min ago', color: 'border-l-amber-500 text-amber-500', bg: 'bg-[#221f20]' },
+                  { level: 'INFO', msg: 'System performing optimally', time: '15 min ago', color: 'border-l-emerald-500 text-emerald-500', bg: 'bg-[#152324]' },
+                ].map((a, i) => (
+                  <div key={i} className={`${a.bg} border border-slate-800 border-l-4 ${a.color} p-4 rounded-md flex justify-between items-start`}>
+                    <div>
+                      <p className={`text-[10px] font-bold ${a.color.split(' ')[1]} mb-1`}>{a.level}</p>
+                      <p className="text-sm text-slate-300">{a.msg}</p>
+                    </div>
+                    <span className="text-xs text-slate-500">{a.time}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ================= AI TOOLS TAB ================= */}
+          {activeTab === 'tools' && (
+            <div>
+              <h2 className="text-xl font-bold text-white mb-6">AI Tools & Capabilities</h2>
+              <div className="bg-[#1e293b] border border-slate-700 rounded-xl p-6 shadow-lg mb-6">
+                <div className="flex items-center gap-2 mb-6">
+                  <svg className="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                  <h3 className="text-base font-bold text-white">Predictive Weather Routing Engine</h3>
+                </div>
+                <div className="space-y-4 mb-6">
+                  <div><label className="block text-xs text-slate-400 mb-1">Origin City</label><input type="text" value="New York, NY" readOnly className="w-full bg-slate-800/50 border border-slate-700 rounded-md px-3 py-2 text-sm text-slate-300 focus:outline-none" /></div>
+                  <div><label className="block text-xs text-slate-400 mb-1">Destination City</label><input type="text" value="Los Angeles, CA" readOnly className="w-full bg-slate-800/50 border border-slate-700 rounded-md px-3 py-2 text-sm text-slate-300 focus:outline-none" /></div>
+                </div>
+                <button className="w-full bg-[#8b5cf6] hover:bg-violet-600 text-white font-medium py-2.5 rounded-md transition flex justify-center items-center gap-2 text-sm shadow-md">
+                   Run AI Simulation
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* FOOTER */}
+          <div className="mt-8 text-center text-[10px] text-slate-600">RouteGuardian AI Engine | Real-time Logistics Intelligence | Updated: {new Date().toLocaleTimeString()}</div>
+
+        </main>
+      </div>
+    </div>
+  );
+};
+
+// ----------------------------------------------------------------------
+// 4. MAIN APP ROUTER
+// ----------------------------------------------------------------------
+export default function App() {
+  const [user, setUser] = useState(null);
+  const [loadingAuth, setLoadingAuth] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => { setUser(currentUser); setLoadingAuth(false); });
+    return () => unsubscribe();
+  }, []);
+
+  const handleGoogleLogin = async () => { try { await signInWithPopup(auth, googleProvider); } catch (error) { console.error("Login Failed", error); } };
+  const handleLogout = async () => { try { await signOut(auth); } catch (error) { console.error("Logout Failed", error); } };
+
+  if (loadingAuth) return <div className="min-h-screen bg-[#0f172a] flex items-center justify-center text-slate-500 text-sm">Loading System...</div>;
+  if (!user) return <LoginScreen onLogin={handleGoogleLogin} />;
+  
+  if (user.email === 'adarshmund07@gmail.com') return <ManagerDashboard user={user} onLogout={handleLogout} />;
+  return <ClientDashboard user={user} onLogout={handleLogout} />;
+}
