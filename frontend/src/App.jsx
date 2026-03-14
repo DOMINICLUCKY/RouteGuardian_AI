@@ -33,6 +33,45 @@ const getDriverProfile = (id) => {
 };
 
 // ----------------------------------------------------------------------
+// 0.5 LEGAL TERMS MODAL
+// ----------------------------------------------------------------------
+const TermsModal = ({ onClose }) => {
+  return (
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[100] p-4">
+      <div className="bg-[#0f172a] border border-slate-700 rounded-2xl w-full max-w-2xl shadow-2xl relative flex flex-col max-h-[85vh] animate-in fade-in zoom-in-95 duration-200">
+        
+        <div className="p-6 border-b border-slate-800 flex justify-between items-center bg-[#1e293b] rounded-t-2xl">
+          <div>
+            <h2 className="text-xl font-bold text-white">Terms of Service & AI Policy</h2>
+            <p className="text-xs text-slate-400 mt-1">Last Updated: March 2026</p>
+          </div>
+          <button onClick={onClose} className="text-slate-500 hover:text-white"><svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
+        </div>
+
+        <div className="p-8 overflow-y-auto space-y-6 text-sm text-slate-300 scrollbar-thin scrollbar-thumb-slate-700">
+          <section>
+            <h3 className="text-indigo-400 font-bold mb-2 uppercase tracking-widest text-xs">1. System Access & Roles</h3>
+            <p className="leading-relaxed">RouteGuardian AI provides role-based access. <strong>Clients</strong> are granted read-only tracking. <strong>Managers</strong> are granted administrative control, including overriding active dispatches.</p>
+          </section>
+          <section>
+            <h3 className="text-indigo-400 font-bold mb-2 uppercase tracking-widest text-xs">2. AI Liability & Predictive Routing</h3>
+            <p className="leading-relaxed">Our AI achieves a 94% historical accuracy rate. However, <strong>RouteGuardian is not legally liable for SLA failures or fuel cost overruns</strong> resulting from executing an "AI Fix." Final dispatch authority remains with the Manager.</p>
+          </section>
+          <section>
+            <h3 className="text-indigo-400 font-bold mb-2 uppercase tracking-widest text-xs">3. Data Telemetry & Privacy</h3>
+            <p className="leading-relaxed">You consent to the continuous collection of anonymized fleet telemetry and geolocation data to train our neural networks. We comply with SOC-2 and GDPR enterprise standards.</p>
+          </section>
+        </div>
+
+        <div className="p-6 border-t border-slate-800 bg-[#0a0f1c] rounded-b-2xl flex justify-end">
+          <button onClick={onClose} className="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-8 rounded-lg transition-all shadow-lg">I Understand & Agree</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ----------------------------------------------------------------------
 // 1. ENTERPRISE SPLIT-SCREEN AUTHENTICATION
 // ----------------------------------------------------------------------
 const AuthScreen = ({ onGoogleLogin, onEmailAuth }) => {
@@ -44,6 +83,7 @@ const AuthScreen = ({ onGoogleLogin, onEmailAuth }) => {
   const [accessCode, setAccessCode] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showTerms, setShowTerms] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -136,8 +176,15 @@ const AuthScreen = ({ onGoogleLogin, onEmailAuth }) => {
           </button>
 
           <p className="text-center text-slate-400 text-sm">{isLogin ? "Don't have an account? " : "Already have an account? "}<button type="button" onClick={() => setIsLogin(!isLogin)} className="text-indigo-400 font-bold hover:text-indigo-300 transition-colors">{isLogin ? 'Sign up' : 'Sign in'}</button></p>
+
+          {/* NEW: Legal Footer */}
+          <p className="text-center text-[10px] text-slate-500 max-w-xs mx-auto mt-4">
+            By continuing, you acknowledge that you have read and agree to our <button type="button" onClick={() => setShowTerms(true)} className="text-slate-300 hover:text-indigo-400 underline decoration-slate-600 underline-offset-2 transition-colors">Terms of Service & AI Privacy Policy</button>.
+          </p>
         </div>
       </div>
+      {/* RENDER MODAL */}
+      {showTerms && <TermsModal onClose={() => setShowTerms(false)} />}
     </div>
   );
 };
@@ -149,6 +196,7 @@ const ProfileModal = ({ user, onClose, onLogout }) => {
   const [newName, setNewName] = useState(user.displayName || '');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [showTerms, setShowTerms] = useState(false);
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -175,38 +223,48 @@ const ProfileModal = ({ user, onClose, onLogout }) => {
           <button type="submit" disabled={loading} className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl transition-all shadow-md">{loading ? 'Saving...' : 'Update Profile'}</button>
           {success && <p className="text-emerald-400 text-xs text-center font-medium mt-2">Profile updated successfully!</p>}
         </form>
-        <div className="border-t border-slate-700 pt-6"><button onClick={onLogout} className="w-full bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 border border-rose-500/20 font-bold py-3 rounded-xl transition-all">Sign Out Securely</button></div>
+        {/* NEW: Legal Links in Profile */}
+        <div className="border-t border-slate-700 pt-6 space-y-3">
+          <button onClick={() => setShowTerms(true)} type="button" className="w-full bg-slate-800/50 hover:bg-slate-800 text-slate-300 text-sm font-medium py-3 rounded-xl transition-all flex items-center justify-center gap-2 border border-slate-700">
+            <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+            View Enterprise Terms & Conditions
+          </button>
+          <button onClick={onLogout} type="button" className="w-full bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 border border-rose-500/20 font-bold py-3 rounded-xl transition-all">Sign Out Securely</button>
+        </div>
+
+        {/* RENDER MODAL */}
+        {showTerms && <TermsModal onClose={() => setShowTerms(false)} />}
       </div>
     </div>
   );
 };
 
 // ----------------------------------------------------------------------
-// 2. CLIENT DASHBOARD
+// ----------------------------------------------------------------------
+// 2. CLIENT DASHBOARD (ENTERPRISE UPGRADE)
 // ----------------------------------------------------------------------
 const ClientDashboard = ({ user, onLogout }) => {
   const [showProfile, setShowProfile] = useState(false);
-  const [activeOrder, setActiveOrder] = useState({ id: 'TRK-88492', origin: 'NYC', destination: 'LAX', status: 'In Transit', progress: 60, eta: 'Tomorrow at 2:00 PM' });
+  const [activeOrder, setActiveOrder] = useState({ id: 'TRK-88492', origin: 'NYC', destination: 'LAX', status: 'In Transit', progress: 60, eta: 'Tomorrow at 2:00 PM', location: 'Denver, CO (Node 4)' });
   const [orderHistory, setOrderHistory] = useState([
-    { id: 'TRK-22941', route: 'MIA -> CHI', date: 'Oct 12, 2023', status: 'Delivered', details: 'Delivered to front desk. Signed by J. Smith.' },
-    { id: 'TRK-10488', route: 'SEA -> BOS', date: 'Oct 05, 2023', status: 'Delivered', details: 'Package left on front porch.' },
+    { id: 'TRK-22941', route: 'MIA -> CHI', date: 'Oct 12, 2023', status: 'Delivered', cost: '$1,240' },
+    { id: 'TRK-10488', route: 'SEA -> BOS', date: 'Oct 05, 2023', status: 'Delivered', cost: '$2,800' },
   ]);
-  const [expandedOrderId, setExpandedOrderId] = useState(null);
 
   const simulateProgress = () => {
     setActiveOrder(prev => {
       let newProgress = prev.progress + 20;
       let newStatus = prev.status;
       let newEta = prev.eta;
-      if (newProgress >= 100) { newProgress = 100; newStatus = 'Delivered'; newEta = 'Arrived'; } 
-      else if (newProgress > 80) { newStatus = 'Out for Delivery'; newEta = 'Today at 4:00 PM'; } 
-      else if (newProgress > 30) { newStatus = 'In Transit'; } 
+      let newLoc = prev.location;
+      if (newProgress >= 100) { newProgress = 100; newStatus = 'Delivered'; newEta = 'Arrived'; newLoc = 'Destination Hub (LAX)'; } 
+      else if (newProgress > 80) { newStatus = 'Out for Delivery'; newEta = 'Today at 4:00 PM'; newLoc = 'Local Distribution Center'; } 
+      else if (newProgress > 30) { newStatus = 'In Transit'; newLoc = 'Las Vegas, NV (Node 5)'; } 
       else { newStatus = 'At Origin'; }
-      return { ...prev, progress: newProgress, status: newStatus, eta: newEta };
+      return { ...prev, progress: newProgress, status: newStatus, eta: newEta, location: newLoc };
     });
   };
 
-  const toggleDetails = (orderId) => setExpandedOrderId(expandedOrderId === orderId ? null : orderId);
   const getStatusColor = (status) => {
     if (status === 'Delivered') return 'text-emerald-400';
     if (status === 'In Transit' || status === 'Out for Delivery') return 'text-indigo-400';
@@ -217,49 +275,120 @@ const ClientDashboard = ({ user, onLogout }) => {
   return (
     <div className="min-h-screen bg-[#050810] text-slate-200 p-8 font-sans">
       {showProfile && <ProfileModal user={user} onClose={() => setShowProfile(false)} onLogout={onLogout} />}
-      <div className="max-w-5xl mx-auto">
-        <div className="flex justify-between items-center mb-10">
-          <div><h1 className="text-3xl font-bold text-white tracking-tight">Welcome back, {user.displayName || 'Client'}</h1><p className="text-slate-400 mt-1 text-sm">Here is the status of your recent shipments.</p></div>
+      <div className="max-w-6xl mx-auto">
+        
+        {/* HEADER */}
+        <div className="flex justify-between items-center mb-8 border-b border-slate-800 pb-6">
+          <div>
+            <h1 className="text-3xl font-bold text-white tracking-tight">Client Portal</h1>
+            <p className="text-slate-400 mt-1 text-sm">Welcome back, {user.displayName || 'Client'}. Here is your network overview.</p>
+          </div>
           <button onClick={() => setShowProfile(true)} className="flex items-center gap-3 bg-[#0a0f1c] hover:bg-slate-800 border border-slate-800 px-4 py-2 rounded-xl transition-all shadow-lg">
-             <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold text-xs">{user.displayName ? user.displayName[0].toUpperCase() : (user.email ? user.email[0].toUpperCase() : 'U')}</div>
-             <span className="font-medium text-sm text-slate-300">Profile</span>
+             <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold text-xs">{user.displayName ? user.displayName[0].toUpperCase() : (user.email ? user.email[0].toUpperCase() : 'C')}</div>
+             <span className="font-medium text-sm text-slate-300">Account</span>
           </button>
         </div>
 
-        <div className="bg-[#0a0f1c] border border-slate-800 rounded-xl p-8 mb-6 shadow-xl">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-lg font-bold text-white">Track Active Order: #{activeOrder.id}</h2>
-            <button onClick={simulateProgress} disabled={activeOrder.status === 'Delivered'} className={`text-xs px-3 py-1.5 rounded-md font-medium transition-all ${activeOrder.status === 'Delivered' ? 'bg-slate-800 text-slate-500 cursor-not-allowed' : 'bg-indigo-600/20 text-indigo-400 hover:bg-indigo-600/40 border border-indigo-500/30'}`}>
-              {activeOrder.status === 'Delivered' ? 'Order Complete' : 'Simulate Update'}
-            </button>
+        {/* NEW: KPI METRICS ROW */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="bg-[#0a0f1c] border border-slate-800 rounded-xl p-5 shadow-lg flex items-center gap-4">
+            <div className="bg-indigo-900/30 p-3 rounded-lg border border-indigo-500/20"><svg className="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg></div>
+            <div><p className="text-xs text-slate-400 font-bold uppercase tracking-wider">Active Dispatches</p><h3 className="text-2xl font-black text-white">1</h3></div>
           </div>
-          <div className="flex justify-between text-xs font-medium text-slate-400 mb-2"><span className={getStatusColor(activeOrder.status === 'At Origin' || activeOrder.progress > 0 ? 'In Transit' : '')}>Origin ({activeOrder.origin})</span><span className={getStatusColor(activeOrder.status)}>{activeOrder.status}</span><span className={getStatusColor(activeOrder.status === 'Delivered' ? 'Delivered' : '')}>Destination ({activeOrder.destination})</span></div>
-          <div className="w-full bg-slate-800 rounded-full h-2 mb-4 relative overflow-hidden"><div className={`h-full rounded-full transition-all duration-700 ease-in-out ${getProgressBarColor(activeOrder.status)}`} style={{ width: `${activeOrder.progress}%` }}></div></div>
-          <p className="text-xs text-slate-500">Estimated Arrival: {activeOrder.eta}</p>
+          <div className="bg-[#0a0f1c] border border-slate-800 rounded-xl p-5 shadow-lg flex items-center gap-4">
+            <div className="bg-emerald-900/30 p-3 rounded-lg border border-emerald-500/20"><svg className="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
+            <div><p className="text-xs text-slate-400 font-bold uppercase tracking-wider">AI On-Time Rate</p><h3 className="text-2xl font-black text-white">100%</h3></div>
+          </div>
+          <div className="bg-[#0a0f1c] border border-slate-800 rounded-xl p-5 shadow-lg flex items-center gap-4">
+            <div className="bg-amber-900/30 p-3 rounded-lg border border-amber-500/20"><svg className="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
+            <div><p className="text-xs text-slate-400 font-bold uppercase tracking-wider">Spend (YTD)</p><h3 className="text-2xl font-black text-white">$14,250</h3></div>
+          </div>
         </div>
 
+        {/* UPGRADED: ACTIVE TRACKER WITH AI INJECTION */}
+        <div className="bg-[#0a0f1c] border border-slate-800 rounded-xl p-8 mb-8 shadow-xl relative overflow-hidden">
+          {/* Subtle glowing background effect */}
+          <div className="absolute -top-24 -right-24 w-64 h-64 bg-indigo-600/10 blur-[80px] rounded-full pointer-events-none"></div>
+          
+          <div className="flex justify-between items-start mb-8 relative z-10">
+            <div>
+              <h2 className="text-xl font-black text-white mb-2 flex items-center gap-2">
+                Live Tracking: #{activeOrder.id}
+                <span className="bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 px-2 py-0.5 rounded text-[10px] uppercase tracking-widest font-bold">Standard Freight</span>
+              </h2>
+              {/* AI Status Badge */}
+              <div className="flex items-center gap-2 bg-emerald-950/30 border border-emerald-500/20 px-3 py-1.5 rounded-md inline-flex">
+                <span className="relative flex h-2 w-2"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span>
+                <p className="text-xs font-medium text-emerald-400">AI Status: Optimal Route. No weather anomalies detected.</p>
+              </div>
+            </div>
+            <button onClick={simulateProgress} disabled={activeOrder.status === 'Delivered'} className={`text-xs px-4 py-2 rounded-lg font-bold transition-all shadow-md ${activeOrder.status === 'Delivered' ? 'bg-slate-800 text-slate-500 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-indigo-900/20'}`}>
+              {activeOrder.status === 'Delivered' ? 'Order Complete' : 'Refresh Telemetry'}
+            </button>
+          </div>
+
+          <div className="flex justify-between text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider">
+            <span className={getStatusColor(activeOrder.status === 'At Origin' || activeOrder.progress > 0 ? 'In Transit' : '')}>{activeOrder.origin} (Origin)</span>
+            <span className={getStatusColor(activeOrder.status)}>{activeOrder.status}</span>
+            <span className={getStatusColor(activeOrder.status === 'Delivered' ? 'Delivered' : '')}>{activeOrder.destination} (Dest)</span>
+          </div>
+          <div className="w-full bg-slate-800 rounded-full h-3 mb-6 relative overflow-hidden shadow-inner">
+            <div className={`h-full rounded-full transition-all duration-1000 ease-in-out ${getProgressBarColor(activeOrder.status)}`} style={{ width: `${activeOrder.progress}%` }}></div>
+          </div>
+          
+          <div className="flex justify-between items-center bg-[#050810] p-4 rounded-lg border border-slate-800">
+            <div>
+              <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest mb-1">Current Node</p>
+              <p className="text-sm text-white font-medium flex items-center gap-2">
+                <svg className="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                {activeOrder.location}
+              </p>
+            </div>
+            <div className="text-right">
+              <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest mb-1">Estimated Arrival</p>
+              <p className="text-sm text-white font-medium">{activeOrder.eta}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* UPGRADED: ORDER HISTORY WITH COMPLIANCE DOCUMENTS */}
         <div className="bg-[#0a0f1c] border border-slate-800 rounded-xl p-8 shadow-xl">
-          <h2 className="text-lg font-bold text-white mb-6">Order History</h2>
+          <h2 className="text-lg font-bold text-white mb-6">Completed Shipments & Documents</h2>
           <div className="overflow-x-auto">
             <table className="w-full text-left">
-              <thead className="text-slate-400 text-sm border-b border-slate-800"><tr><th className="pb-3 font-medium">Order ID</th><th className="pb-3 font-medium">Route</th><th className="pb-3 font-medium">Date</th><th className="pb-3 font-medium">Status</th><th className="pb-3 font-medium text-right">Action</th></tr></thead>
+              <thead className="text-slate-400 text-[10px] uppercase tracking-wider border-b border-slate-800">
+                <tr>
+                  <th className="pb-4 font-bold">Order ID</th>
+                  <th className="pb-4 font-bold">Route</th>
+                  <th className="pb-4 font-bold">Delivery Date</th>
+                  <th className="pb-4 font-bold">Billed Amount</th>
+                  <th className="pb-4 font-bold">Status</th>
+                  <th className="pb-4 font-bold text-right">Compliance</th>
+                </tr>
+              </thead>
               <tbody className="text-sm">
                 {orderHistory.map(order => (
-                  <React.Fragment key={order.id}>
-                    <tr className="border-b border-slate-800/50 hover:bg-slate-800/20 transition-colors">
-                      <td className="py-4 text-indigo-400 text-xs font-mono">{order.id}</td><td className="py-4 text-slate-300">{order.route}</td><td className="py-4 text-slate-300">{order.date}</td>
-                      <td className="py-4"><span className="bg-emerald-950/40 text-emerald-400 px-3 py-1 rounded-full text-[10px] border border-emerald-900">{order.status}</span></td>
-                      <td className="py-4 text-right"><button onClick={() => toggleDetails(order.id)} className="text-slate-400 hover:text-indigo-400 text-xs font-medium transition-colors px-3 py-1 border border-transparent hover:border-indigo-500/30 rounded">{expandedOrderId === order.id ? 'Hide' : 'View'}</button></td>
-                    </tr>
-                    {expandedOrderId === order.id && (
-                      <tr className="bg-slate-800/20"><td colSpan="5" className="p-4 text-xs text-slate-400 border-b border-slate-800/50"><div className="flex gap-2 items-center"><svg className="w-4 h-4 flex-shrink-0 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg><p><span className="font-medium text-slate-300">Delivery Notes:</span> {order.details}</p></div></td></tr>
-                    )}
-                  </React.Fragment>
+                  <tr key={order.id} className="border-b border-slate-800/50 hover:bg-slate-800/20 transition-colors">
+                    <td className="py-5 text-indigo-400 font-mono font-medium">{order.id}</td>
+                    <td className="py-5 text-slate-300 font-medium">{order.route}</td>
+                    <td className="py-5 text-slate-400">{order.date}</td>
+                    <td className="py-5 text-slate-300">{order.cost}</td>
+                    <td className="py-5"><span className="bg-emerald-950/40 text-emerald-400 px-3 py-1 rounded-md text-[10px] border border-emerald-900 font-bold uppercase tracking-wider">{order.status}</span></td>
+                    <td className="py-5 text-right flex justify-end gap-2">
+                      <button className="text-slate-400 hover:text-indigo-400 text-[10px] font-bold uppercase tracking-widest transition-colors px-3 py-1.5 border border-slate-700 hover:border-indigo-500/30 rounded flex items-center gap-1 bg-[#050810]">
+                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg> Invoice
+                      </button>
+                      <button className="text-slate-400 hover:text-emerald-400 text-[10px] font-bold uppercase tracking-widest transition-colors px-3 py-1.5 border border-slate-700 hover:border-emerald-500/30 rounded flex items-center gap-1 bg-[#050810]">
+                         <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> POD
+                      </button>
+                    </td>
+                  </tr>
                 ))}
               </tbody>
             </table>
           </div>
         </div>
+
       </div>
     </div>
   );
@@ -278,10 +407,19 @@ const ManagerDashboard = ({ user, onLogout }) => {
   const [chatLog, setChatLog] = useState([{ role: 'ai', text: "RouteGuardian AI online. Monitoring network for routing risks. Awaiting command..." }]);
   const [activeTab, setActiveTab] = useState('dashboard');
   const messagesEndRef = useRef(null);
+  
+  // --- NEW ALERTS STATE ---
+  const [alertFilter, setAlertFilter] = useState('ALL');
+  const [resolvedAlerts, setResolvedAlerts] = useState([]);
 
   // --- LIVE WEATHER STATE ---
   const [originCity, setOriginCity] = useState('New York');
   const [destCity, setDestCity] = useState('Los Angeles');
+  
+  // 🔥 ADVANCED PARAMETERS 🔥
+  const [cargoType, setCargoType] = useState('Standard');
+  const [fleetType, setFleetType] = useState('Standard 18-Wheeler');
+  
   const [weatherLoading, setWeatherLoading] = useState(false);
   const [weatherResult, setWeatherResult] = useState(null);
   
@@ -479,12 +617,16 @@ const ManagerDashboard = ({ user, onLogout }) => {
         statusColor = "text-amber-500";
       }
 
-      setWeatherResult({
+     setWeatherResult({
         origin: { temp: originData.main.temp, desc: originData.weather[0].description },
         dest: { temp: destData.main.temp, desc: destData.weather[0].description },
         riskScore,
         recommendation,
-        statusColor
+        statusColor,
+        // 🔥 NEW: LOGISTICS METRICS 🔥
+        confidence: Math.floor(Math.random() * (98 - 85 + 1)) + 85, // Random 85-98%
+        transitTime: Math.floor(Math.random() * (72 - 24 + 1)) + 24, // Random 24-72 hours
+        fuelImpact: (originBad || destBad) ? `+${Math.floor(Math.random() * 5) + 3}% (Detour)` : 'Normal'
       });
 
     } catch (err) {
@@ -796,62 +938,186 @@ const ManagerDashboard = ({ user, onLogout }) => {
             </div>
           )}
 
-          {/* ================= ALERTS TAB ================= */}
+          {/* ================= ALERTS TAB (UPGRADED) ================= */}
           {activeTab === 'alerts' && (
-            <div className="bg-[#1e293b] border border-slate-700 rounded-xl shadow-lg p-0 overflow-hidden">
-              <div className="p-5 border-b border-slate-700 flex justify-between items-center"><h3 className="text-lg font-bold text-white">System Alerts Log</h3></div>
-              <div className="p-6 space-y-4">
-                {[
-                  { level: 'CRITICAL', msg: 'SHIP-001 storm delay detected on NYC→LAX route', time: '2 min ago', color: 'border-l-rose-500 text-rose-500', bg: 'bg-[#1f1925]' },
-                  { level: 'WARNING', msg: 'Traffic congestion on I-40', time: '5 min ago', color: 'border-l-amber-500 text-amber-500', bg: 'bg-[#221f20]' },
-                  { level: 'INFO', msg: 'System performing optimally', time: '15 min ago', color: 'border-l-emerald-500 text-emerald-500', bg: 'bg-[#152324]' },
-                ].map((a, i) => (
-                  <div key={i} className={`${a.bg} border border-slate-800 border-l-4 ${a.color} p-4 rounded-md flex justify-between items-start`}>
-                    <div><p className={`text-[10px] font-bold ${a.color.split(' ')[1]} mb-1`}>{a.level}</p><p className="text-sm text-slate-300">{a.msg}</p></div>
-                    <span className="text-xs text-slate-500">{a.time}</span>
-                  </div>
+            <div className="space-y-6">
+              
+              {/* FILTER BUTTONS */}
+              <div className="flex gap-3 mb-2">
+                {['ALL', 'CRITICAL', 'WARNING'].map(f => (
+                  <button 
+                    key={f} 
+                    onClick={() => setAlertFilter(f)}
+                    className={`px-5 py-2 rounded-lg text-xs font-bold transition-all tracking-wide ${alertFilter === f ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-900/20' : 'bg-[#1e293b] text-slate-400 hover:bg-slate-800 border border-slate-700'}`}
+                  >
+                    {f} ALERTS
+                  </button>
                 ))}
+              </div>
+
+              {/* ACTIONABLE ALERTS LIST */}
+              <div className="bg-[#1e293b] border border-slate-700 rounded-xl shadow-lg p-0 overflow-hidden">
+                <div className="p-5 border-b border-slate-700 flex justify-between items-center">
+                  <h3 className="text-lg font-bold text-white">Smart Actionable Alerts</h3>
+                </div>
+                <div className="p-6 space-y-4">
+                  {[
+                    { id: 'AL-001', level: 'CRITICAL', msg: 'SHIP-001 storm delay detected on NYC→LAX route', rec: 'Reroute via Air Freight (94% Confidence).', time: '2 min ago', color: 'border-l-rose-500 text-rose-500', bg: 'bg-[#1f1925]' },
+                    { id: 'AL-002', level: 'WARNING', msg: 'Traffic congestion on I-40', rec: 'Adjust departure time +2 hrs to avoid peak gridlock.', time: '5 min ago', color: 'border-l-amber-500 text-amber-500', bg: 'bg-[#221f20]' },
+                    { id: 'AL-003', level: 'INFO', msg: 'System performing optimally', rec: '', time: '15 min ago', color: 'border-l-emerald-500 text-emerald-500', bg: 'bg-[#152324]' },
+                  ]
+                  .filter(a => alertFilter === 'ALL' || a.level === alertFilter)
+                  .map((a) => {
+                    const isResolved = resolvedAlerts.includes(a.id);
+                    return (
+                      <div key={a.id} className={`${isResolved ? 'bg-slate-800/30 border-l-slate-600' : a.bg + ' ' + a.color.split(' ')[0]} border border-slate-800 border-l-4 p-5 rounded-lg flex justify-between items-center transition-all`}>
+                        
+                        <div>
+                          <div className="flex items-center gap-3 mb-1">
+                            {/* ✨ TWEAK 1: Added flex layout, gap, and the Green Checkmark SVG */}
+                            <p className={`text-[10px] font-black uppercase tracking-widest flex items-center gap-1 ${isResolved ? 'text-emerald-500' : a.color.split(' ')[1]}`}>
+                              {isResolved && <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" /></svg>}
+                              {isResolved ? 'RESOLVED' : a.level}
+                            </p>
+                            <span className="text-xs text-slate-500 font-medium">{a.time}</span>
+                          </div>
+                          
+                          <p className={`text-sm ${isResolved ? 'text-slate-500 line-through' : 'text-slate-200'} font-medium`}>{a.msg}</p>
+                          
+                          {/* AI Recommendation Box */}
+                          {!isResolved && a.level !== 'INFO' && (
+                            <div className="mt-3 bg-indigo-950/30 border border-indigo-500/20 inline-flex items-center gap-2 px-3 py-1.5 rounded-md">
+                              <svg className="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                              <p className="text-xs text-indigo-300"><span className="font-bold">AI Suggests:</span> {a.rec}</p>
+                            </div>
+                          )}
+                        </div>
+                        
+                        {/* 1-Click Resolve Button */}
+                        {!isResolved && a.level !== 'INFO' && (
+                          <button 
+                            onClick={() => setResolvedAlerts(prev => [...prev, a.id])}
+                            className={`px-5 py-2.5 rounded-lg text-xs font-bold shadow-md transition-all flex items-center gap-2 ${a.level === 'CRITICAL' ? 'bg-rose-600 hover:bg-rose-500 text-white shadow-rose-900/20' : 'bg-amber-600 hover:bg-amber-500 text-white shadow-amber-900/20'}`}
+                          >
+                            <svg className="w-4 h-4 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
+                            Execute AI Fix
+                          </button>
+                        )}
+
+                      </div>
+                    )
+                  })}
+                </div>
               </div>
             </div>
           )}
 
-          {/* ================= AI TOOLS TAB ================= */}
+          {/* ================= AI TOOLS TAB (ENTERPRISE UPGRADE) ================= */}
           {activeTab === 'tools' && (
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-white mb-6 tracking-tight">AI Tools & Capabilities</h2>
+            <div className="space-y-6 pb-10">
+              <h2 className="text-2xl font-bold text-white mb-6 tracking-tight">AI Route Simulation Engine</h2>
+              
               <div className="bg-[#1e293b] border border-slate-700 rounded-xl p-6 shadow-lg">
-                <div className="flex items-center gap-2 mb-6"><svg className="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg><h3 className="text-lg font-bold text-white">Predictive Weather Routing Engine</h3></div>
-                <div className="space-y-4 mb-6">
-                  <div><label className="block text-xs font-medium text-slate-400 mb-1">Origin City</label><input type="text" value={originCity} onChange={e => setOriginCity(e.target.value)} className="w-full bg-[#2a374a] border border-slate-600 rounded-md px-4 py-3 text-sm text-slate-300 focus:outline-none focus:border-indigo-500 transition-colors" /></div>
-                  <div><label className="block text-xs font-medium text-slate-400 mb-1">Destination City</label><input type="text" value={destCity} onChange={e => setDestCity(e.target.value)} className="w-full bg-[#2a374a] border border-slate-600 rounded-md px-4 py-3 text-sm text-slate-300 focus:outline-none focus:border-indigo-500 transition-colors" /></div>
+                <div className="flex items-center gap-2 mb-6 border-b border-slate-800 pb-4">
+                  <svg className="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+                  <h3 className="text-lg font-bold text-white">Simulation Parameters</h3>
                 </div>
                 
-                <button onClick={handleLiveWeatherSimulation} disabled={weatherLoading} className="w-full bg-[#8b5cf6] hover:bg-violet-500 text-white font-bold py-3 rounded-md transition flex justify-center items-center gap-2 text-sm shadow-md">
-                  {weatherLoading ? 'Fetching Live Satellite Data...' : 'Run AI Simulation'}
+                {/* ADVANCED PARAMETERS FORM */}
+                <div className="space-y-5 mb-6">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div><label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Origin Hub</label><input type="text" value={originCity} onChange={e => setOriginCity(e.target.value)} className="w-full bg-[#0f172a] border border-slate-600 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors shadow-inner" /></div>
+                    <div><label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Destination Hub</label><input type="text" value={destCity} onChange={e => setDestCity(e.target.value)} className="w-full bg-[#0f172a] border border-slate-600 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors shadow-inner" /></div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Cargo Classification</label>
+                      <select value={cargoType} onChange={e => setCargoType(e.target.value)} className="w-full bg-[#0f172a] border border-slate-600 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors appearance-none">
+                        <option>Standard Freight</option>
+                        <option>Perishables (Refrigerated)</option>
+                        <option>Hazardous Materials (HAZMAT)</option>
+                        <option>High-Value Electronics</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Fleet Allocation</label>
+                      <select value={fleetType} onChange={e => setFleetType(e.target.value)} className="w-full bg-[#0f172a] border border-slate-600 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors appearance-none">
+                        <option>Standard 18-Wheeler</option>
+                        <option>Heavy-Duty Flatbed</option>
+                        <option>Sprinter Van (Expedited)</option>
+                        <option>Air Freight / Cargo Plane</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                
+                <button onClick={handleLiveWeatherSimulation} disabled={weatherLoading} className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 rounded-lg transition-all flex justify-center items-center gap-2 text-sm shadow-lg shadow-indigo-900/20">
+                  {weatherLoading ? (
+                    <><svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Processing Live Satellite Data...</>
+                  ) : (
+                    <><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> Execute Pre-Dispatch Simulation</>
+                  )}
                 </button>
 
+                {/* EXPANDED LIVE RESULTS PANEL */}
                 {weatherResult && (
-                  <div className="mt-6 pt-6 border-t border-slate-700 animate-in fade-in slide-in-from-top-4">
-                    <h4 className="text-sm font-bold text-white mb-4">Live Analysis Results</h4>
+                  <div className="mt-8 pt-6 border-t border-slate-700 animate-in fade-in slide-in-from-top-4">
+                    <h4 className="text-sm font-bold text-white mb-4 flex items-center gap-2">
+                      <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      Simulation Complete
+                    </h4>
+                    
+                    {/* Weather Data */}
                     <div className="grid grid-cols-2 gap-4 mb-4">
-                      <div className="bg-[#0f172a] p-4 rounded-lg border border-slate-800">
-                        <p className="text-xs text-slate-500 uppercase tracking-widest">{originCity}</p>
-                        <h5 className="text-2xl font-black text-white my-1">{Math.round(weatherResult.origin.temp)}°C</h5>
-                        <p className="text-xs text-slate-400 capitalize">{weatherResult.origin.desc}</p>
+                      <div className="bg-[#0f172a] p-4 rounded-xl border border-slate-800 shadow-inner">
+                        <p className="text-xs text-slate-500 font-bold uppercase tracking-widest">{originCity} (ORIGIN)</p>
+                        <h5 className="text-3xl font-black text-white my-1">{Math.round(weatherResult.origin.temp)}°C</h5>
+                        <p className="text-xs text-slate-400 capitalize flex items-center gap-1"><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" /></svg> {weatherResult.origin.desc}</p>
                       </div>
-                      <div className="bg-[#0f172a] p-4 rounded-lg border border-slate-800">
-                        <p className="text-xs text-slate-500 uppercase tracking-widest">{destCity}</p>
-                        <h5 className="text-2xl font-black text-white my-1">{Math.round(weatherResult.dest.temp)}°C</h5>
-                        <p className="text-xs text-slate-400 capitalize">{weatherResult.dest.desc}</p>
+                      <div className="bg-[#0f172a] p-4 rounded-xl border border-slate-800 shadow-inner">
+                        <p className="text-xs text-slate-500 font-bold uppercase tracking-widest">{destCity} (DESTINATION)</p>
+                        <h5 className="text-3xl font-black text-white my-1">{Math.round(weatherResult.dest.temp)}°C</h5>
+                        <p className="text-xs text-slate-400 capitalize flex items-center gap-1"><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" /></svg> {weatherResult.dest.desc}</p>
                       </div>
                     </div>
-                    <div className={`p-4 rounded-lg bg-slate-800/50 border border-slate-700`}>
-                      <div className="flex justify-between items-center mb-2">
-                        <p className="text-xs font-bold text-slate-400 uppercase">AI Recommendation</p>
-                        <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded border ${weatherResult.statusColor.replace('text', 'border')} ${weatherResult.statusColor}`}>{weatherResult.riskScore} RISK</span>
+
+                    {/* NEW: Logistics Metrics Grid */}
+                    <div className="grid grid-cols-3 gap-4 mb-4">
+                      <div className="bg-[#0f172a] p-3 rounded-lg border border-slate-800 text-center">
+                        <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Est. Transit Time</p>
+                        <p className="text-lg font-bold text-white">{weatherResult.transitTime} Hours</p>
                       </div>
-                      <p className="text-sm text-white">{weatherResult.recommendation}</p>
+                      <div className="bg-[#0f172a] p-3 rounded-lg border border-slate-800 text-center">
+                        <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">AI Confidence</p>
+                        <p className="text-lg font-bold text-indigo-400">{weatherResult.confidence}%</p>
+                      </div>
+                      <div className="bg-[#0f172a] p-3 rounded-lg border border-slate-800 text-center">
+                        <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Fuel Impact</p>
+                        <p className={`text-lg font-bold ${weatherResult.fuelImpact === 'Normal' ? 'text-emerald-400' : 'text-rose-400'}`}>{weatherResult.fuelImpact}</p>
+                      </div>
                     </div>
+
+                    {/* Recommendation Box */}
+                    <div className={`p-5 rounded-xl border ${weatherResult.statusColor.replace('text', 'border')}/30 bg-slate-800/30 mb-4`}>
+                      <div className="flex justify-between items-center mb-3">
+                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Routing Recommendation</p>
+                        <span className={`text-[10px] font-black uppercase px-2.5 py-1 rounded-md border ${weatherResult.statusColor.replace('text', 'border')} ${weatherResult.statusColor}`}>{weatherResult.riskScore} RISK</span>
+                      </div>
+                      <p className="text-sm text-white font-medium leading-relaxed">{weatherResult.recommendation}</p>
+                    </div>
+
+                    {/* NEW: Action Buttons */}
+                    <div className="flex gap-3">
+                      <button onClick={() => alert('Route Brief PDF generated and downloaded.')} className="flex-1 bg-[#0f172a] hover:bg-slate-800 text-slate-300 font-bold py-3 rounded-lg transition-colors border border-slate-700 text-xs flex items-center justify-center gap-2">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                        Export Route Brief
+                      </button>
+                      <button onClick={() => alert('Route saved to active dispatch queue.')} className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-lg transition-all shadow-lg shadow-emerald-900/20 text-xs flex items-center justify-center gap-2">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" /></svg>
+                        Save to Active Dispatch
+                      </button>
+                    </div>
+
                   </div>
                 )}
               </div>
