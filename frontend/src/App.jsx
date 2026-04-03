@@ -9,6 +9,10 @@ import {
   updateProfile 
 } from 'firebase/auth';
 import { AreaChart, Area, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { 
+  Box, CheckCircle2, DollarSign, RefreshCw, MapPin, 
+  FileText, CheckSquare, Phone, User, Map, X, Download 
+} from 'lucide-react'; // NEW IMPORTS NEEDED FOR CLIENT DASHBOARD
 
 // --- INITIAL MOCK DATA ---
 const shipmentData = [
@@ -177,7 +181,6 @@ const AuthScreen = ({ onGoogleLogin, onEmailAuth }) => {
 
           <p className="text-center text-slate-400 text-sm">{isLogin ? "Don't have an account? " : "Already have an account? "}<button type="button" onClick={() => setIsLogin(!isLogin)} className="text-indigo-400 font-bold hover:text-indigo-300 transition-colors">{isLogin ? 'Sign up' : 'Sign in'}</button></p>
 
-          {/* NEW: Legal Footer */}
           <p className="text-center text-[10px] text-slate-500 max-w-xs mx-auto mt-4">
             By continuing, you acknowledge that you have read and agree to our <button type="button" onClick={() => setShowTerms(true)} className="text-slate-300 hover:text-indigo-400 underline decoration-slate-600 underline-offset-2 transition-colors">Terms of Service & AI Privacy Policy</button>.
           </p>
@@ -223,7 +226,6 @@ const ProfileModal = ({ user, onClose, onLogout }) => {
           <button type="submit" disabled={loading} className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl transition-all shadow-md">{loading ? 'Saving...' : 'Update Profile'}</button>
           {success && <p className="text-emerald-400 text-xs text-center font-medium mt-2">Profile updated successfully!</p>}
         </form>
-        {/* NEW: Legal Links in Profile */}
         <div className="border-t border-slate-700 pt-6 space-y-3">
           <button onClick={() => setShowTerms(true)} type="button" className="w-full bg-slate-800/50 hover:bg-slate-800 text-slate-300 text-sm font-medium py-3 rounded-xl transition-all flex items-center justify-center gap-2 border border-slate-700">
             <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
@@ -241,145 +243,189 @@ const ProfileModal = ({ user, onClose, onLogout }) => {
 
 // ----------------------------------------------------------------------
 // ----------------------------------------------------------------------
-// 2. CLIENT DASHBOARD (ENTERPRISE UPGRADE)
+// 2. CLIENT DASHBOARD (UPGRADED WITH AGENT & INVOICE)
 // ----------------------------------------------------------------------
 const ClientDashboard = ({ user, onLogout }) => {
   const [showProfile, setShowProfile] = useState(false);
-  const [activeOrder, setActiveOrder] = useState({ id: 'TRK-88492', origin: 'NYC', destination: 'LAX', status: 'In Transit', progress: 60, eta: 'Tomorrow at 2:00 PM', location: 'Denver, CO (Node 4)' });
-  const [orderHistory, setOrderHistory] = useState([
-    { id: 'TRK-22941', route: 'MIA -> CHI', date: 'Oct 12, 2023', status: 'Delivered', cost: '$1,240' },
-    { id: 'TRK-10488', route: 'SEA -> BOS', date: 'Oct 05, 2023', status: 'Delivered', cost: '$2,800' },
-  ]);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [showInvoice, setShowInvoice] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
-  const simulateProgress = () => {
-    setActiveOrder(prev => {
-      let newProgress = prev.progress + 20;
-      let newStatus = prev.status;
-      let newEta = prev.eta;
-      let newLoc = prev.location;
-      if (newProgress >= 100) { newProgress = 100; newStatus = 'Delivered'; newEta = 'Arrived'; newLoc = 'Destination Hub (LAX)'; } 
-      else if (newProgress > 80) { newStatus = 'Out for Delivery'; newEta = 'Today at 4:00 PM'; newLoc = 'Local Distribution Center'; } 
-      else if (newProgress > 30) { newStatus = 'In Transit'; newLoc = 'Las Vegas, NV (Node 5)'; } 
-      else { newStatus = 'At Origin'; }
-      return { ...prev, progress: newProgress, status: newStatus, eta: newEta, location: newLoc };
-    });
+  const completedShipments = [
+    { id: 'TRK-22941', route: 'MIA -> CHI', date: 'Oct 12, 2023', amount: '$1,240', status: 'DELIVERED' },
+    { id: 'TRK-10488', route: 'SEA -> BOS', date: 'Oct 05, 2023', amount: '$2,800', status: 'DELIVERED' }
+  ];
+
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    setTimeout(() => setIsRefreshing(false), 1500);
   };
 
-  const getStatusColor = (status) => {
-    if (status === 'Delivered') return 'text-emerald-400';
-    if (status === 'In Transit' || status === 'Out for Delivery') return 'text-indigo-400';
-    return 'text-slate-400';
+  const openInvoice = (order) => {
+    setSelectedOrder(order);
+    setShowInvoice(true);
   };
-  const getProgressBarColor = (status) => status === 'Delivered' ? 'bg-emerald-500 shadow-[0_0_10px_rgba(52,211,153,0.5)]' : 'bg-[#6366f1] shadow-[0_0_10px_rgba(99,102,241,0.5)]';
 
   return (
-    <div className="min-h-screen bg-[#050810] text-slate-200 p-8 font-sans">
+    <div className="min-h-screen bg-[#0f172a] text-slate-300 p-6 font-sans">
       {showProfile && <ProfileModal user={user} onClose={() => setShowProfile(false)} onLogout={onLogout} />}
-      <div className="max-w-6xl mx-auto">
+      
+      {/* Header */}
+      <div className="max-w-6xl mx-auto flex justify-between items-center mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-white tracking-tight">Client Portal</h1>
+          <p className="text-sm text-slate-400 mt-1">Welcome back, {user?.displayName || user?.email || 'Client'}. Here is your network overview.</p>
+        </div>
+        <button onClick={() => setShowProfile(true)} className="flex items-center gap-2 bg-[#1e293b] hover:bg-[#334155] px-4 py-2 rounded-full border border-slate-700 transition-colors">
+          <div className="w-6 h-6 rounded-full bg-indigo-500 text-white flex items-center justify-center text-xs font-bold">{user?.displayName ? user.displayName[0].toUpperCase() : (user?.email ? user.email[0].toUpperCase() : 'C')}</div>
+          <span className="text-sm font-medium text-white">Account</span>
+        </button>
+      </div>
+
+      <div className="max-w-6xl mx-auto space-y-6">
         
-        {/* HEADER */}
-        <div className="flex justify-between items-center mb-8 border-b border-slate-800 pb-6">
-          <div>
-            <h1 className="text-3xl font-bold text-white tracking-tight">Client Portal</h1>
-            <p className="text-slate-400 mt-1 text-sm">Welcome back, {user.displayName || 'Client'}. Here is your network overview.</p>
+        {/* KPI Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-[#1e293b] border border-slate-800 rounded-xl p-5 flex items-center gap-4 shadow-lg">
+            <div className="bg-[#0f172a] p-3 rounded-lg"><Box className="text-indigo-400 w-6 h-6" /></div>
+            <div><p className="text-xs text-slate-400 font-bold uppercase">Active Dispatches</p><p className="text-2xl font-bold text-white">1</p></div>
           </div>
-          <button onClick={() => setShowProfile(true)} className="flex items-center gap-3 bg-[#0a0f1c] hover:bg-slate-800 border border-slate-800 px-4 py-2 rounded-xl transition-all shadow-lg">
-             <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold text-xs">{user.displayName ? user.displayName[0].toUpperCase() : (user.email ? user.email[0].toUpperCase() : 'C')}</div>
-             <span className="font-medium text-sm text-slate-300">Account</span>
-          </button>
-        </div>
-
-        {/* NEW: KPI METRICS ROW */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-[#0a0f1c] border border-slate-800 rounded-xl p-5 shadow-lg flex items-center gap-4">
-            <div className="bg-indigo-900/30 p-3 rounded-lg border border-indigo-500/20"><svg className="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg></div>
-            <div><p className="text-xs text-slate-400 font-bold uppercase tracking-wider">Active Dispatches</p><h3 className="text-2xl font-black text-white">1</h3></div>
+          <div className="bg-[#1e293b] border border-slate-800 rounded-xl p-5 flex items-center gap-4 shadow-lg">
+            <div className="bg-[#0f172a] p-3 rounded-lg"><CheckCircle2 className="text-emerald-400 w-6 h-6" /></div>
+            <div><p className="text-xs text-slate-400 font-bold uppercase">AI On-Time Rate</p><p className="text-2xl font-bold text-white">100%</p></div>
           </div>
-          <div className="bg-[#0a0f1c] border border-slate-800 rounded-xl p-5 shadow-lg flex items-center gap-4">
-            <div className="bg-emerald-900/30 p-3 rounded-lg border border-emerald-500/20"><svg className="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
-            <div><p className="text-xs text-slate-400 font-bold uppercase tracking-wider">AI On-Time Rate</p><h3 className="text-2xl font-black text-white">100%</h3></div>
-          </div>
-          <div className="bg-[#0a0f1c] border border-slate-800 rounded-xl p-5 shadow-lg flex items-center gap-4">
-            <div className="bg-amber-900/30 p-3 rounded-lg border border-amber-500/20"><svg className="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
-            <div><p className="text-xs text-slate-400 font-bold uppercase tracking-wider">Spend (YTD)</p><h3 className="text-2xl font-black text-white">$14,250</h3></div>
+          <div className="bg-[#1e293b] border border-slate-800 rounded-xl p-5 flex items-center gap-4 shadow-lg">
+            <div className="bg-[#0f172a] p-3 rounded-lg"><DollarSign className="text-amber-400 w-6 h-6" /></div>
+            <div><p className="text-xs text-slate-400 font-bold uppercase">Spend (YTD)</p><p className="text-2xl font-bold text-white">$14,250</p></div>
           </div>
         </div>
 
-        {/* UPGRADED: ACTIVE TRACKER WITH AI INJECTION */}
-        <div className="bg-[#0a0f1c] border border-slate-800 rounded-xl p-8 mb-8 shadow-xl relative overflow-hidden">
-          {/* Subtle glowing background effect */}
-          <div className="absolute -top-24 -right-24 w-64 h-64 bg-indigo-600/10 blur-[80px] rounded-full pointer-events-none"></div>
-          
-          <div className="flex justify-between items-start mb-8 relative z-10">
+        {/* Live Tracking Box - UPGRADED WITH AGENT & NODES */}
+        <div className="bg-[#1e293b] border border-slate-800 rounded-xl p-6 shadow-lg">
+          <div className="flex justify-between items-center border-b border-slate-700 pb-4 mb-6">
             <div>
-              <h2 className="text-xl font-black text-white mb-2 flex items-center gap-2">
-                Live Tracking: #{activeOrder.id}
-                <span className="bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 px-2 py-0.5 rounded text-[10px] uppercase tracking-widest font-bold">Standard Freight</span>
+              <h2 className="text-xl font-bold text-white flex items-center gap-3">
+                Live Tracking: #TRK-88492
+                <span className="text-[10px] bg-indigo-900/50 text-indigo-400 px-2 py-1 rounded border border-indigo-500/30 uppercase tracking-wider">Standard Freight</span>
               </h2>
-              {/* AI Status Badge */}
-              <div className="flex items-center gap-2 bg-emerald-950/30 border border-emerald-500/20 px-3 py-1.5 rounded-md inline-flex">
-                <span className="relative flex h-2 w-2"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span>
-                <p className="text-xs font-medium text-emerald-400">AI Status: Optimal Route. No weather anomalies detected.</p>
+              <div className="flex items-center gap-2 mt-2 bg-emerald-900/20 px-3 py-1.5 rounded text-sm w-max border border-emerald-500/20">
+                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                <span className="text-emerald-400">AI Status: Optimal Route. No weather anomalies detected.</span>
               </div>
             </div>
-            <button onClick={simulateProgress} disabled={activeOrder.status === 'Delivered'} className={`text-xs px-4 py-2 rounded-lg font-bold transition-all shadow-md ${activeOrder.status === 'Delivered' ? 'bg-slate-800 text-slate-500 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-indigo-900/20'}`}>
-              {activeOrder.status === 'Delivered' ? 'Order Complete' : 'Refresh Telemetry'}
+            <button onClick={handleRefresh} className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all">
+              <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+              Refresh Telemetry
             </button>
           </div>
 
-          <div className="flex justify-between text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider">
-            <span className={getStatusColor(activeOrder.status === 'At Origin' || activeOrder.progress > 0 ? 'In Transit' : '')}>{activeOrder.origin} (Origin)</span>
-            <span className={getStatusColor(activeOrder.status)}>{activeOrder.status}</span>
-            <span className={getStatusColor(activeOrder.status === 'Delivered' ? 'Delivered' : '')}>{activeOrder.destination} (Dest)</span>
+          {/* Progress Bar */}
+          <div className="mb-8">
+            <div className="flex justify-between text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">
+              <span>NYC (Origin)</span>
+              <span className="text-indigo-400">In Transit</span>
+              <span>LAX (Dest)</span>
+            </div>
+            <div className="w-full h-3 bg-slate-800 rounded-full overflow-hidden">
+              <div className="h-full bg-indigo-500 w-[45%] shadow-[0_0_10px_rgba(99,102,241,0.5)]"></div>
+            </div>
+            <div className="flex justify-between text-sm mt-3">
+              <div className="flex items-center gap-2">
+                <MapPin className="text-indigo-400 w-4 h-4" />
+                <span className="font-medium text-white">Current: Denver, CO (Node 4)</span>
+              </div>
+              <span className="font-medium text-white">Est. Arrival: Tomorrow at 2:00 PM</span>
+            </div>
           </div>
-          <div className="w-full bg-slate-800 rounded-full h-3 mb-6 relative overflow-hidden shadow-inner">
-            <div className={`h-full rounded-full transition-all duration-1000 ease-in-out ${getProgressBarColor(activeOrder.status)}`} style={{ width: `${activeOrder.progress}%` }}></div>
-          </div>
-          
-          <div className="flex justify-between items-center bg-[#050810] p-4 rounded-lg border border-slate-800">
-            <div>
-              <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest mb-1">Current Node</p>
-              <p className="text-sm text-white font-medium flex items-center gap-2">
-                <svg className="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                {activeOrder.location}
+
+          {/* NEW: Agent Profile & Checkpoints Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-slate-700/50">
+            
+            {/* Delivery Agent Card */}
+            <div className="bg-[#0f172a] rounded-lg p-4 border border-slate-800">
+              <h3 className="text-xs text-slate-400 font-bold uppercase mb-3">Assigned Delivery Agent</h3>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center">
+                    <User className="w-5 h-5 text-slate-300" />
+                  </div>
+                  <div>
+                    <p className="text-white font-medium text-sm">Marcus Johnson</p>
+                    <p className="text-xs text-slate-400">License: CDL-A • Rating: 4.9/5</p>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <button className="p-2 bg-emerald-900/30 text-emerald-400 rounded hover:bg-emerald-900/50 transition-colors" title="Call Agent">
+                    <Phone className="w-4 h-4" />
+                  </button>
+                  <button className="p-2 bg-indigo-900/30 text-indigo-400 rounded hover:bg-indigo-900/50 transition-colors" title="Update Drop-off Pin">
+                    <Map className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+              <p className="text-[11px] text-slate-500 mt-3 flex items-center gap-1">
+                <MapPin className="w-3 h-3" /> Update Pin to beam exact dock coordinates to driver's GPS.
               </p>
             </div>
-            <div className="text-right">
-              <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest mb-1">Estimated Arrival</p>
-              <p className="text-sm text-white font-medium">{activeOrder.eta}</p>
+
+            {/* Live Checkpoints */}
+            <div className="bg-[#0f172a] rounded-lg p-4 border border-slate-800">
+              <h3 className="text-xs text-slate-400 font-bold uppercase mb-3">Recent Checkpoints</h3>
+              <div className="space-y-3">
+                <div className="flex items-center gap-3 text-sm">
+                  <div className="w-2 h-2 rounded-full bg-indigo-500"></div>
+                  <span className="text-white">Arrived at Node 4: Denver, CO</span>
+                  <span className="text-slate-500 text-xs ml-auto">10:45 AM</span>
+                </div>
+                <div className="flex items-center gap-3 text-sm opacity-50">
+                  <div className="w-2 h-2 rounded-full bg-slate-600"></div>
+                  <span className="text-slate-300">Departed Node 3: Omaha, NE</span>
+                  <span className="text-slate-500 text-xs ml-auto">Yesterday</span>
+                </div>
+                <div className="flex items-center gap-3 text-sm opacity-50">
+                  <div className="w-2 h-2 rounded-full bg-slate-600"></div>
+                  <span className="text-slate-300">Departed Node 2: Chicago, IL</span>
+                  <span className="text-slate-500 text-xs ml-auto">Oct 24</span>
+                </div>
+              </div>
             </div>
+
           </div>
         </div>
 
-        {/* UPGRADED: ORDER HISTORY WITH COMPLIANCE DOCUMENTS */}
-        <div className="bg-[#0a0f1c] border border-slate-800 rounded-xl p-8 shadow-xl">
+        {/* Completed Shipments & Documents */}
+        <div className="bg-[#1e293b] border border-slate-800 rounded-xl p-6 shadow-lg">
           <h2 className="text-lg font-bold text-white mb-6">Completed Shipments & Documents</h2>
           <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead className="text-slate-400 text-[10px] uppercase tracking-wider border-b border-slate-800">
-                <tr>
-                  <th className="pb-4 font-bold">Order ID</th>
-                  <th className="pb-4 font-bold">Route</th>
-                  <th className="pb-4 font-bold">Delivery Date</th>
-                  <th className="pb-4 font-bold">Billed Amount</th>
-                  <th className="pb-4 font-bold">Status</th>
-                  <th className="pb-4 font-bold text-right">Compliance</th>
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="border-b border-slate-700 text-xs text-slate-400 uppercase tracking-wider">
+                  <th className="pb-3 px-4 font-semibold">Order ID</th>
+                  <th className="pb-3 px-4 font-semibold">Route</th>
+                  <th className="pb-3 px-4 font-semibold">Delivery Date</th>
+                  <th className="pb-3 px-4 font-semibold">Billed Amount</th>
+                  <th className="pb-3 px-4 font-semibold">Status</th>
+                  <th className="pb-3 px-4 font-semibold text-right">Compliance</th>
                 </tr>
               </thead>
               <tbody className="text-sm">
-                {orderHistory.map(order => (
-                  <tr key={order.id} className="border-b border-slate-800/50 hover:bg-slate-800/20 transition-colors">
-                    <td className="py-5 text-indigo-400 font-mono font-medium">{order.id}</td>
-                    <td className="py-5 text-slate-300 font-medium">{order.route}</td>
-                    <td className="py-5 text-slate-400">{order.date}</td>
-                    <td className="py-5 text-slate-300">{order.cost}</td>
-                    <td className="py-5"><span className="bg-emerald-950/40 text-emerald-400 px-3 py-1 rounded-md text-[10px] border border-emerald-900 font-bold uppercase tracking-wider">{order.status}</span></td>
-                    <td className="py-5 text-right flex justify-end gap-2">
-                      <button className="text-slate-400 hover:text-indigo-400 text-[10px] font-bold uppercase tracking-widest transition-colors px-3 py-1.5 border border-slate-700 hover:border-indigo-500/30 rounded flex items-center gap-1 bg-[#050810]">
-                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg> Invoice
+                {completedShipments.map((shipment) => (
+                  <tr key={shipment.id} className="border-b border-slate-800/50 hover:bg-[#0f172a]/50 transition-colors">
+                    <td className="py-4 px-4 text-indigo-400 font-medium">{shipment.id}</td>
+                    <td className="py-4 px-4 font-medium text-slate-300">{shipment.route}</td>
+                    <td className="py-4 px-4 text-slate-400">{shipment.date}</td>
+                    <td className="py-4 px-4 text-white font-medium">{shipment.amount}</td>
+                    <td className="py-4 px-4">
+                      <span className="text-[10px] uppercase font-bold tracking-wider text-emerald-400 border border-emerald-900 bg-emerald-900/20 px-2 py-1 rounded">
+                        {shipment.status}
+                      </span>
+                    </td>
+                    <td className="py-4 px-4 text-right flex justify-end gap-2">
+                      <button onClick={() => openInvoice(shipment)} className="flex items-center gap-1 border border-slate-600 hover:border-slate-400 text-slate-300 px-3 py-1.5 rounded transition-colors text-xs">
+                        <FileText className="w-3 h-3" /> Invoice
                       </button>
-                      <button className="text-slate-400 hover:text-emerald-400 text-[10px] font-bold uppercase tracking-widest transition-colors px-3 py-1.5 border border-slate-700 hover:border-emerald-500/30 rounded flex items-center gap-1 bg-[#050810]">
-                         <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> POD
+                      <button className="flex items-center gap-1 border border-slate-600 hover:border-slate-400 text-slate-300 px-3 py-1.5 rounded transition-colors text-xs">
+                        <CheckSquare className="w-3 h-3" /> POD
                       </button>
                     </td>
                   </tr>
@@ -388,8 +434,72 @@ const ClientDashboard = ({ user, onLogout }) => {
             </table>
           </div>
         </div>
-
       </div>
+
+      {/* NEW: Invoice Digital Modal */}
+      {showInvoice && selectedOrder && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[100] p-4">
+          <div className="bg-[#1e293b] border border-slate-700 rounded-xl shadow-2xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            {/* Modal Header */}
+            <div className="bg-[#0f172a] p-5 flex justify-between items-center border-b border-slate-800">
+              <div className="flex items-center gap-3">
+                <div className="bg-indigo-600 p-2 rounded-lg"><FileText className="w-5 h-5 text-white" /></div>
+                <div>
+                  <h3 className="text-white font-bold text-lg">Official Invoice</h3>
+                  <p className="text-slate-400 text-xs tracking-wider">REF: INV-{selectedOrder.id}</p>
+                </div>
+              </div>
+              <button onClick={() => setShowInvoice(false)} className="text-slate-400 hover:text-white transition-colors">
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            
+            {/* Modal Body - The "Receipt" */}
+            <div className="p-6">
+              <div className="flex justify-between mb-6">
+                <div>
+                  <p className="text-xs text-slate-500 uppercase font-bold mb-1">Billed To</p>
+                  <p className="text-white text-sm font-medium">{user?.displayName || 'Enterprise Client Corp.'}</p>
+                  <p className="text-slate-400 text-xs">123 Logistics Way<br/>New York, NY 10001</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-xs text-slate-500 uppercase font-bold mb-1">Date</p>
+                  <p className="text-white text-sm font-medium">{selectedOrder.date}</p>
+                </div>
+              </div>
+
+              <div className="bg-[#0f172a] rounded-lg border border-slate-800 p-4 mb-6">
+                <div className="flex justify-between border-b border-slate-800 pb-3 mb-3 text-sm">
+                  <span className="text-slate-400">Freight Route</span>
+                  <span className="text-white font-medium">{selectedOrder.route}</span>
+                </div>
+                <div className="flex justify-between border-b border-slate-800 pb-3 mb-3 text-sm">
+                  <span className="text-slate-400">Base Haul Rate</span>
+                  <span className="text-white">{selectedOrder.amount}</span>
+                </div>
+                <div className="flex justify-between border-b border-slate-800 pb-3 mb-3 text-sm">
+                  <span className="text-slate-400">AI Routing Fee</span>
+                  <span className="text-white">$0.00 <span className="text-emerald-400 text-xs ml-1">(Waived)</span></span>
+                </div>
+                <div className="flex justify-between text-lg mt-4">
+                  <span className="text-slate-300 font-bold">Total Due</span>
+                  <span className="text-indigo-400 font-bold">{selectedOrder.amount}</span>
+                </div>
+              </div>
+              
+              <div className="flex items-center justify-between text-xs text-emerald-400 bg-emerald-900/20 border border-emerald-900/50 p-3 rounded mb-6">
+                <span className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4"/> PAID IN FULL</span>
+                <span>Thank you for your business.</span>
+              </div>
+
+              {/* Action Buttons */}
+              <button className="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-lg font-bold flex justify-center items-center gap-2 transition-colors">
+                <Download className="w-4 h-4" /> Download PDF Copy
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -440,7 +550,7 @@ const ManagerDashboard = ({ user, onLogout }) => {
     // This connects to your Python backend if it's running
     const fetchData = async () => {
       try {
-        const res = await fetch('http://localhost:8000/api/shipments/at-risk');
+        const res = await fetch('https://routeguardian-ai.onrender.com/api/shipments/at-risk');
         if (res.ok) setShipments(await res.json());
       } catch (e) { console.error(e); }
     };
@@ -488,86 +598,28 @@ const ManagerDashboard = ({ user, onLogout }) => {
     if (!chatInput.trim()) return;
 
     const userMessage = chatInput.trim();
-    const lowerMsg = userMessage.toLowerCase();
     
-    setChatLog(prev => [...prev, { role: 'user', text: userMessage }]);
+    // 1. Add user's message to the chat window immediately
+    const newLog = [...chatLog, { role: 'user', text: userMessage }];
+    setChatLog(newLog);
     setChatInput(""); 
 
-    let aiReply = "";
-    let isAsyncProcessing = false; 
-
-    const cityMap = {
-      "mia": "Miami", "miami": "Miami",
-      "chi": "Chicago", "chicago": "Chicago",
-      "nyc": "New York", "new york": "New York", "ny": "New York",
-      "lax": "Los Angeles", "los angeles": "Los Angeles", "la": "Los Angeles",
-      "dal": "Dallas", "dallas": "Dallas",
-      "den": "Denver", "denver": "Denver",
-      "sea": "Seattle", "seattle": "Seattle",
-      "sfo": "San Francisco", "san francisco": "San Francisco",
-      "atl": "Atlanta", "atlanta": "Atlanta",
-      "bos": "Boston", "boston": "Boston",
-      "hou": "Houston", "houston": "Houston",
-      "phx": "Phoenix", "phoenix": "Phoenix"
-    };
-
-    if ((lowerMsg.includes("what is") || lowerMsg.includes("how does") || lowerMsg.includes("explain")) && (lowerMsg.includes("app") || lowerMsg.includes("website") || lowerMsg.includes("routeguardian") || lowerMsg.includes("system"))) {
-      aiReply = "I am the RouteGuardian AI Core. My primary function is predictive logistics. I continuously monitor your shipment network against real-time weather satellite data, traffic patterns, and driver performance history to identify risks before they become delays. You can use the 'AI Tools' tab for manual simulations, or rely on my proactive alerts in the dashboard.";
-    }
-    else if (lowerMsg.includes("weather") || lowerMsg.includes("storm") || lowerMsg.includes("rain") || lowerMsg.includes("temperature") || lowerMsg.includes("route") || lowerMsg.includes("forecast")) {
-      
-      let detectedCityKey = Object.keys(cityMap).find(key => {
-        const regex = new RegExp(`\\b${key}\\b`, 'i');
-        return regex.test(lowerMsg);
+    try {
+      // 2. Send the message to your LIVE Render backend!
+      const response = await fetch("https://routeguardian-ai.onrender.com/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: userMessage }),
       });
       
-      if (detectedCityKey) {
-        isAsyncProcessing = true; 
-        const cityQuery = cityMap[detectedCityKey];
-        
-        setChatLog(prev => [...prev, { role: 'ai', text: `🛰️ Connecting to live satellite feed for ${cityQuery}...` }]);
-
-        try {
-          const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityQuery}&units=metric&appid=${WEATHER_API_KEY}`);
-          if (!res.ok) throw new Error("City not found.");
-          const data = await res.json();
-
-          const temp = Math.round(data.main.temp);
-          const condition = data.weather[0].description;
-          const weatherId = data.weather[0].id; 
-
-          aiReply = `LIVE REPORT for ${cityQuery.toUpperCase()}: Current temperature is ${temp}°C with ${condition}. `;
-
-          if (weatherId < 800) {
-             aiReply += "⚠️ CRITICAL: Adverse weather conditions detected. This poses a high risk for ground freight delays. Recommend reviewing active shipments routed through this node immediately for potential intervention.";
-          } else if (weatherId === 800) {
-             aiReply += "✅ CONDITIONS CLEAR: Optimal visibility and road conditions. No weather-related impedance projected for standard routing.";
-          } else {
-             aiReply += "ℹ️ STATUS: Conditions are stable, but minor cloud cover/atmosphere issues exist. Continue monitoring standard routes.";
-          }
-          
-          setChatLog(prev => prev.slice(0, -1)); 
-          setChatLog(prev => [...prev, { role: 'ai', text: aiReply }]);
-
-        } catch (error) {
-           setChatLog(prev => prev.slice(0, -1));
-           setChatLog(prev => [...prev, { role: 'ai', text: `❌ Error: Unable to establish satellite uplink for node "${cityQuery}". Please verify location code or try again later.` }]);
-        }
-      } else {
-        aiReply = "To provide a real-time weather risk assessment, please specify a valid route code or city name (e.g., 'MIA', 'Chicago', 'LAX').";
-      }
-    }
-    else if (lowerMsg === "hi" || lowerMsg === "hello" || lowerMsg === "hey" || lowerMsg.includes("good morning")) {
-      aiReply = `RouteGuardian AI online. Live network efficiency is currently at ${liveEfficiency}%. I am standing by for route analysis commands.`;
-    }
-    else if (!isAsyncProcessing) {
-      aiReply = "⚠️ OUT OF SCOPE: I am a specialized Tier-1 Logistics AI tailored for supply chain optimization. I cannot process requests unrelated to routing, weather analysis, or shipment tracking. Please refine your command parameters.";
-    }
-
-    if (!isAsyncProcessing && aiReply) {
-      setTimeout(() => {
-        setChatLog(prev => [...prev, { role: 'ai', text: aiReply }]);
-      }, 700);
+      const data = await response.json();
+      
+      // 3. Add the real AI's reply to the chat window
+      setChatLog([...newLog, { role: 'ai', text: data.reply }]);
+      
+    } catch (error) {
+      console.error("Chat Error:", error);
+      setChatLog([...newLog, { role: 'ai', text: "⚠️ Connection error to AI Backend." }]);
     }
   };
 
